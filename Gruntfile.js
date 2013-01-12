@@ -3,12 +3,6 @@ module.exports = function(grunt) {
 	'use strict';
 
 	grunt.initConfig({
-		lint: {
-			files: [
-				'tasks/webfont.js',
-				'grunt.js'
-			]
-		},
 		webfont: {
 			test1: {
 				files: 'test/src/*.svg',
@@ -23,10 +17,11 @@ module.exports = function(grunt) {
 				stylesheet: 'bootstrap'
 			}
 		},
-		test: {
-			tasks: ['test/*_test.js']
+		nodeunit: {
+			all: ['test/webfont_test.js']
 		},
 		jshint: {
+      all: ['Gruntfile.js', 'tasks/*.js', 'test/*.js'],
 			options: {
 				node: true,
 				white: false,
@@ -45,12 +40,15 @@ module.exports = function(grunt) {
 	var fs = require('fs');
 
 	grunt.registerTask('clean', 'Copy files to test.', function() {
-		grunt.file.expand('test/tmp/**').forEach(function(file) {
+		grunt.file.expand('test/tmp/**.*').forEach(function(file) {
 			fs.unlinkSync(file);
 		});
 		fs.rmdirSync('test/tmp');
 	});
 
-	grunt.registerTask('default', 'lint clean webfont test clean');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+
+	grunt.registerTask('default', ['clean', 'webfont', 'nodeunit', 'jshint']);
 
 };
