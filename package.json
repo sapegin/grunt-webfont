@@ -28,7 +28,9 @@
     "temp": "0.4.x"
   },
   "devDependencies": {
-    "grunt": "*"
+    "grunt": "0.4.0rc5",
+    "grunt-contrib-jshint": "0.1.1rc5",
+    "grunt-contrib-nodeunit": "0.1.2rc5"
   },
   "keywords": [
     "gruntplugin",

@@ -20,13 +20,19 @@ You may need to use `sudo` for `brew`, depending on your setup.
 
 ## Configuration
 
-Add somewhere in your `grunt.js`:
+For Grunt 0.3
+`npm install grunt-webfont --save-dev`
+
+For Grunt 0.4rc
+`npm install git://github.com/sapegin/grunt-webfont.git --save-dev`
+
+Add somewhere in your `Gruntfile.js`:
 
 ```javascript
 grunt.loadNpmTasks('grunt-webfont');
 ```
 
-Inside your `grunt.js` file add a section named `webfont`. See Parameters section below for details.
+Inside your `Gruntfile.js` file add a section named `webfont`. See Parameters section below for details.
 
 
 ### Parameters
