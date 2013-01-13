@@ -13,7 +13,7 @@ exports.webfont = {
 			test.ok(grunt.file.read('test/tmp/icons.' + type).length, name + ' file not empty.');
 		});
 
-		var svgs = grunt.file.expand('test/src/**'),
+		var svgs = grunt.file.expand('test/src/**.*'),
 			css = grunt.file.read('test/tmp/icons.css');
 
 		// Every SVG file should have corresponding entry in CSS file
@@ -28,7 +28,7 @@ exports.webfont = {
 
 	test2: function(test) {
 		// Read hash
-		var hash = grunt.file.expandFiles('test/tmp/myfont-*.woff');
+		var hash = grunt.file.expand('test/tmp/myfont-*.woff');
 		hash = path.basename(hash, '.woff').replace('myfont-', '');
 
 		// All out files should be created and should not be empty
@@ -51,7 +51,7 @@ exports.webfont = {
 			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
 		});
 
-		var svgs = grunt.file.expand('test/src/**'),
+		var svgs = grunt.file.expand('test/src/**.*'),
 			css = grunt.file.read('test/tmp/myfont.css');
 
 		// Every SVG file should have corresponding entry in CSS file
