@@ -40,11 +40,12 @@ module.exports = function(grunt) {
 	var fs = require('fs');
 
 	grunt.registerTask('clean', 'Copy files to test.', function() {
-    grunt.file.mkdir('test/tmp');
-		grunt.file.expand('test/tmp/**.*').forEach(function(file) {
-			fs.unlinkSync(file);
-		});
-		fs.rmdirSync('test/tmp');
+		if (grunt.file.isDir('test/tmp')) {
+			grunt.file.expand('test/tmp/**.*').forEach(function(file) {
+				fs.unlinkSync(file);
+			});
+			fs.rmdirSync('test/tmp');
+		}
 	});
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
