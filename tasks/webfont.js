@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 
 		// Source files
 		// @todo Check that source files are svg or eps
-		var files = grunt.file.expandFiles(params.files);
+		var files = grunt.file.expand(params.files);
 		if (!files.length) {
 			grunt.warn('Source SVG or EPS files not found.');
 			allDone();
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 		grunt.file.mkdir(destDir);
 
 		// Clean output directory
-		var oldFiles = grunt.file.expandFiles(path.join(params.destDir, fontBaseName + '*.{woff,ttf,eot,svg,css,html}'));
+		var oldFiles = grunt.file.expand(path.join(params.destDir, fontBaseName + '*.{woff,ttf,eot,svg,css,html}'));
 		oldFiles.forEach(function(file) {
 			fs.unlinkSync(file);
 		});

@@ -28,7 +28,7 @@ exports.webfont = {
 
 	test2: function(test) {
 		// Read hash
-		var hash = grunt.file.expandFiles('test/tmp/myfont-*.woff');
+		var hash = grunt.file.expand('test/tmp/myfont-*.woff');
 		hash = path.basename(hash, '.woff').replace('myfont-', '');
 
 		// All out files should be created and should not be empty
