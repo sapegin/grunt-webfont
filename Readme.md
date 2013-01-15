@@ -41,9 +41,13 @@ Inside your `Gruntfile.js` file add a section named `webfont`. See Parameters se
 
 Glyphs list: SVG or EPS. String or array. Wildcards are supported.
 
-#### destDir `string`
+#### destCss `string`
 
-Directory for resulting fonts and CSS files.
+Directory for resulting CSS files.
+
+#### destFonts `string`
+
+Directory for resulting fonts.
 
 #### [font] `string` (default: `'icons'`)
 
@@ -80,7 +84,8 @@ skip: require('os').platform() === 'win32'
 webfont: {
   icons: {
     files: 'icons/*.svg',
-    destDir: 'build/fonts'
+    destCss: 'build/fonts',
+    destFonts: 'build/fonts'
   }
 }
 ```

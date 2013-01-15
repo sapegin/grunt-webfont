@@ -6,12 +6,14 @@ module.exports = function(grunt) {
 		webfont: {
 			test1: {
 				files: 'test/src/*.svg',
-				destDir: 'test/tmp',
+				destCss: 'test/tmp',
+				destFonts: 'test/tmp',
 				hashes: false
 			},
 			test2: {
 				files: 'test/src/*.svg',
-				destDir: 'test/tmp',
+				destCss: 'test/tmp',
+				destFonts: 'test/tmp/fonts',
 				font: 'myfont',
 				types: 'woff,svg',
 				stylesheet: 'bootstrap'
@@ -41,8 +43,12 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('clean', 'Copy files to test.', function() {
 		if (grunt.file.isDir('test/tmp')) {
-			grunt.file.expand('test/tmp/**.*').forEach(function(file) {
+			grunt.file.expand('test/tmp/**/*.*').forEach(function(file) {
 				fs.unlinkSync(file);
+			});
+
+			grunt.file.expand('test/tmp/**/*').forEach(function(file) {
+				fs.rmdirSync(file);
 			});
 			fs.rmdirSync('test/tmp');
 		}

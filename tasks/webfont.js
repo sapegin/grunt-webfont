@@ -16,7 +16,8 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
 		this.requiresConfig([ this.name, this.target, 'files' ].join('.'));
-		this.requiresConfig([ this.name, this.target, 'destDir' ].join('.'));
+		this.requiresConfig([ this.name, this.target, 'destCss' ].join('.'));
+		this.requiresConfig([ this.name, this.target, 'destFonts' ].join('.'));
 
 		var allDone = this.async(),
 			params = this.data;
@@ -39,7 +40,8 @@ module.exports = function(grunt) {
 		// Options
 		var fontBaseName = params.font || 'icons',
 			fontName = fontBaseName,
-			destDir = params.destDir,
+			destCss = params.destCss,
+			destFonts = params.destFonts,
 			addHashes = params.hashes !== false,
 			stylesheetType = params.stylesheet || 'bem',
 			styles = optionToArray(params.styles, 'font,icon'),
@@ -52,11 +54,16 @@ module.exports = function(grunt) {
 		var glyphs = [];
 
 		// Create output directory
-		grunt.file.mkdir(destDir);
+		grunt.file.mkdir(destCss);
+		grunt.file.mkdir(destFonts);
 
 		// Clean output directory
-		var oldFiles = grunt.file.expand(path.join(params.destDir, fontBaseName + '*.{woff,ttf,eot,svg,css,html}'));
-		oldFiles.forEach(function(file) {
+		var oldCssFiles = grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{css,html}')),
+			oldFontFiles = grunt.file.expand(path.join(params.destFonts, fontBaseName + '*.{woff,tt f,eot,svg}'));
+		oldCssFiles.forEach(function(file) {
+			fs.unlinkSync(file);
+		});
+		oldFontFiles.forEach(function(file) {
 			fs.unlinkSync(file);
 		});
 
@@ -79,7 +86,7 @@ module.exports = function(grunt) {
 					'-script',
 					path.join(__dirname, 'scripts/generate.py'),
 					tempDir,
-					destDir,
+					destFonts,
 					fontBaseName,
 					types.join(',')
 				];
@@ -109,9 +116,15 @@ module.exports = function(grunt) {
 			function(done) {
 				// CSS
 				var context = {},
-					options = {};
+					options = {},
+					relativeFontPath = path.relative(destCss, destFonts);
+
+				if (relativeFontPath.length > 0) {
+					relativeFontPath += '/';
+				}
 
 				context = {
+					relativeFontPath: relativeFontPath,
 					fontBaseName: fontBaseName,
 					fontName: fontName,
 					fontfaceStyles: fontfaceStyles,
@@ -124,7 +137,7 @@ module.exports = function(grunt) {
 				options.data = context;
 
 				var cssTemplateFile = path.join(__dirname, 'templates/' + stylesheetType + '.css'),
-					cssFile = path.join(destDir, fontBaseName + '.css'),
+					cssFile = path.join(destCss, fontBaseName + '.css'),
 					cssTemplate = fs.readFileSync(cssTemplateFile, 'utf8'),
 					css = grunt.template.process(cssTemplate, options);
 				grunt.file.write(cssFile, css);
@@ -138,7 +151,7 @@ module.exports = function(grunt) {
 				context.classPrefix = 'icon' + (stylesheetType === 'bem' ? '_' : '-');
 				context.styles = grunt.template.process(cssTemplate, options);
 				var demoTemplateFile = path.join(__dirname, 'templates/demo.html'),
-					demoFile = path.join(destDir, fontBaseName + '.html'),
+					demoFile = path.join(destCss, fontBaseName + '.html'),
 					demoTemplate = fs.readFileSync(demoTemplateFile, 'utf8'),
 					demo = grunt.template.process(demoTemplate, options);
 				grunt.file.write(demoFile, demo);
