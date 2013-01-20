@@ -15,20 +15,22 @@ module.exports = function(grunt) {
 		async = grunt.util.async;
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
-		this.requiresConfig([ this.name, this.target, 'files' ].join('.'));
-		this.requiresConfig([ this.name, this.target, 'destDir' ].join('.'));
+		this.requiresConfig([ this.name, this.target, 'src' ].join('.'));
+		this.requiresConfig([ this.name, this.target, 'dest' ].join('.'));
 
 		var allDone = this.async(),
 			params = this.data;
 
-		if (params.skip) {
+    params.options = params.options || {};
+
+		if (params.options.skip) {
 			allDone();
 			return;
 		}
 
 		// Source files
 		// @todo Check that source files are svg or eps
-		var files = grunt.file.expand(params.files);
+		var files = grunt.file.expand(params.src);
 		if (!files.length) {
 			grunt.warn('Source SVG or EPS files not found.');
 			allDone();
@@ -37,13 +39,14 @@ module.exports = function(grunt) {
 		// @todo Check that all needed tools installed: fontforge, ttf2eot, ttfautohint, sfnt2woff
 
 		// Options
-		var fontBaseName = params.font || 'icons',
+		var fontBaseName = params.options.font || 'icons',
 			fontName = fontBaseName,
-			destDir = params.destDir,
-			addHashes = params.hashes !== false,
-			stylesheetType = params.stylesheet || 'bem',
-			styles = optionToArray(params.styles, 'font,icon'),
-			types = optionToArray(params.types, 'woff,ttf,eot,svg');
+			destCss = params.options.destCss || params.dest,
+			dest = params.dest,
+			addHashes = params.options.hashes !== false,
+			stylesheetType = params.options.stylesheet || 'bem',
+			styles = optionToArray(params.options.styles, 'font,icon'),
+			types = optionToArray(params.options.types, 'woff,ttf,eot,svg');
 
 		var fontfaceStyles = styles.indexOf('font') !== -1,
 			baseStyles = styles.indexOf('icon') !== -1,
@@ -52,11 +55,16 @@ module.exports = function(grunt) {
 		var glyphs = [];
 
 		// Create output directory
-		grunt.file.mkdir(destDir);
+		grunt.file.mkdir(destCss);
+		grunt.file.mkdir(dest);
 
 		// Clean output directory
-		var oldFiles = grunt.file.expand(path.join(params.destDir, fontBaseName + '*.{woff,ttf,eot,svg,css,html}'));
-		oldFiles.forEach(function(file) {
+		var oldCssFiles = grunt.file.expand(path.join(params.options.destCss, fontBaseName + '*.{css,html}')),
+			oldFontFiles = grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,tt f,eot,svg}'));
+		oldCssFiles.forEach(function(file) {
+			fs.unlinkSync(file);
+		});
+		oldFontFiles.forEach(function(file) {
 			fs.unlinkSync(file);
 		});
 
@@ -79,7 +87,7 @@ module.exports = function(grunt) {
 					'-script',
 					path.join(__dirname, 'scripts/generate.py'),
 					tempDir,
-					destDir,
+					dest,
 					fontBaseName,
 					types.join(',')
 				];
@@ -109,9 +117,15 @@ module.exports = function(grunt) {
 			function(done) {
 				// CSS
 				var context = {},
-					options = {};
+					options = {},
+					relativeFontPath = path.relative(destCss, dest);
+
+				if (relativeFontPath.length > 0) {
+					relativeFontPath += '/';
+				}
 
 				context = {
+					relativeFontPath: relativeFontPath,
 					fontBaseName: fontBaseName,
 					fontName: fontName,
 					fontfaceStyles: fontfaceStyles,
@@ -124,7 +138,7 @@ module.exports = function(grunt) {
 				options.data = context;
 
 				var cssTemplateFile = path.join(__dirname, 'templates/' + stylesheetType + '.css'),
-					cssFile = path.join(destDir, fontBaseName + '.css'),
+					cssFile = path.join(destCss, fontBaseName + '.css'),
 					cssTemplate = fs.readFileSync(cssTemplateFile, 'utf8'),
 					css = grunt.template.process(cssTemplate, options);
 				grunt.file.write(cssFile, css);
@@ -138,7 +152,7 @@ module.exports = function(grunt) {
 				context.classPrefix = 'icon' + (stylesheetType === 'bem' ? '_' : '-');
 				context.styles = grunt.template.process(cssTemplate, options);
 				var demoTemplateFile = path.join(__dirname, 'templates/demo.html'),
-					demoFile = path.join(destDir, fontBaseName + '.html'),
+					demoFile = path.join(destCss, fontBaseName + '.html'),
 					demoTemplate = fs.readFileSync(demoTemplateFile, 'utf8'),
 					demo = grunt.template.process(demoTemplate, options);
 				grunt.file.write(demoFile, demo);

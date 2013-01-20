@@ -2,10 +2,10 @@
 
 <% if (fontfaceStyles) { %>@font-face {
 	font-family:"<%= fontBaseName %>";
-	src: url("<%= fontName %>.eot?#iefix") format("embedded-opentype"),
-		url("<%= fontName %>.woff") format("woff"),
-		url("<%= fontName %>.ttf") format("truetype"),
-		url("<%= fontName %>.svg#fontcustom") format("svg");
+	src: url("<%= relativeFontPath %><%= fontName %>.eot?#iefix") format("embedded-opentype"),
+		url("<%= relativeFontPath %><%= fontName %>.woff") format("woff"),
+		url("<%= relativeFontPath %><%= fontName %>.ttf") format("truetype"),
+		url("<%= relativeFontPath %><%= fontName %>.svg#fontcustom") format("svg");
 	font-weight:normal;
 	font-style:normal;
 	}
