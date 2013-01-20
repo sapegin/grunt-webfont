@@ -15,21 +15,22 @@ module.exports = function(grunt) {
 		async = grunt.util.async;
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
-		this.requiresConfig([ this.name, this.target, 'files' ].join('.'));
-		this.requiresConfig([ this.name, this.target, 'destCss' ].join('.'));
-		this.requiresConfig([ this.name, this.target, 'destFonts' ].join('.'));
+		this.requiresConfig([ this.name, this.target, 'src' ].join('.'));
+		this.requiresConfig([ this.name, this.target, 'dest' ].join('.'));
 
 		var allDone = this.async(),
 			params = this.data;
 
-		if (params.skip) {
+    params.options = params.options || {};
+
+		if (params.options.skip) {
 			allDone();
 			return;
 		}
 
 		// Source files
 		// @todo Check that source files are svg or eps
-		var files = grunt.file.expand(params.files);
+		var files = grunt.file.expand(params.src);
 		if (!files.length) {
 			grunt.warn('Source SVG or EPS files not found.');
 			allDone();
@@ -38,14 +39,14 @@ module.exports = function(grunt) {
 		// @todo Check that all needed tools installed: fontforge, ttf2eot, ttfautohint, sfnt2woff
 
 		// Options
-		var fontBaseName = params.font || 'icons',
+		var fontBaseName = params.options.font || 'icons',
 			fontName = fontBaseName,
-			destCss = params.destCss,
-			destFonts = params.destFonts,
-			addHashes = params.hashes !== false,
-			stylesheetType = params.stylesheet || 'bem',
-			styles = optionToArray(params.styles, 'font,icon'),
-			types = optionToArray(params.types, 'woff,ttf,eot,svg');
+			destCss = params.options.destCss || params.dest,
+			dest = params.dest,
+			addHashes = params.options.hashes !== false,
+			stylesheetType = params.options.stylesheet || 'bem',
+			styles = optionToArray(params.options.styles, 'font,icon'),
+			types = optionToArray(params.options.types, 'woff,ttf,eot,svg');
 
 		var fontfaceStyles = styles.indexOf('font') !== -1,
 			baseStyles = styles.indexOf('icon') !== -1,
@@ -55,11 +56,11 @@ module.exports = function(grunt) {
 
 		// Create output directory
 		grunt.file.mkdir(destCss);
-		grunt.file.mkdir(destFonts);
+		grunt.file.mkdir(dest);
 
 		// Clean output directory
-		var oldCssFiles = grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{css,html}')),
-			oldFontFiles = grunt.file.expand(path.join(params.destFonts, fontBaseName + '*.{woff,tt f,eot,svg}'));
+		var oldCssFiles = grunt.file.expand(path.join(params.options.destCss, fontBaseName + '*.{css,html}')),
+			oldFontFiles = grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,tt f,eot,svg}'));
 		oldCssFiles.forEach(function(file) {
 			fs.unlinkSync(file);
 		});
@@ -86,7 +87,7 @@ module.exports = function(grunt) {
 					'-script',
 					path.join(__dirname, 'scripts/generate.py'),
 					tempDir,
-					destFonts,
+					dest,
 					fontBaseName,
 					types.join(',')
 				];
@@ -117,7 +118,7 @@ module.exports = function(grunt) {
 				// CSS
 				var context = {},
 					options = {},
-					relativeFontPath = path.relative(destCss, destFonts);
+					relativeFontPath = path.relative(destCss, dest);
 
 				if (relativeFontPath.length > 0) {
 					relativeFontPath += '/';
