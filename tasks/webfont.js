@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 		// Options
 		var fontBaseName = params.options.font || 'icons',
 			fontName = fontBaseName,
-			destCss = params.options.destCss || params.dest,
+			destCss = params.destCss || params.dest,
 			dest = params.dest,
 			addHashes = params.options.hashes !== false,
 			stylesheetType = params.options.stylesheet || 'bem',
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
 		grunt.file.mkdir(dest);
 
 		// Clean output directory
-		var oldCssFiles = grunt.file.expand(path.join(params.options.destCss, fontBaseName + '*.{css,html}')),
+		var oldCssFiles = grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{css,html}')),
 			oldFontFiles = grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,tt f,eot,svg}'));
 		oldCssFiles.forEach(function(file) {
 			fs.unlinkSync(file);

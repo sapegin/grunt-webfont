@@ -49,6 +49,8 @@ Directory for resulting files.
 
 Directory for resulting CSS files (if different than font directory).
 
+#### Options
+
 #### [font] `string` (default: `'icons'`)
 
 Name of font and base name of font files.
@@ -85,8 +87,8 @@ webfont: {
   icons: {
     files: 'icons/*.svg',
     dest: 'build/fonts',
+    destCss: 'build/fonts/css'
     options: {
-	    destCss: 'build/fonts/css'
     }
   }
 }

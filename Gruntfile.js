@@ -14,8 +14,8 @@ module.exports = function(grunt) {
 			test2: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/fonts',
+				destCss: 'test/tmp',
 				options: {
-					destCss: 'test/tmp',
 					font: 'myfont',
 					types: 'woff,svg',
 					stylesheet: 'bootstrap'
