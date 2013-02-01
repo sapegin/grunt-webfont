@@ -65,7 +65,6 @@ module.exports = function(grunt) {
 		grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{' + stylesheet + ',html}'))
 			.concat(grunt.file.expand(path.join(params.dest, fontBaseName + '*.{' + types.join(',') + '}')))
 			.forEach(function(file) {
-				grunt.log.writeln('Webfont delete file: ' + file);
 				fs.unlinkSync(file);
 			});
 
