@@ -67,9 +67,18 @@ List of style to be added to CSS files: `font` (`font-face` declaration), `icon`
 
 Font files types to generate.
 
-#### [stylesheet] `string` (default: `'bem'`)
+#### [syntax] `string` (default: `'bem'`)
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
+
+#### [stylesheet] `string` (default: `'css'`)
+
+Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss`is used, `_` will prefix the file (so it can be a used as a partial).
+
+#### [htmlDemo] `boolean` (default: `true`)
+
+If `true`, a .html will be available in `destCSS` to test the render.
+If `stylesheet` is not `css`, will be set to false automatically.
 
 #### [skip] `boolean` (default: `false`)
 
@@ -85,7 +94,7 @@ skip: require('os').platform() === 'win32'
 ``` javascript
 webfont: {
   icons: {
-    files: 'icons/*.svg',
+    src: 'icons/*.svg',
     dest: 'build/fonts',
     destCss: 'build/fonts/css'
     options: {
