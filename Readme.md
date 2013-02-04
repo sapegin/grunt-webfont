@@ -10,13 +10,24 @@ This task will make all you need to use font-face icon on your website: font in 
 ### OS X
 
 ```
-brew install fontforge ttf2eot ttfautohint
-brew install https://raw.github.com/sapegin/grunt-webfont/master/Formula/sfnt2woff.rb
+brew install fontforge eot-utils ttfautohint
+gem install fontcustom
 npm install grunt-webfont
 ```
 
-You may need to use `sudo` for `brew`, depending on your setup.
+*You may need to use `sudo` for `brew`, depending on your setup.*
 
+### Linux
+
+```
+sudo apt-get install fontforge eot-utils ttfautohint
+wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip
+unzip woff-code-latest.zip -d sfnt2woff && cd sfnt2woff && make && sudo mv sfnt2woff /usr/local/bin/
+gem install fontcustom
+npm install grunt-webfont
+```
+
+Eventually check [Fontcustom installation instruction](http://endtwist.github.com/fontcustom/#installation) before installing grunt-webfont via npm.
 
 ## Configuration
 
