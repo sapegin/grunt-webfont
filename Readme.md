@@ -25,6 +25,8 @@ unzip woff-code-latest.zip -d sfnt2woff && cd sfnt2woff && make && sudo mv sfnt2
 npm install grunt-webfont
 ```
 
+*Note that if `ttfautohint` is not available in your distribution, Font Custom will still work but your generated font will not be properly hinted.*
+
 
 ## Configuration
 
@@ -45,7 +47,7 @@ Inside your `Gruntfile.js` file add a section named `webfont`. See Parameters se
 
 ### Parameters
 
-#### files `string|array`
+#### src `string|array`
 
 Glyphs list: SVG or EPS. String or array. Wildcards are supported.
 
@@ -102,7 +104,7 @@ skip: require('os').platform() === 'win32'
 ``` javascript
 webfont: {
   icons: {
-    files: 'icons/*.svg',
+    src: 'icons/*.svg',
     dest: 'build/fonts',
     destCss: 'build/fonts/css'
     options: {
