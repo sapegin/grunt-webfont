@@ -1,11 +1,11 @@
-# Based on https://github.com/endtwist/fontcustom/blob/master/lib/fontcustom/scripts/generate.py
+# Based on https://github.com/FontCustom/fontcustom/blob/master/lib/fontcustom/scripts/generate.py
 
 import fontforge
 import os
 import argparse
 import md5
 import json
-from subprocess import call
+from subprocess
 
 
 parser = argparse.ArgumentParser(description='Convert a directory of svg and eps files into a unified font file.')
@@ -73,15 +73,22 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 # WOFF
 if 'woff' in args.types:
-	call(['sfnt2woff', fontfile + '.ttf'])
+	subprocess.call(['sfnt2woff', fontfile + '.ttf'])
+	try:
+		subprocess.Popen([scriptPath + '/sfnt2woff', fontfile + '.ttf'], stdout=subprocess.PIPE)
+	except OSError:
+		# If the local version of sfnt2woff fails (i.e., on Linux), try to use the
+		# global version. This allows us to avoid forcing OS X users to compile
+		# sfnt2woff from source, simplifying install.
+		subprocess.call(['sfnt2woff', fontfile + '.ttf'])
 
 # EOT
 if 'eot' in args.types:
-	call('ttf2eot ' + fontfile + '.ttf > ' + fontfile + '.eot', shell=True)
+	subprocess.call('mkeot ' + fontfile + '.ttf > ' + fontfile + '.eot', shell=True)
 
 # Hint the TTF file or delete it if not needed
 if 'ttf' in args.types:
-	call('ttfautohint -s -n ' + fontfile + '.ttf ' + fontfile + '-hinted.ttf && mv ' + fontfile + '-hinted.ttf ' + fontfile + '.ttf', shell=True)
+	subprocess.call('ttfautohint -s -n ' + fontfile + '.ttf ' + fontfile + '-hinted.ttf && mv ' + fontfile + '-hinted.ttf ' + fontfile + '.ttf', shell=True)
 else:
 	os.remove(fontfile + '.ttf')
 
