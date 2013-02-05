@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 				options: {
 					font: 'myfont',
 					types: 'woff,svg',
-					stylesheet: 'bootstrap'
+					syntax: 'bootstrap'
 				}
 			}
 		},

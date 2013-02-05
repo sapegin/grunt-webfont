@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 			addHashes = params.options.hashes !== false,
 			syntax = params.options.syntax || 'bem',
 			stylesheet = params.options.stylesheet || 'css',
-			htmlDemo = (stylesheet == 'css' ? (typeof params.options.htmlDemo != 'undefined' ? params.options.htmlDemo : true) : false),
+			htmlDemo = (stylesheet === 'css' ? (typeof params.options.htmlDemo !== 'undefined' ? params.options.htmlDemo : true) : false),
 			styles = optionToArray(params.options.styles, 'font,icon'),
 			types = optionToArray(params.options.types, 'woff,ttf,eot,svg');
 
@@ -138,7 +138,7 @@ module.exports = function(grunt) {
 				options.data = context;
 
 				var cssTemplateFile = path.join(__dirname, 'templates/' + syntax + '.css'),
-					cssFilePrefix = (stylesheet == 'sass' || stylesheet == 'scss' ) ? '_' : '',
+					cssFilePrefix = (stylesheet === 'sass' || stylesheet === 'scss' ) ? '_' : '',
 					cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet),
 					cssTemplate = fs.readFileSync(cssTemplateFile, 'utf8'),
 					css = grunt.template.process(cssTemplate, options);
