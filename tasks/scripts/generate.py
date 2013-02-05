@@ -5,7 +5,7 @@ import os
 import argparse
 import md5
 import json
-from subprocess
+import subprocess
 
 
 parser = argparse.ArgumentParser(description='Convert a directory of svg and eps files into a unified font file.')
@@ -73,7 +73,6 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 # WOFF
 if 'woff' in args.types:
-	subprocess.call(['sfnt2woff', fontfile + '.ttf'])
 	try:
 		subprocess.Popen([scriptPath + '/sfnt2woff', fontfile + '.ttf'], stdout=subprocess.PIPE)
 	except OSError:
