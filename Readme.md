@@ -10,12 +10,22 @@ This task will make all you need to use font-face icon on your website: font in 
 ### OS X
 
 ```
-brew install fontforge ttf2eot ttfautohint
-brew install https://raw.github.com/sapegin/grunt-webfont/master/Formula/sfnt2woff.rb
+brew install fontforge ttfautohint sfnt2woff
 npm install grunt-webfont
 ```
 
 You may need to use `sudo` for `brew`, depending on your setup.
+
+### Linux
+
+```
+sudo apt-get install fontforge eot-utils ttfautohint
+wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip
+unzip woff-code-latest.zip -d sfnt2woff && cd sfnt2woff && make && sudo mv sfnt2woff /usr/local/bin/
+npm install grunt-webfont
+```
+
+*Note that if `ttfautohint` is not available in your distribution, Font Custom will still work but your generated font will not be properly hinted.*
 
 
 ## Configuration
@@ -67,9 +77,18 @@ List of style to be added to CSS files: `font` (`font-face` declaration), `icon`
 
 Font files types to generate.
 
-#### [stylesheet] `string` (default: `'bem'`)
+#### [syntax] `string` (default: `'bem'`)
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
+
+#### [stylesheet] `string` (default: `'css'`)
+
+Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss`is used, `_` will prefix the file (so it can be a used as a partial).
+
+#### [htmlDemo] `boolean` (default: `true`)
+
+If `true`, a .html will be available in `destCSS` to test the render.
+If `stylesheet` is not `css`, will be set to false automatically.
 
 #### [skip] `boolean` (default: `false`)
 
@@ -85,7 +104,7 @@ skip: require('os').platform() === 'win32'
 ``` javascript
 webfont: {
   icons: {
-    files: 'icons/*.svg',
+    src: 'icons/*.svg',
     dest: 'build/fonts',
     destCss: 'build/fonts/css'
     options: {

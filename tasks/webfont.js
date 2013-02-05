@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 		var allDone = this.async(),
 			params = this.data;
 
-    params.options = params.options || {};
+		params.options = params.options || {};
 
 		if (params.options.skip) {
 			allDone();
@@ -44,7 +44,9 @@ module.exports = function(grunt) {
 			destCss = params.destCss || params.dest,
 			dest = params.dest,
 			addHashes = params.options.hashes !== false,
-			stylesheetType = params.options.stylesheet || 'bem',
+			syntax = params.options.syntax || 'bem',
+			stylesheet = params.options.stylesheet || 'css',
+			htmlDemo = (stylesheet === 'css' ? (typeof params.options.htmlDemo !== 'undefined' ? params.options.htmlDemo : true) : false),
 			styles = optionToArray(params.options.styles, 'font,icon'),
 			types = optionToArray(params.options.types, 'woff,ttf,eot,svg');
 
@@ -59,14 +61,12 @@ module.exports = function(grunt) {
 		grunt.file.mkdir(dest);
 
 		// Clean output directory
-		var oldCssFiles = grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{css,html}')),
-			oldFontFiles = grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,tt f,eot,svg}'));
-		oldCssFiles.forEach(function(file) {
-			fs.unlinkSync(file);
-		});
-		oldFontFiles.forEach(function(file) {
-			fs.unlinkSync(file);
-		});
+		// @todo maybe remove every default type AND types in config, not just types in config
+		grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{' + stylesheet + ',html}'))
+			.concat(grunt.file.expand(path.join(params.dest, fontBaseName + '*.{' + types.join(',') + '}')))
+			.forEach(function(file) {
+				fs.unlinkSync(file);
+			});
 
 		// Create temporary directory
 		var tempDir = temp.mkdirSync();
@@ -137,25 +137,28 @@ module.exports = function(grunt) {
 
 				options.data = context;
 
-				var cssTemplateFile = path.join(__dirname, 'templates/' + stylesheetType + '.css'),
-					cssFile = path.join(destCss, fontBaseName + '.css'),
+				var cssTemplateFile = path.join(__dirname, 'templates/' + syntax + '.css'),
+					cssFilePrefix = (stylesheet === 'sass' || stylesheet === 'scss' ) ? '_' : '',
+					cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet),
 					cssTemplate = fs.readFileSync(cssTemplateFile, 'utf8'),
 					css = grunt.template.process(cssTemplate, options);
 				grunt.file.write(cssFile, css);
 
 				// Demo HTML
-				context.fontfaceStyles = !fontfaceStyles;
-				context.baseStyles = !baseStyles;
-				context.extraStyles = false;
-				context.iconsStyles = false;
-				context.baseClass = stylesheetType === 'bem' ? 'icon' : '';
-				context.classPrefix = 'icon' + (stylesheetType === 'bem' ? '_' : '-');
-				context.styles = grunt.template.process(cssTemplate, options);
-				var demoTemplateFile = path.join(__dirname, 'templates/demo.html'),
-					demoFile = path.join(destCss, fontBaseName + '.html'),
-					demoTemplate = fs.readFileSync(demoTemplateFile, 'utf8'),
-					demo = grunt.template.process(demoTemplate, options);
-				grunt.file.write(demoFile, demo);
+				if (htmlDemo) {
+					context.fontfaceStyles = !fontfaceStyles;
+					context.baseStyles = !baseStyles;
+					context.extraStyles = false;
+					context.iconsStyles = false;
+					context.baseClass = syntax === 'bem' ? 'icon' : '';
+					context.classPrefix = 'icon' + (syntax === 'bem' ? '_' : '-');
+					context.styles = grunt.template.process(cssTemplate, options);
+					var demoTemplateFile = path.join(__dirname, 'templates/demo.html'),
+						demoFile = path.join(destCss, fontBaseName + '.html'),
+						demoTemplate = fs.readFileSync(demoTemplateFile, 'utf8'),
+						demo = grunt.template.process(demoTemplate, options);
+					grunt.file.write(demoFile, demo);
+				}
 
 				done();
 			},
