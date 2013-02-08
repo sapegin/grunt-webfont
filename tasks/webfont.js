@@ -60,7 +60,7 @@ module.exports = function(grunt) {
 
 		// Clean output directory
 		var oldCssFiles = grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{css,html}')),
-			oldFontFiles = grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,tt f,eot,svg}'));
+			oldFontFiles = grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,ttf,eot,svg}'));
 		oldCssFiles.forEach(function(file) {
 			fs.unlinkSync(file);
 		});
