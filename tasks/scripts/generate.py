@@ -8,7 +8,7 @@ import json
 import subprocess
 
 
-parser = argparse.ArgumentParser(description='Convert a directory of svg and eps files into a unified font file.')
+parser = argparse.ArgumentParser(description='Convert a directory of SVG and EPS files into a unified font file.')
 parser.add_argument('input_dir', metavar='directory', type=unicode, help='directory of vector files')
 parser.add_argument('output_dir', metavar='directory', type=unicode, help='output directory')
 parser.add_argument('font', metavar='font', type=unicode, help='font name')
@@ -73,13 +73,7 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 # WOFF
 if 'woff' in args.types:
-	try:
-		subprocess.Popen([scriptPath + '/sfnt2woff', fontfile + '.ttf'], stdout=subprocess.PIPE)
-	except OSError:
-		# If the local version of sfnt2woff fails (i.e., on Linux), try to use the
-		# global version. This allows us to avoid forcing OS X users to compile
-		# sfnt2woff from source, simplifying install.
-		subprocess.call(['sfnt2woff', fontfile + '.ttf'])
+	subprocess.call(['sfnt2woff', fontfile + '.ttf'])
 
 # EOT
 if 'eot' in args.types:
