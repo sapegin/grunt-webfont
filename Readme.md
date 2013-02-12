@@ -26,7 +26,7 @@ unzip woff-code-latest.zip -d sfnt2woff && cd sfnt2woff && make && sudo mv sfnt2
 npm install grunt-webfont
 ```
 
-*Note that if `ttfautohint` is not available in your distribution, Font Custom will still work but your generated font will not be properly hinted.*
+*Note that if `ttfautohint` is not available in your distribution, your generated font will not be properly hinted.*
 
 
 ## Configuration
@@ -35,7 +35,7 @@ For Grunt 0.3
 `npm install grunt-webfont --save-dev`
 
 For Grunt 0.4rc
-`npm install git://github.com/sapegin/grunt-webfont.git --save-dev`
+`npm install sapegin/grunt-webfont --save-dev`
 
 Add somewhere in your `Gruntfile.js`:
 
@@ -68,11 +68,11 @@ Name of font and base name of font files.
 
 #### [hashes] `boolean` (default: `true`)
 
-Apend font file names with unique string to flush browser cache when you update your icons.
+Append font file names with unique string to flush browser cache when you update your icons.
 
 #### [styles] `string|array` (default: `'font,icon'`)
 
-List of style to be added to CSS files: `font` (`font-face` declaration), `icon` (base `.icon` class), `extra` (extra stuff for Bootstrap (only for `stylesheet` = `'bootstrap'`).
+List of styles to be added to CSS files: `font` (`font-face` declaration), `icon` (base `.icon` class), `extra` (extra stuff for Bootstrap (only for `stylesheet` = `'bootstrap'`).
 
 #### [types] `string|array` (default: `'woff,ttf,eot,svg'`)
 
@@ -88,7 +88,7 @@ Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss`is used, `_`
 
 #### [htmlDemo] `boolean` (default: `true`)
 
-If `true`, a .html will be available in `destCSS` to test the render.
+If `true`, an HTML file will be available in `destCSS` folder to test the render.
 If `stylesheet` is not `css`, will be set to false automatically.
 
 #### [skip] `boolean` (default: `false`)
@@ -109,6 +109,7 @@ webfont: {
     dest: 'build/fonts',
     destCss: 'build/fonts/css'
     options: {
+    	font: 'ponies'
     }
   }
 }

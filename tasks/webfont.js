@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 			addHashes = params.options.hashes !== false,
 			syntax = params.options.syntax || 'bem',
 			stylesheet = params.options.stylesheet || 'css',
-			htmlDemo = (stylesheet === 'css' ? (typeof params.options.htmlDemo !== 'undefined' ? params.options.htmlDemo : true) : false),
+			htmlDemo = (stylesheet === 'css' ? (params.options.htmlDemo || true) : false),
 			styles = optionToArray(params.options.styles, 'font,icon'),
 			types = optionToArray(params.options.types, 'woff,ttf,eot,svg');
 
@@ -61,9 +61,8 @@ module.exports = function(grunt) {
 		grunt.file.mkdir(dest);
 
 		// Clean output directory
-		// @todo maybe remove every default type AND types in config, not just types in config
 		grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{' + stylesheet + ',html}'))
-			.concat(grunt.file.expand(path.join(params.dest, fontBaseName + '*.{' + types.join(',') + '}')))
+			.concat(grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,ttf,eot,svg}')))
 			.forEach(function(file) {
 				fs.unlinkSync(file);
 			});
