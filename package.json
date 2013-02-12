@@ -1,7 +1,7 @@
 {
   "name": "grunt-webfont",
   "description": "SVG to webfont converter for Grunt.",
-  "version": "0.0.1",
+  "version": "0.1.0rc1",
   "homepage": "https://github.com/sapegin/grunt-webfont",
   "author": {
     "name": "Artem Sapegin",
@@ -21,6 +21,9 @@
     }
   ],
   "main": "tasks/webfont.js",
+  "scripts": {
+    "test": "grunt"
+  },  
   "engines": {
     "node": "*"
   },
@@ -28,9 +31,9 @@
     "temp": "0.4.x"
   },
   "devDependencies": {
-    "grunt": "0.4.0rc5",
-    "grunt-contrib-jshint": "0.1.1rc5",
-    "grunt-contrib-nodeunit": "0.1.2rc5"
+    "grunt": "0.4.0rc7",
+    "grunt-contrib-jshint": "0.1.1rc6",
+    "grunt-contrib-nodeunit": "0.1.2rc6"
   },
   "keywords": [
     "gruntplugin",
