@@ -37,28 +37,15 @@ module.exports = function(grunt) {
 				newcap: true,
 				undef: true
 			}
-		}
+		},
+		clean: ['test/tmp']
 	});
 
 	grunt.loadTasks('tasks');
 
-	var fs = require('fs');
-
-	grunt.registerTask('clean', 'Copy files to test.', function() {
-		if (grunt.file.isDir('test/tmp')) {
-			grunt.file.expand('test/tmp/**/*.*').forEach(function(file) {
-				fs.unlinkSync(file);
-			});
-
-			grunt.file.expand('test/tmp/**/*').forEach(function(file) {
-				fs.rmdirSync(file);
-			});
-			fs.rmdirSync('test/tmp');
-		}
-	});
-
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-nodeunit');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	grunt.registerTask('default', ['clean', 'webfont', 'nodeunit', 'jshint']);
 

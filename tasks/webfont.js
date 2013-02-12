@@ -123,10 +123,22 @@ module.exports = function(grunt) {
 					relativeFontPath += '/';
 				}
 
+				var fontSrc = [];
+				if (types.indexOf('eot') !== -1)
+					fontSrc.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
+				if (types.indexOf('woff') !== -1)
+					fontSrc.push('url("' + relativeFontPath + fontName + '.woff") format("woff")');
+				if (types.indexOf('ttf') !== -1)
+					fontSrc.push('url("' + relativeFontPath + fontName + '.ttf") format("truetype")');
+				if (types.indexOf('svg') !== -1)
+					fontSrc.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
+				fontSrc = fontSrc.join(',\n\t\t');
+
 				context = {
 					relativeFontPath: relativeFontPath,
 					fontBaseName: fontBaseName,
 					fontName: fontName,
+					fontSrc: fontSrc,
 					fontfaceStyles: fontfaceStyles,
 					baseStyles: baseStyles,
 					extraStyles: extraStyles,

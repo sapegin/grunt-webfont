@@ -67,10 +67,17 @@ exports.webfont = {
 			css = grunt.file.read('test/tmp/myfont.css');
 
 		// CSS links to font files are correct
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,svg'.split(',').forEach(function(type) {
 			var found = css.match('fonts/myfont-' + hash + '.' + type);
 			test.ok(!!found, 'File path ' + type + ' shound be in CSS file.');
 		});
+
+		// CSS links to excluded formats should not be included
+		'ttf,eot'.split(',').forEach(function(type) {
+			var found = css.match('fonts/myfont-' + hash + '.' + type);
+			test.ok(!found, 'File path ' + type + ' shound be in CSS file.');
+		});
+
 
 		// Every SVG file should have corresponding entry in CSS file
 		svgs.forEach(function(file) {

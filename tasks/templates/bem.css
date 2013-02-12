@@ -2,10 +2,7 @@
 
 <% if (fontfaceStyles) { %>@font-face {
 	font-family:"<%= fontBaseName %>";
-	src: url("<%= relativeFontPath %><%= fontName %>.eot?#iefix") format("embedded-opentype"),
-		url("<%= relativeFontPath %><%= fontName %>.woff") format("woff"),
-		url("<%= relativeFontPath %><%= fontName %>.ttf") format("truetype"),
-		url("<%= relativeFontPath %><%= fontName %>.svg#fontcustom") format("svg");
+	src: <%= fontSrc %>;
 	font-weight:normal;
 	font-style:normal;
 	}
