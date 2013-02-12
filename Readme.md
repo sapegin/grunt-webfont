@@ -10,7 +10,8 @@ This task will make all you need to use font-face icon on your website: font in 
 ### OS X
 
 ```
-brew install fontforge ttfautohint sfnt2woff
+brew install fontforge ttfautohint
+brew install https://raw.github.com/sapegin/grunt-webfont/master/Formula/sfnt2woff.rb
 npm install grunt-webfont
 ```
 
