@@ -20,6 +20,23 @@ module.exports = function(grunt) {
 					types: 'woff,svg',
 					syntax: 'bootstrap'
 				}
+			},
+			embed: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/embed',
+				options: {
+					hashes: false,
+					embed: true
+				}
+			},
+			embed2: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/embed2',
+				options: {
+					types: 'woff',
+					hashes: false,
+					embed: true
+				}
 			}
 		},
 		nodeunit: {

@@ -48,7 +48,8 @@ module.exports = function(grunt) {
 			stylesheet = params.options.stylesheet || 'css',
 			htmlDemo = (stylesheet === 'css' ? (params.options.htmlDemo || true) : false),
 			styles = optionToArray(params.options.styles, 'font,icon'),
-			types = optionToArray(params.options.types, 'woff,ttf,eot,svg');
+			types = optionToArray(params.options.types, 'woff,ttf,eot,svg'),
+			embed = params.options.embed === true;
 
 		var fontfaceStyles = styles.indexOf('font') !== -1,
 			baseStyles = styles.indexOf('icon') !== -1,
@@ -123,22 +124,46 @@ module.exports = function(grunt) {
 					relativeFontPath += '/';
 				}
 
-				var fontSrc = [];
-				if (types.indexOf('eot') !== -1)
-					fontSrc.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
-				if (types.indexOf('woff') !== -1)
-					fontSrc.push('url("' + relativeFontPath + fontName + '.woff") format("woff")');
-				if (types.indexOf('ttf') !== -1)
-					fontSrc.push('url("' + relativeFontPath + fontName + '.ttf") format("truetype")');
-				if (types.indexOf('svg') !== -1)
-					fontSrc.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
-				fontSrc = fontSrc.join(',\n\t\t');
+				var fontSrc1 = [];
+				var fontSrc2 = [];
+				if (types.indexOf('eot') !== -1) {
+					if (embed) {
+						fontSrc1.push('url("' + relativeFontPath + fontName + '.eot")');
+					}
+					else {
+						fontSrc2.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
+					}
+				}
+				if (types.indexOf('woff') !== -1) {
+					var fontUrl;
+					if (embed) {
+						var fontFile = path.join(params.dest, fontName + '.woff');
+						// Convert to data:uri
+						var dataUri = fs.readFileSync(fontFile, 'base64');
+						fontUrl = 'data:application/x-font-woff;charset=utf-8;base64,' + dataUri;
+						// Remove WOFF file
+						fs.unlinkSync(fontFile);
+					}
+					else {
+						fontUrl = '"' + relativeFontPath + fontName + '.woff"';
+					}
+					fontSrc2.push('url(' + fontUrl + ') format("woff")');
+				}
+				if (types.indexOf('ttf') !== -1) {
+					fontSrc2.push('url("' + relativeFontPath + fontName + '.ttf") format("truetype")');
+				}
+				if (types.indexOf('svg') !== -1) {
+					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
+				}
+				fontSrc1 = fontSrc1.join(',\n\t\t');
+				fontSrc2 = fontSrc2.join(',\n\t\t');
 
 				context = {
 					relativeFontPath: relativeFontPath,
 					fontBaseName: fontBaseName,
 					fontName: fontName,
-					fontSrc: fontSrc,
+					fontSrc1: fontSrc1,
+					fontSrc2: fontSrc2,
 					fontfaceStyles: fontfaceStyles,
 					baseStyles: baseStyles,
 					extraStyles: extraStyles,

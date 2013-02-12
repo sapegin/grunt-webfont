@@ -87,5 +87,56 @@ exports.webfont = {
 		});
 
 		test.done();
-	}
+	},
+
+	embed: function(test) {
+		// All out files should be created and should not be empty
+		'ttf,eot,svg'.split(',').forEach(function(type) {
+			var name = type.toUpperCase(),
+				prefix = 'test/tmp/embed/icons.';
+			test.ok(fs.existsSync(prefix + type), name + ' file created.');
+			test.ok(grunt.file.read(prefix + type).length, name + ' file not empty.');
+		});
+
+		// WOFF should be deleted
+		'woff'.split(',').forEach(function(type) {
+			var name = type.toUpperCase(),
+				prefix = 'test/tmp/embed2/icons.';
+			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
+		});
+
+		var css = grunt.file.read('test/tmp/embed/icons.css');
+
+		// There should be TWO @font-face declarations
+		var m = css.match(/@font-face/g);
+		test.equal(m.length, 2, 'Two @font-face declarations.');
+
+		// Data:uri
+		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,/g);
+		test.equal(m.length, 1, 'Data:uri');
+
+		test.done();
+	},
+
+	embed2: function(test) {
+		// Excluded file types should not be created + WOFF should be deleted
+		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+			var name = type.toUpperCase(),
+				prefix = 'test/tmp/embed2/icons.';
+			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
+		});
+
+		var css = grunt.file.read('test/tmp/embed2/icons.css');
+		var m;
+
+		// There should be ONE @font-face declaration
+		m = css.match(/@font-face/g);
+		test.equal(m.length, 1, 'One @font-face declaration.');
+
+		// Data:uri
+		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,/g);
+		test.equal(m.length, 1, 'Data:uri');
+
+		test.done();
+	}	
 };

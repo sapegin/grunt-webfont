@@ -91,6 +91,10 @@ Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss`is used, `_`
 If `true`, an HTML file will be available in `destCSS` folder to test the render.
 If `stylesheet` is not `css`, will be set to false automatically.
 
+#### [embed] `boolean` (default: `false`)
+
+If `true` embeds WOFF (*only WOFF*) file as data:uri.
+
 #### [skip] `boolean` (default: `false`)
 
 If `true` task will not be ran. In example, you can skip task on Windows (becase of difficult installation):
