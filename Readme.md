@@ -4,6 +4,14 @@ Generate custom icon webfonts from SVG/EPS files via Grunt. Based on [Font Custo
 
 This task will make all you need to use font-face icon on your website: font in all needed formats, CSS and HTML demo page.
 
+## Features
+
+* Very flexible.
+* BEM or Bootstrap output CSS style.
+* CSS preprocessors support.
+* Data:uri embedding.
+* HTML preview.
+
 
 ## Installation
 
@@ -118,6 +126,17 @@ webfont: {
   }
 }
 ```
+
+## Release History
+
+### 2013-02-? v0.1.0
+
+* Grunt 0.4 support.
+* Separate CSS/font destinations (by @scanieso).
+* Minimal CSS preprocessors support (by @MoOx).
+* Updated generator script (by @MoOx and me).
+* Generated CSS not include broken links to font files.
+* Data:uri WOFF files embedding.
 
 
 ---
