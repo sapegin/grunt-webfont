@@ -138,5 +138,5 @@ exports.webfont = {
 		test.equal(m.length, 1, 'Data:uri');
 
 		test.done();
-	}	
+	}
 };
