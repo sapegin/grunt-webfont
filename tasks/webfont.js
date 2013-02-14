@@ -97,7 +97,11 @@ module.exports = function(grunt) {
 					cmd: 'fontforge',
 					args: args
 				}, function(err, json, code) {
-					if (err || json.stderr) {
+					if (code === 127) {
+						grunt.log.errorlns('Please install fontforge and all other requirements.');
+						grunt.warn('fontforge not found', code);
+					}
+					else if (err || json.stderr) {
 						var lines = (err && err.stderr || json.stderr).split('\n');
 						if (lines.length > 3) {
 							grunt.warn(lines.pop());
