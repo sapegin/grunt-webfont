@@ -5,7 +5,7 @@ import os
 import argparse
 import md5
 import json
-import subprocess
+from subprocess import call
 from distutils.spawn import find_executable
 
 
@@ -89,19 +89,19 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 # WOFF
 if 'woff' in args.types:
-	subprocess.call(['sfnt2woff', fontfile + '.ttf'])
+	call(['sfnt2woff', fontfile + '.ttf'])
 
 # EOT
 if 'eot' in args.types:
 	# eotlitetool.py script to generate IE7-compatible .eot fonts
-	subprocess.call('python ' + scriptPath + '/eotlitetool.py ' + fontfile + '.ttf -o ' + fontfile + '.eot', shell=True)
-	subprocess.call('mv ' + fontfile + '.eotlite ' + fontfile + '.eot', shell=True)
+	call('python ' + scriptPath + '/eotlitetool.py ' + fontfile + '.ttf -o ' + fontfile + '.eot', shell=True)
+	call('mv ' + fontfile + '.eotlite ' + fontfile + '.eot', shell=True)
 
 # Hint the TTF file or delete it if not needed
 # ttfautohint is optional
 if 'ttf' in args.types:
 	if find_executable('ttfautohint'):
-		subprocess.call('ttfautohint -s -n ' + fontfile + '.ttf ' + fontfile + '-hinted.ttf && mv ' + fontfile + '-hinted.ttf ' + fontfile + '.ttf', shell=True)
+		call('ttfautohint -s -n ' + fontfile + '.ttf ' + fontfile + '-hinted.ttf && mv ' + fontfile + '-hinted.ttf ' + fontfile + '.ttf', shell=True)
 else:
 	os.remove(fontfile + '.ttf')
 
