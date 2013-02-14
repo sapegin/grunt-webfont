@@ -6,6 +6,7 @@ import argparse
 import md5
 import json
 import subprocess
+from distutils.spawn import find_executable
 
 
 parser = argparse.ArgumentParser(description='Convert a directory of SVG and EPS files into a unified font file.')
@@ -97,8 +98,10 @@ if 'eot' in args.types:
 	subprocess.call('mv ' + fontfile + '.eotlite ' + fontfile + '.eot', shell=True)
 
 # Hint the TTF file or delete it if not needed
+# ttfautohint is optional
 if 'ttf' in args.types:
-	subprocess.call('ttfautohint -s -n ' + fontfile + '.ttf ' + fontfile + '-hinted.ttf && mv ' + fontfile + '-hinted.ttf ' + fontfile + '.ttf', shell=True)
+	if find_executable('ttfautohint'):
+		subprocess.call('ttfautohint -s -n ' + fontfile + '.ttf ' + fontfile + '-hinted.ttf && mv ' + fontfile + '-hinted.ttf ' + fontfile + '.ttf', shell=True)
 else:
 	os.remove(fontfile + '.ttf')
 
