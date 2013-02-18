@@ -15,12 +15,14 @@ This task will make all you need to use font-face icon on your website: font in 
 
 ## Installation
 
+This plugin requires Grunt 0.4.
+
 ### OS X
 
 ```
 brew install fontforge ttfautohint
 brew install https://raw.github.com/sapegin/grunt-webfont/master/Formula/sfnt2woff.rb
-npm install grunt-webfont
+npm install grunt-webfont --save-dev
 ```
 
 You may need to use `sudo` for `brew`, depending on your setup.
@@ -31,19 +33,13 @@ You may need to use `sudo` for `brew`, depending on your setup.
 sudo apt-get install fontforge eot-utils ttfautohint
 wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip
 unzip woff-code-latest.zip -d sfnt2woff && cd sfnt2woff && make && sudo mv sfnt2woff /usr/local/bin/
-npm install grunt-webfont
+npm install grunt-webfont --save-dev
 ```
 
 *Note that if `ttfautohint` is not available in your distribution, your generated font will not be properly hinted.*
 
 
 ## Configuration
-
-For Grunt 0.3
-`npm install grunt-webfont --save-dev`
-
-For Grunt 0.4rc
-`npm install sapegin/grunt-webfont --save-dev`
 
 Add somewhere in your `Gruntfile.js`:
 
@@ -129,7 +125,7 @@ webfont: {
 
 ## Release History
 
-### 2013-02-? v0.1.0
+### 2013-02-18 v0.1.0
 
 * Grunt 0.4 support.
 * Separate CSS/font destinations (by @scanieso).
