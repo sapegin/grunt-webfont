@@ -104,8 +104,12 @@ module.exports = function(grunt) {
 					else if (err || json.stderr) {
 						var lines = (err && err.stderr || json.stderr).split('\n');
 						if (lines.length > 3) {
-							grunt.warn(lines.pop());
-							allDone();
+							var warning = lines.pop();
+							// Skip "No glyphs" warning because fontforge shows it when font contains one glyph
+							if (warning !== 'Warning: Font contained no glyphs') {
+								grunt.warn(warning);
+								allDone();
+							}
 						}
 					}
 

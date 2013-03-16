@@ -6,15 +6,15 @@ module.exports = function(grunt) {
 		webfont: {
 			test1: {
 				src: 'test/src/*.svg',
-				dest: 'test/tmp',
+				dest: 'test/tmp/test1',
 				options: {
 					hashes: false
 				}
 			},
 			test2: {
 				src: 'test/src/*.svg',
-				dest: 'test/tmp/fonts',
-				destCss: 'test/tmp',
+				dest: 'test/tmp/test2/fonts',
+				destCss: 'test/tmp/test2',
 				options: {
 					font: 'myfont',
 					types: 'woff,svg',
@@ -36,6 +36,13 @@ module.exports = function(grunt) {
 					types: 'woff',
 					hashes: false,
 					embed: true
+				}
+			},
+			one: {
+				src: 'test/src_one/*.svg',
+				dest: 'test/tmp/one',
+				options: {
+					hashes: false
 				}
 			}
 		},
@@ -64,6 +71,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-nodeunit');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 
-	grunt.registerTask('default', ['clean', 'webfont', 'nodeunit', 'jshint']);
+	grunt.registerTask('default', ['clean', 'webfont', 'nodeunit', 'jshint', 'clean']);
 
 };
