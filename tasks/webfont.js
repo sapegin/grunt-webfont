@@ -62,8 +62,8 @@ module.exports = function(grunt) {
 		grunt.file.mkdir(dest);
 
 		// Clean output directory
-		grunt.file.expand(path.join(params.destCss, fontBaseName + '*.{' + stylesheet + ',html}'))
-			.concat(grunt.file.expand(path.join(params.dest, fontBaseName + '*.{woff,ttf,eot,svg}')))
+		grunt.file.expand(path.join(destCss, fontBaseName + '*.{' + stylesheet + ',html}'))
+			.concat(grunt.file.expand(path.join(dest, fontBaseName + '*.{woff,ttf,eot,svg}')))
 			.forEach(function(file) {
 				fs.unlinkSync(file);
 			});
@@ -141,7 +141,7 @@ module.exports = function(grunt) {
 				if (types.indexOf('woff') !== -1) {
 					var fontUrl;
 					if (embed) {
-						var fontFile = path.join(params.dest, fontName + '.woff');
+						var fontFile = path.join(dest, fontName + '.woff');
 						// Convert to data:uri
 						var dataUri = fs.readFileSync(fontFile, 'base64');
 						fontUrl = 'data:application/x-font-woff;charset=utf-8;base64,' + dataUri;
