@@ -125,6 +125,10 @@ webfont: {
 
 ## Release History
 
+### 2013-03-17 v0.1.1
+
+* Fix error when generating font with one glyph.
+
 ### 2013-02-18 v0.1.0
 
 * Grunt 0.4 support.
