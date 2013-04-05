@@ -43,10 +43,11 @@ module.exports = function(grunt) {
 			fontName = fontBaseName,
 			destCss = params.destCss || params.dest,
 			dest = params.dest,
+			useRelativePath = params.options.useRelativePath || '',
 			addHashes = params.options.hashes !== false,
 			syntax = params.options.syntax || 'bem',
 			stylesheet = params.options.stylesheet || 'css',
-			htmlDemo = (stylesheet === 'css' ? (params.options.htmlDemo || true) : false),
+			htmlDemo = (stylesheet === 'css' ? (params.options.htmlDemo !== false) : false),
 			styles = optionToArray(params.options.styles, 'font,icon'),
 			types = optionToArray(params.options.types, 'woff,ttf,eot,svg'),
 			embed = params.options.embed === true;
@@ -126,7 +127,7 @@ module.exports = function(grunt) {
 				// CSS
 				var context = {},
 					options = {},
-					relativeFontPath = path.relative(destCss, dest);
+					relativeFontPath = (useRelativePath.length ? useRelativePath : path.relative(destCss, dest));
 
 				if (relativeFontPath.length > 0) {
 					relativeFontPath += '/';
