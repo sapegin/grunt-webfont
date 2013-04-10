@@ -44,6 +44,7 @@ module.exports = function(grunt) {
 			destCss = params.destCss || params.dest,
 			dest = params.dest,
 			addHashes = params.options.hashes !== false,
+			template = params.options.template,
 			syntax = params.options.syntax || 'bem',
 			stylesheet = params.options.stylesheet || 'css',
 			htmlDemo = (stylesheet === 'css' ? (params.options.htmlDemo || true) : false),
@@ -181,11 +182,13 @@ module.exports = function(grunt) {
 
 				options.data = context;
 
-				var cssTemplateFile = path.join(__dirname, 'templates/' + syntax + '.css'),
-					cssFilePrefix = (stylesheet === 'sass' || stylesheet === 'scss' ) ? '_' : '',
-					cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet),
-					cssTemplate = fs.readFileSync(cssTemplateFile, 'utf8'),
-					css = grunt.template.process(cssTemplate, options);
+				var cssTemplate = template
+					? grunt.file.read(template)
+					: fs.readFileSync(path.join(__dirname, 'templates/' + syntax + '.css'), 'utf8');
+				var cssFilePrefix = (stylesheet === 'sass' || stylesheet === 'scss' ) ? '_' : '';
+				var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
+
+				var css = grunt.template.process(cssTemplate, options);
 				grunt.file.write(cssFile, css);
 
 				// Demo HTML

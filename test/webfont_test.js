@@ -171,6 +171,16 @@ exports.webfont = {
 		});
 
 		test.done();
+	},
+
+	template: function(test) {
+		var css = grunt.file.read('test/tmp/template/icons.css');
+
+		// There should be comment from custom template
+		var m = css.match(/Custom template/);
+		test.equal(m.length, 1, 'Comment from custom template.');
+
+		test.done();
 	}
 
 };

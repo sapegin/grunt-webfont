@@ -44,6 +44,13 @@ module.exports = function(grunt) {
 				options: {
 					hashes: false
 				}
+			},
+			template: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/template',
+				options: {
+					template: 'test/templates/template.css'
+				}
 			}
 		},
 		nodeunit: {

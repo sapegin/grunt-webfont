@@ -86,6 +86,10 @@ Font files types to generate.
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
 
+#### [template] `string` (default: null)
+
+Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (HTML demo page probably will not work with custom templates.)
+
 #### [stylesheet] `string` (default: `'css'`)
 
 Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss`is used, `_` will prefix the file (so it can be a used as a partial).
