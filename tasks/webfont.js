@@ -51,9 +51,9 @@ module.exports = function(grunt) {
 			types = optionToArray(params.options.types, 'woff,ttf,eot,svg'),
 			embed = params.options.embed === true;
 
-		var fontfaceStyles = styles.indexOf('font') !== -1,
-			baseStyles = styles.indexOf('icon') !== -1,
-			extraStyles = styles.indexOf('extra') !== -1;
+		var fontfaceStyles = has(styles, 'font'),
+			baseStyles = has(styles, 'icon'),
+			extraStyles = has(styles, 'extra');
 
 		var glyphs = [];
 
@@ -134,15 +134,13 @@ module.exports = function(grunt) {
 
 				var fontSrc1 = [];
 				var fontSrc2 = [];
-				if (types.indexOf('eot') !== -1) {
-					if (embed) {
-						fontSrc1.push('url("' + relativeFontPath + fontName + '.eot")');
-					}
-					else {
+				if (has(types, 'eot')) {
+					fontSrc1.push('url("' + relativeFontPath + fontName + '.eot")');
+					if (!embed) {
 						fontSrc2.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
 					}
 				}
-				if (types.indexOf('woff') !== -1) {
+				if (has(types, 'woff')) {
 					var fontUrl;
 					if (embed) {
 						var fontFile = path.join(dest, fontName + '.woff');
@@ -157,10 +155,10 @@ module.exports = function(grunt) {
 					}
 					fontSrc2.push('url(' + fontUrl + ') format("woff")');
 				}
-				if (types.indexOf('ttf') !== -1) {
+				if (has(types, 'ttf')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.ttf") format("truetype")');
 				}
-				if (types.indexOf('svg') !== -1) {
+				if (has(types, 'svg')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
 				}
 				fontSrc1 = fontSrc1.join(',\n\t\t');
@@ -172,6 +170,8 @@ module.exports = function(grunt) {
 					fontName: fontName,
 					fontSrc1: fontSrc1,
 					fontSrc2: fontSrc2,
+					embed: embed,
+					eot: has(types, 'eot'),
 					fontfaceStyles: fontfaceStyles,
 					baseStyles: baseStyles,
 					extraStyles: extraStyles,
@@ -227,6 +227,10 @@ module.exports = function(grunt) {
 		else {
 			return [val];
 		}
+	}
+
+	function has(haystack, needle) {
+		return haystack.indexOf(needle) !== -1;
 	}
 
 };
