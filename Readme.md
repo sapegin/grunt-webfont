@@ -92,7 +92,11 @@ Custom CSS template path (see `tasks/templates` for some examples). Should be us
 
 #### [stylesheet] `string` (default: `'css'`)
 
-Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss`is used, `_` will prefix the file (so it can be a used as a partial).
+Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
+
+#### [relativeFontPath] `string` (default: null)
+
+Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with CSS preprocessors.
 
 #### [htmlDemo] `boolean` (default: `true`)
 
@@ -126,6 +130,20 @@ webfont: {
   }
 }
 ```
+
+
+## CSS Preprocessors Caveats
+
+You can change CSS file syntax using `stylesheet` option (see above). It will change file extension (so you can specify any) with some tweaks.
+
+### SASS
+
+If `stylesheet` option is `sass` or `scss`, `_` will prefix the file (so it can be a used as a partial).
+
+### LESS
+
+If `stylesheet` option is `less`, regular CSS icon classes will be expanded with corresponding LESS mixins.
+
 
 ## Release History
 

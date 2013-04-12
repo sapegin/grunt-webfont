@@ -51,6 +51,20 @@ module.exports = function(grunt) {
 				options: {
 					template: 'test/templates/template.css'
 				}
+			},
+			relative_path: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/relative_path',
+				options: {
+					relativeFontPath: '../iamrelative'
+				}
+			},
+			less: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/less',
+				options: {
+					stylesheet: 'less'
+				}
 			}
 		},
 		nodeunit: {

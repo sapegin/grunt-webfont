@@ -130,7 +130,10 @@ module.exports = function(grunt) {
 					options = {};
 
 				if (!relativeFontPath) {
-					relativeFontPath = path.relative(destCss, dest) + '/';
+					relativeFontPath = path.relative(destCss, dest);
+				}
+				if (relativeFontPath[relativeFontPath.length-1] !== '/') {
+					relativeFontPath += '/';
 				}
 
 				var fontSrc1 = [];

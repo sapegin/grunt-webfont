@@ -177,8 +177,37 @@ exports.webfont = {
 		var css = grunt.file.read('test/tmp/template/icons.css');
 
 		// There should be comment from custom template
-		var m = css.match(/Custom template/);
+		var m = css.match('Custom template');
 		test.equal(m.length, 1, 'Comment from custom template.');
+
+		test.done();
+	},
+
+	relative_path: function(test) {
+		var css = grunt.file.read('test/tmp/relative_path/icons.css');
+
+		// There should be links to fonts with relative path
+		var m = css.match(/\/iamrelative\/icons-/g);
+		test.equal(m.length, 5, 'Links to fonts with relative path.');
+
+		test.done();
+	},
+
+	less: function(test) {
+		test.ok(fs.existsSync('test/tmp/less/icons.less'), 'LESS file created.');
+		test.ok(!fs.existsSync('test/tmp/less/icons.css'), 'CSS file not created.');
+
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/less/icons.less');
+
+		// Every SVG file should have two corresponding entries in CSS file
+		svgs.forEach(function(file) {
+			var id = path.basename(file, '.svg');
+			var found = css.match('\\.icon_' + id + ':before');
+			test.ok(!!found, 'Icon ' + id + ' shound be in CSS file.');
+			var found_mixin = css.match('\\.icon-' + id + ' { &:before');
+			test.ok(!!found_mixin, 'LESS Mixin ' + id + ' shound be in CSS file.');
+		});
 
 		test.done();
 	}
