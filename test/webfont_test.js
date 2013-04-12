@@ -194,6 +194,25 @@ exports.webfont = {
 		test.done();
 	},
 
+	sass: function(test) {
+		test.ok(fs.existsSync('test/tmp/sass/_icons.sass'), 'SASS file with underscore created.');
+		test.ok(!fs.existsSync('test/tmp/sass/icons.sass'), 'SASS file without underscore not created.');
+		test.ok(!fs.existsSync('test/tmp/sass/icons.css'), 'CSS file not created.');
+
+		var svgs = grunt.file.expand('test/src/**.*');
+		var sass = grunt.file.read('test/tmp/sass/_icons.sass');
+
+		// There should be comment from custom template
+		var m = sass.match(/\/\* *(.*?) *\*\//g);
+		test.ok(!m, 'No regular CSS comments.');
+
+		// There should be comment from custom template
+		m = sass.match(/^\/\//gm);
+		test.equal(m.length, 2, 'Single line comments.');
+
+		test.done();
+	},
+
 	less: function(test) {
 		test.ok(fs.existsSync('test/tmp/less/icons.less'), 'LESS file created.');
 		test.ok(!fs.existsSync('test/tmp/less/icons.css'), 'CSS file not created.');

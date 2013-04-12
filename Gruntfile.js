@@ -59,6 +59,13 @@ module.exports = function(grunt) {
 					relativeFontPath: '../iamrelative'
 				}
 			},
+			sass: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/sass',
+				options: {
+					stylesheet: 'sass'
+				}
+			},
 			less: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/less',
