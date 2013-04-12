@@ -76,7 +76,7 @@ Append font file names with unique string to flush browser cache when you update
 
 #### [styles] `string|array` (default: `'font,icon'`)
 
-List of styles to be added to CSS files: `font` (`font-face` declaration), `icon` (base `.icon` class), `extra` (extra stuff for Bootstrap (only for `stylesheet` = `'bootstrap'`).
+List of styles to be added to CSS files: `font` (`font-face` declaration), `icon` (base `.icon` class), `extra` (extra stuff for Bootstrap (only for `syntax` = `'bootstrap'`).
 
 #### [types] `string|array` (default: `'woff,ttf,eot,svg'`)
 
@@ -134,7 +134,7 @@ webfont: {
 
 ## CSS Preprocessors Caveats
 
-You can change CSS file syntax using `stylesheet` option (see above). It will change file extension (so you can specify any) with some tweaks.
+You can change CSS file syntax using `stylesheet` option (see above). It change file extension (so you can specify any) with some tweaks. Replace all comments with single line comments (which will be removed after compilation).
 
 ### SASS
 
