@@ -144,6 +144,11 @@ If `stylesheet` option is `sass` or `scss`, `_` will prefix the file (so it can 
 
 If `stylesheet` option is `less`, regular CSS icon classes will be expanded with corresponding LESS mixins.
 
+The LESS mixins then may be used like so
+
+    .profile-button {
+    	.icon-profile;
+    }
 
 ## Release History
 
