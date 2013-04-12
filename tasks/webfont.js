@@ -43,6 +43,7 @@ module.exports = function(grunt) {
 			fontName = fontBaseName,
 			destCss = params.destCss || params.dest,
 			dest = params.dest,
+			relativeFontPath = params.options.relativeFontPath,
 			addHashes = params.options.hashes !== false,
 			template = params.options.template,
 			syntax = params.options.syntax || 'bem',
@@ -126,11 +127,10 @@ module.exports = function(grunt) {
 			function(done) {
 				// CSS
 				var context = {},
-					options = {},
-					relativeFontPath = path.relative(destCss, dest);
+					options = {};
 
-				if (relativeFontPath.length > 0) {
-					relativeFontPath += '/';
+				if (!relativeFontPath) {
+					relativeFontPath = path.relative(destCss, dest) + '/';
 				}
 
 				var fontSrc1 = [];
@@ -176,6 +176,7 @@ module.exports = function(grunt) {
 					fontfaceStyles: fontfaceStyles,
 					baseStyles: baseStyles,
 					extraStyles: extraStyles,
+                    stylesheet: stylesheet,
 					iconsStyles: true,
 					glyphs: glyphs
 				};
