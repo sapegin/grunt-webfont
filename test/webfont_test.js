@@ -1,3 +1,4 @@
+/*jshint node:true*/
 'use strict';
 
 var fs = require('fs'),
@@ -198,18 +199,72 @@ exports.webfont = {
 		test.ok(!fs.existsSync('test/tmp/less/icons.css'), 'CSS file not created.');
 
 		var svgs = grunt.file.expand('test/src/**.*');
-		var css = grunt.file.read('test/tmp/less/icons.less');
+		var less = grunt.file.read('test/tmp/less/icons.less');
+
+		// There should be comment from custom template
+		var m = less.match(/\/\* *(.*?) *\*\//g);
+		test.ok(!m, 'No regular CSS comments.');
+
+		// There should be comment from custom template
+		m = less.match(/^\/\//gm);
+		test.equal(m.length, 3, 'Single line comments.');
 
 		// Every SVG file should have two corresponding entries in CSS file
 		svgs.forEach(function(file) {
 			var id = path.basename(file, '.svg');
-			var found = css.match('\\.icon_' + id + ':before');
+			var found = less.match('\\.icon_' + id + ':before');
 			test.ok(!!found, 'Icon ' + id + ' shound be in CSS file.');
-			var found_mixin = css.match('\\.icon-' + id + ' { &:before');
+			var found_mixin = less.match('\\.icon-' + id + ' {\n\t&:before');
 			test.ok(!!found_mixin, 'LESS Mixin ' + id + ' shound be in CSS file.');
 		});
 
 		test.done();
+	},
+
+	stylus_bem: function(test) {
+		test.ok(fs.existsSync('test/tmp/stylus_bem/icons.styl'), 'Stylus file created (BEM).');
+		test.ok(!fs.existsSync('test/tmp/stylus_bem/icons.css'), 'CSS file not created (BEM).');
+
+		var styl = grunt.file.read('test/tmp/stylus_bem/icons.styl');
+
+		// There should be comment from custom template
+		var m = styl.match(/\/\* *(.*?) *\*\//g);
+		test.ok(!m, 'No regular CSS comments.');
+
+		// There should be comment from custom template
+		m = styl.match(/^\/\//gm);
+		test.equal(m.length, 2, 'Single line comments.');
+
+		var stylus = require('stylus');
+		var s = stylus(styl);
+
+		s.render(function(err, css) {
+			if (err) {
+				console.log('Stylus compile error:');
+				console.log(err);
+			}
+			test.ok(!err, 'Stylus file compiled (BEM).');
+			test.done();
+		});
+	},
+
+	stylus_bootstrap: function(test) {
+		test.ok(fs.existsSync('test/tmp/stylus_bootstrap/icons.styl'), 'Stylus file created (Bootstrap).');
+		test.ok(!fs.existsSync('test/tmp/stylus_bootstrap/icons.css'), 'CSS file not created (Bootstrap).');
+
+		var styl = grunt.file.read('test/tmp/stylus_bootstrap/icons.styl');
+
+		var stylus = require('stylus');
+		var s = stylus(styl);
+
+		s.render(function(err, css) {
+			if (err) {
+				console.log('Stylus compile error:');
+				console.log(err);
+			}
+			test.ok(!err, 'Stylus file compiled (Bootstrap).');
+			test.done();
+		});
 	}
 
 };

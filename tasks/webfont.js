@@ -51,7 +51,8 @@ module.exports = function(grunt) {
 			htmlDemo = (stylesheet === 'css' ? (params.options.htmlDemo || true) : false),
 			styles = optionToArray(params.options.styles, 'font,icon'),
 			types = optionToArray(params.options.types, 'woff,ttf,eot,svg'),
-			embed = params.options.embed === true;
+			embed = params.options.embed === true,
+			fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
 
 		var fontfaceStyles = has(styles, 'font'),
 			baseStyles = has(styles, 'icon'),
@@ -165,8 +166,8 @@ module.exports = function(grunt) {
 				if (has(types, 'svg')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
 				}
-				fontSrc1 = fontSrc1.join(',\n\t\t');
-				fontSrc2 = fontSrc2.join(',\n\t\t');
+				fontSrc1 = fontSrc1.join(fontSrcSeparator);
+				fontSrc2 = fontSrc2.join(fontSrcSeparator);
 
 				context = {
 					relativeFontPath: relativeFontPath,
@@ -193,6 +194,12 @@ module.exports = function(grunt) {
 				var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
 
 				var css = grunt.template.process(cssTemplate, options);
+
+				// Fix CSS preprocessors comments: single line comments will be removed after compilation
+				if (has(['sass', 'scss', 'less', 'styl'], stylesheet)) {
+					css = css.replace(/\/\* *(.*?) *\*\//g, '// $1');
+				}
+
 				grunt.file.write(cssFile, css);
 
 				// Demo HTML

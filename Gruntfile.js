@@ -65,6 +65,21 @@ module.exports = function(grunt) {
 				options: {
 					stylesheet: 'less'
 				}
+			},
+			stylus_bem: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/stylus_bem',
+				options: {
+					stylesheet: 'styl'
+				}
+			},
+			stylus_bootstrap: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/stylus_bootstrap',
+				options: {
+					stylesheet: 'styl',
+					syntax: 'bootstrap'
+				}
 			}
 		},
 		nodeunit: {
