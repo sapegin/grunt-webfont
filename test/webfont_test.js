@@ -110,11 +110,11 @@ exports.webfont = {
 
 		// There should be TWO @font-face declarations
 		var m = css.match(/@font-face/g);
-		test.equal(m.length, 2, 'Two @font-face declarations.');
+		test.equal(m && m.length, 2, 'Two @font-face declarations.');
 
 		// Data:uri
 		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,/g);
-		test.equal(m.length, 1, 'Data:uri');
+		test.equal(m && m.length, 1, 'Data:uri');
 
 		test.done();
 	},
@@ -132,11 +132,11 @@ exports.webfont = {
 
 		// There should be ONE @font-face declaration
 		m = css.match(/@font-face/g);
-		test.equal(m.length, 1, 'One @font-face declaration.');
+		test.equal(m && m.length, 1, 'One @font-face declaration.');
 
 		// Data:uri
 		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,/g);
-		test.equal(m.length, 1, 'Data:uri');
+		test.equal(m && m.length, 1, 'Data:uri');
 
 		test.done();
 	},
@@ -179,7 +179,7 @@ exports.webfont = {
 
 		// There should be comment from custom template
 		var m = css.match('Custom template');
-		test.equal(m.length, 1, 'Comment from custom template.');
+		test.equal(m && m.length, 1, 'Comment from custom template.');
 
 		test.done();
 	},
@@ -189,7 +189,7 @@ exports.webfont = {
 
 		// There should be links to fonts with relative path
 		var m = css.match(/\/iamrelative\/icons-/g);
-		test.equal(m.length, 5, 'Links to fonts with relative path.');
+		test.equal(m && m.length, 5, 'Links to fonts with relative path.');
 
 		test.done();
 	},
@@ -208,7 +208,7 @@ exports.webfont = {
 
 		// There should be comment from custom template
 		m = sass.match(/^\/\//gm);
-		test.equal(m.length, 2, 'Single line comments.');
+		test.equal(m && m.length, 2, 'Single line comments.');
 
 		test.done();
 	},
@@ -226,7 +226,7 @@ exports.webfont = {
 
 		// There should be comment from custom template
 		m = less.match(/^\/\//gm);
-		test.equal(m.length, 3, 'Single line comments.');
+		test.equal(m && m.length, 3, 'Single line comments.');
 
 		// Every SVG file should have two corresponding entries in CSS file
 		svgs.forEach(function(file) {
@@ -252,7 +252,7 @@ exports.webfont = {
 
 		// There should be comment from custom template
 		m = styl.match(/^\/\//gm);
-		test.equal(m.length, 2, 'Single line comments.');
+		test.equal(m && m.length, 2, 'Single line comments.');
 
 		var stylus = require('stylus');
 		var s = stylus(styl);
@@ -284,6 +284,15 @@ exports.webfont = {
 			test.ok(!err, 'Stylus file compiled (Bootstrap).');
 			test.done();
 		});
+	},
+
+	spaces: function(test) {
+		var css = grunt.file.read('test/tmp/spaces/icons.css');
+
+		var m = css.match('.icon_ma-il-ru:before');
+		test.equal(m && m.length, 1, 'Spaces in class name should be replaced by hyphens.');
+
+		test.done();
 	}
 
 };

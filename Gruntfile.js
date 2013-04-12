@@ -87,6 +87,10 @@ module.exports = function(grunt) {
 					stylesheet: 'styl',
 					syntax: 'bootstrap'
 				}
+			},
+			spaces: {
+				src: 'test/src_space/*.svg',
+				dest: 'test/tmp/spaces'
 			}
 		},
 		nodeunit: {

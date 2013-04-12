@@ -12,7 +12,8 @@ module.exports = function(grunt) {
 	var fs = require('fs'),
 		path = require('path'),
 		temp = require('temp'),
-		async = grunt.util.async;
+		async = grunt.util.async,
+		_ = grunt.util._;
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
 		this.requiresConfig([ this.name, this.target, 'src' ].join('.'));
@@ -168,6 +169,11 @@ module.exports = function(grunt) {
 				}
 				fontSrc1 = fontSrc1.join(fontSrcSeparator);
 				fontSrc2 = fontSrc2.join(fontSrcSeparator);
+
+				// Prepage glyph names to use as CSS classes
+				glyphs = _.map(glyphs, function(name) {
+					return name.replace(/ /g, '-');
+				});
 
 				context = {
 					relativeFontPath: relativeFontPath,
