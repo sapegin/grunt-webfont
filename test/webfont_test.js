@@ -241,8 +241,8 @@ exports.webfont = {
 	},
 
 	stylus_bem: function(test) {
-		test.ok(fs.existsSync('test/tmp/stylus_bem/icons.styl'), 'Stylus file created (BEM).');
-		test.ok(!fs.existsSync('test/tmp/stylus_bem/icons.css'), 'CSS file not created (BEM).');
+		test.ok(fs.existsSync('test/tmp/stylus_bem/icons.styl'), 'Stylus file created.');
+		test.ok(!fs.existsSync('test/tmp/stylus_bem/icons.css'), 'CSS file not created.');
 
 		var styl = grunt.file.read('test/tmp/stylus_bem/icons.styl');
 
@@ -262,14 +262,14 @@ exports.webfont = {
 				console.log('Stylus compile error:');
 				console.log(err);
 			}
-			test.ok(!err, 'Stylus file compiled (BEM).');
+			test.ok(!err, 'Stylus file compiled.');
 			test.done();
 		});
 	},
 
 	stylus_bootstrap: function(test) {
-		test.ok(fs.existsSync('test/tmp/stylus_bootstrap/icons.styl'), 'Stylus file created (Bootstrap).');
-		test.ok(!fs.existsSync('test/tmp/stylus_bootstrap/icons.css'), 'CSS file not created (Bootstrap).');
+		test.ok(fs.existsSync('test/tmp/stylus_bootstrap/icons.styl'), 'Stylus file created.');
+		test.ok(!fs.existsSync('test/tmp/stylus_bootstrap/icons.css'), 'CSS file not created.');
 
 		var styl = grunt.file.read('test/tmp/stylus_bootstrap/icons.styl');
 
@@ -281,7 +281,7 @@ exports.webfont = {
 				console.log('Stylus compile error:');
 				console.log(err);
 			}
-			test.ok(!err, 'Stylus file compiled (Bootstrap).');
+			test.ok(!err, 'Stylus file compiled.');
 			test.done();
 		});
 	},
@@ -291,6 +291,13 @@ exports.webfont = {
 
 		var m = css.match('.icon_ma-il-ru:before');
 		test.equal(m && m.length, 1, 'Spaces in class name should be replaced by hyphens.');
+
+		test.done();
+	},
+
+	disable_demo: function(test) {
+		test.ok(fs.existsSync('test/tmp/disable_demo/icons.css'), 'CSS file created.');
+		test.ok(!fs.existsSync('test/tmp/disable_demo/icons.html'), 'HTML file not created.');
 
 		test.done();
 	}

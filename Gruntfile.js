@@ -91,6 +91,13 @@ module.exports = function(grunt) {
 			spaces: {
 				src: 'test/src_space/*.svg',
 				dest: 'test/tmp/spaces'
+			},
+			disable_demo: {
+				src: 'test/src_one/*.svg',
+				dest: 'test/tmp/disable_demo',
+				options: {
+					htmlDemo: false
+				}
 			}
 		},
 		nodeunit: {
