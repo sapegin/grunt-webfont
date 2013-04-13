@@ -7,6 +7,8 @@ This task will make all you need to use font-face icon on your website: font in 
 ## Features
 
 * Very flexible.
+* Semantic: uses [Unicode private use area](http://en.wikipedia.org/wiki/Private_Use_(Unicode)#Private_Use_Areas).
+* [Cross-browser](http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax/): IE8+.
 * BEM or Bootstrap output CSS style.
 * CSS preprocessors support.
 * Data:uri embedding.
@@ -116,7 +118,20 @@ skip: require('os').platform() === 'win32'
 ```
 
 
-### Config Example
+### Config Examples
+
+#### Simple font generation
+
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts'
+  }
+}
+```
+
+#### Custom font name, fonts and CSS in different folders
 
 ``` javascript
 webfont: {
@@ -126,6 +141,37 @@ webfont: {
     destCss: 'build/fonts/css'
     options: {
     	font: 'ponies'
+    }
+  }
+}
+```
+
+#### To use with CSS preprocessor
+
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    destCss: 'build/styles',
+    options: {
+    	stylesheet: 'styl',
+    	relativeFontPath: '/build/fonts'
+    }
+  }
+}
+```
+
+#### Embedded font file
+
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    options: {
+    	types: 'woff',
+    	embed: true
     }
   }
 }
@@ -144,13 +190,24 @@ If `stylesheet` option is `sass` or `scss`, `_` will prefix the file (so it can 
 
 If `stylesheet` option is `less`, regular CSS icon classes will be expanded with corresponding LESS mixins.
 
-The LESS mixins then may be used like so
+The LESS mixins then may be used like so:
 
-    .profile-button {
-    	.icon-profile;
-    }
+```css
+.profile-button {
+	.icon-profile;
+}
+```
+
 
 ## Release History
+
+### 2013-04-13 v0.1.2
+
+* `relativeFontPath` option (by [@gregvanbrug](https://github.com/gregvanbrug).
+* `template` option.
+* Better LESS support (by [@gregvanbrug](https://github.com/gregvanbrug).
+* Better Stylus support.
+* Bug fixes.
 
 ### 2013-03-17 v0.1.1
 
@@ -159,9 +216,9 @@ The LESS mixins then may be used like so
 ### 2013-02-18 v0.1.0
 
 * Grunt 0.4 support.
-* Separate CSS/font destinations (by @scanieso).
-* Minimal CSS preprocessors support (by @MoOx).
-* Updated generator script (by @MoOx and me).
+* Separate CSS/font destinations (by [@scanieso](https://github.com/scanieso)).
+* Minimal CSS preprocessors support (by [@MoOx](https://github.com/MoOx)).
+* Updated generator script (by [@MoOx](https://github.com/MoOx) and me).
 * Generated CSS not include broken links to font files.
 * Data:uri WOFF files embedding.
 
