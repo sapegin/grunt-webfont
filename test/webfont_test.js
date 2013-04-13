@@ -1,9 +1,13 @@
 /*jshint node:true*/
 'use strict';
 
-var fs = require('fs'),
-	path = require('path'),
-	grunt = require('grunt');
+var fs = require('fs');
+var path = require('path');
+var grunt = require('grunt');
+
+function find(haystack, needle) {
+	return haystack.indexOf(needle) !== -1;
+}
 
 exports.webfont = {
 	test1: function(test) {
@@ -20,20 +24,29 @@ exports.webfont = {
 			test.ok(grunt.file.read('test/tmp/test1/icons.' + type).length, name + ' file not empty.');
 		});
 
-		var svgs = grunt.file.expand('test/src/**.*'),
-			css = grunt.file.read('test/tmp/test1/icons.css');
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/test1/icons.css');
+		var html = grunt.file.read('test/tmp/test1/icons.html');
 
 		// CSS links to font files are correct
 		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
-			var found = css.match('icons.' + type);
-			test.ok(!!found, 'File path ' + type + ' shound be in CSS file.');
+			test.ok(
+				find(css, 'url("icons.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
 		});
 
-		// Every SVG file should have corresponding entry in CSS file
+		// Every SVG file should have corresponding entry in CSS and HTML files
 		svgs.forEach(function(file) {
-			var id = path.basename(file, '.svg'),
-				found = css.match('\\.icon_' + id + ':before');
-			test.ok(!!found, 'Icon ' + id + ' shound be in CSS file.');
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon_' + id + ':before'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+			test.ok(
+				find(html, '<div class="icons__item" data-name="' + id + '"><i class="icon icon_' + id + '"></i> icon_' + id + '</div>'),
+				'Icon ' + id + ' shound be in HTML file.'
+			);
 		});
 
 		test.done();
@@ -64,27 +77,38 @@ exports.webfont = {
 			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
 		});
 
-		var svgs = grunt.file.expand('test/src/**.*'),
-			css = grunt.file.read('test/tmp/test2/myfont.css');
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/test2/myfont.css');
+		var html = grunt.file.read('test/tmp/test2/myfont.html');
 
 		// CSS links to font files are correct
 		'woff,svg'.split(',').forEach(function(type) {
-			var found = css.match('fonts/myfont-' + hash + '.' + type);
-			test.ok(!!found, 'File path ' + type + ' shound be in CSS file.');
+			test.ok(
+				find(css, 'url("fonts/myfont-' + hash + '.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
 		});
 
 		// CSS links to excluded formats should not be included
 		'ttf,eot'.split(',').forEach(function(type) {
-			var found = css.match('fonts/myfont-' + hash + '.' + type);
-			test.ok(!found, 'File path ' + type + ' shound be in CSS file.');
+			test.ok(
+				!find(css, 'fonts/myfont-' + hash + '.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
 		});
 
 
-		// Every SVG file should have corresponding entry in CSS file
+		// Every SVG file should have corresponding entry in CSS and HTML files
 		svgs.forEach(function(file) {
-			var id = path.basename(file, '.svg'),
-				found = css.match('\\.icon-' + id + ':before');
-			test.ok(!!found, 'Icon ' + id + ' shound be in CSS file.');
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon-' + id + ':before'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+			test.ok(
+				find(html, '<div class="icons__item" data-name="' + id + '"><i class=" icon-' + id + '"></i> icon-' + id + '</div>'),
+				'Icon ' + id + ' shound be in HTML file.'
+			);
 		});
 
 		test.done();
@@ -160,15 +184,19 @@ exports.webfont = {
 
 		// CSS links to font files are correct
 		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
-			var found = css.match('icons.' + type);
-			test.ok(!!found, 'File path ' + type + ' shound be in CSS file.');
+			test.ok(
+				find(css, 'icons.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
 		});
 
 		// Every SVG file should have corresponding entry in CSS file
 		svgs.forEach(function(file) {
-			var id = path.basename(file, '.svg'),
-				found = css.match('\\.icon_' + id + ':before');
-			test.ok(!!found, 'Icon ' + id + ' shound be in CSS file.');
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon_' + id + ':before'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
 		});
 
 		test.done();
@@ -178,8 +206,10 @@ exports.webfont = {
 		var css = grunt.file.read('test/tmp/template/icons.css');
 
 		// There should be comment from custom template
-		var m = css.match('Custom template');
-		test.equal(m && m.length, 1, 'Comment from custom template.');
+		test.ok(
+			find(css, 'Custom template'),
+			'Comment from custom template.'
+		);
 
 		test.done();
 	},
@@ -187,9 +217,13 @@ exports.webfont = {
 	relative_path: function(test) {
 		var css = grunt.file.read('test/tmp/relative_path/icons.css');
 
-		// There should be links to fonts with relative path
-		var m = css.match(/\/iamrelative\/icons-/g);
-		test.equal(m && m.length, 5, 'Links to fonts with relative path.');
+		// CSS links to font files are correct
+		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+			test.ok(
+				find(css, 'url("../iamrelative/icons.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
+		});
 
 		test.done();
 	},
@@ -231,10 +265,14 @@ exports.webfont = {
 		// Every SVG file should have two corresponding entries in CSS file
 		svgs.forEach(function(file) {
 			var id = path.basename(file, '.svg');
-			var found = less.match('\\.icon_' + id + ':before');
-			test.ok(!!found, 'Icon ' + id + ' shound be in CSS file.');
-			var found_mixin = less.match('\\.icon-' + id + ' {\n\t&:before');
-			test.ok(!!found_mixin, 'LESS Mixin ' + id + ' shound be in CSS file.');
+			test.ok(
+				find(less, '.icon_' + id + ':before'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+			test.ok(
+				find(less, '.icon-' + id + ' {\n\t&:before'),
+				'LESS Mixin ' + id + ' shound be in CSS file.'
+			);
 		});
 
 		test.done();
@@ -289,8 +327,10 @@ exports.webfont = {
 	spaces: function(test) {
 		var css = grunt.file.read('test/tmp/spaces/icons.css');
 
-		var m = css.match('.icon_ma-il-ru:before');
-		test.equal(m && m.length, 1, 'Spaces in class name should be replaced by hyphens.');
+		test.ok(
+			find(css, '.icon_ma-il-ru:before'),
+			'Spaces in class name should be replaced by hyphens.'
+		);
 
 		test.done();
 	},

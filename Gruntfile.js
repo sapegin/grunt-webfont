@@ -56,7 +56,8 @@ module.exports = function(grunt) {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/relative_path',
 				options: {
-					relativeFontPath: '../iamrelative'
+					relativeFontPath: '../iamrelative',
+					hashes: false
 				}
 			},
 			sass: {
