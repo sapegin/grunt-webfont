@@ -2,12 +2,12 @@
 
 Generate custom icon webfonts from SVG/EPS files via Grunt. Based on [Font Custom](http://endtwist.github.com/fontcustom/).
 
-This task will make all you need to use font-face icon on your website: font in all needed formats, CSS and HTML demo page.
+This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/SASS/LESS/Stylus and HTML demo page.
 
 ## Features
 
 * Very flexible.
-* Semantic: uses [Unicode private use area](http://en.wikipedia.org/wiki/Private_Use_(Unicode)#Private_Use_Areas).
+* Semantic: uses [Unicode private use area](http://bit.ly/ZnkwaT).
 * [Cross-browser](http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax/): IE8+.
 * BEM or Bootstrap output CSS style.
 * CSS preprocessors support.
@@ -203,9 +203,9 @@ The LESS mixins then may be used like so:
 
 ### 2013-04-13 v0.1.2
 
-* `relativeFontPath` option (by [@gregvanbrug](https://github.com/gregvanbrug).
+* `relativeFontPath` option (by [@gregvanbrug](https://github.com/gregvanbrug)).
 * `template` option.
-* Better LESS support (by [@gregvanbrug](https://github.com/gregvanbrug).
+* Better LESS support (by [@gregvanbrug](https://github.com/gregvanbrug)).
 * Better Stylus support.
 * Bug fixes.
 
