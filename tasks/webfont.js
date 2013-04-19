@@ -174,7 +174,7 @@ module.exports = function(grunt) {
 						fs.unlinkSync(ttfFontFile);
 					}
 					else {
-						ttfFontUrl = '"' + relativeFontPath + ttfFontName + '.ttf"';
+						ttfFontUrl = '"' + relativeFontPath + fontName + '.ttf"';
 					}
 					fontSrc2.push('url(' + ttfFontUrl + ') format("truetype")');
 				}
