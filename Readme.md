@@ -105,7 +105,11 @@ Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with C
 If `true`, an HTML file will be available in `destCSS` folder to test the render.
 If `stylesheet` is not `css`, will be set to false automatically.
 
-#### [embed] `boolean` (default: `false`)
+#### [embed] string|array (default: false)
+
+Enumerate font file-types to generate as inline fonts using a data uri (embed:'woff,ttf').
+Only valid for woff and ttf fonts. Additionally you can use 'eot' to include the questionmark 
+hack for Internet Explorer.
 
 If `true` embeds WOFF (*only WOFF*) file as data:uri.
 
