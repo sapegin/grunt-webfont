@@ -176,7 +176,7 @@ module.exports = function(grunt) {
 					else {
 						fontUrl = '"' + relativeFontPath + fontName + '.ttf"';
 					}
-					fontSrc2.push('url(' + fontUrl + ') format("ttf")');
+					fontSrc2.push('url(' + fontUrl + ') format("truetype")');
 				}
 				if (has(types, 'svg')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
