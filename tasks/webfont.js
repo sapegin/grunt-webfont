@@ -109,7 +109,7 @@ module.exports = function(grunt) {
 					else if (err || json.stderr) {
 						// We skip some informations about the bin
 						// and the "No glyphs" warning because fontforge shows it when font contains only one glyph
-						var notError = /\s?(Copyright|Executable based on sources from|Library based on sources from|Based on source from git|Warning: Font contained no glyphs)/;
+						var notError = /\s?(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git|Warning: Font contained no glyphs)/;
 						var lines = (err && err.stderr || json.stderr).split('\n');
 						// write lines for verbose mode
 						lines.forEach(function(line) {
