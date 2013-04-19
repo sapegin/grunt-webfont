@@ -29,13 +29,31 @@ module.exports = function(grunt) {
 					embed: true
 				}
 			},
-			embed2: {
+			embed_woff: {
 				src: 'test/src/*.svg',
-				dest: 'test/tmp/embed2',
+				dest: 'test/tmp/embed_woff',
 				options: {
 					types: 'woff',
 					hashes: false,
 					embed: true
+				}
+			},
+			embed_ttf: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/embed_ttf',
+				options: {
+					types: 'ttf',
+					hashes: false,
+					embed: 'ttf'
+				}
+			},
+			embed_ttf_woff: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/embed_ttf_woff',
+				options: {
+					types: 'ttf,woff',
+					hashes: false,
+					embed: 'ttf,woff'
 				}
 			},
 			one: {

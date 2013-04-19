@@ -36,6 +36,16 @@ exports.webfont = {
 			);
 		});
 
+		// Double EOT (for IE9 compat mode)
+		test.ok(
+			find(css, 'src:url("icons.eot");'),
+			'First EOT declaration.'
+		);
+		test.ok(
+			find(css, 'src:url("icons.eot?#iefix") format("embedded-opentype"),'),
+			'Second EOT declaration.'
+		);
+
 		// Every SVG file should have corresponding entry in CSS and HTML files
 		svgs.forEach(function(file) {
 			var id = path.basename(file, '.svg');
@@ -132,35 +142,65 @@ exports.webfont = {
 
 		var css = grunt.file.read('test/tmp/embed/icons.css');
 
-		// There should be TWO @font-face declarations
-		var m = css.match(/@font-face/g);
-		test.equal(m && m.length, 2, 'Two @font-face declarations.');
+		// Data:uri
+		var m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,.*?format\("woff"\)/g);
+		test.equal(m && m.length, 1, 'WOFF (default) data:uri');
+
+		test.done();
+	},
+
+	embed_woff: function(test) {
+		// Excluded file types should not be created + WOFF should be deleted
+		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+			var name = type.toUpperCase(),
+				prefix = 'test/tmp/embed_woff/icons.';
+			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
+		});
+
+		var css = grunt.file.read('test/tmp/embed_woff/icons.css');
+		var m;
 
 		// Data:uri
-		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,/g);
+		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,.*?format\("woff"\)/g);
 		test.equal(m && m.length, 1, 'Data:uri');
 
 		test.done();
 	},
 
-	embed2: function(test) {
-		// Excluded file types should not be created + WOFF should be deleted
+	embed_ttf: function(test) {
+		// Excluded file types should not be created + TTF should be deleted
 		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
 			var name = type.toUpperCase(),
-				prefix = 'test/tmp/embed2/icons.';
+				prefix = 'test/tmp/embed_ttf/icons.';
 			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
 		});
 
-		var css = grunt.file.read('test/tmp/embed2/icons.css');
+		var css = grunt.file.read('test/tmp/embed_ttf/icons.css');
 		var m;
 
-		// There should be ONE @font-face declaration
-		m = css.match(/@font-face/g);
-		test.equal(m && m.length, 1, 'One @font-face declaration.');
+		// Data:uri
+		m = css.match(/data:application\/x-font-ttf;charset=utf-8;base64,.*?format\("truetype"\)/g);
+		test.equal(m && m.length, 1, 'TrueType data:uri');
+
+		test.done();
+	},
+
+	embed_ttf_woff: function(test) {
+		// Excluded file types should not be created + TTF should be deleted
+		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+			var name = type.toUpperCase(),
+				prefix = 'test/tmp/embed_ttf_woff/icons.';
+			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
+		});
+
+		var css = grunt.file.read('test/tmp/embed_ttf_woff/icons.css');
+		var m;
 
 		// Data:uri
-		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,/g);
-		test.equal(m && m.length, 1, 'Data:uri');
+		m = css.match(/data:application\/x-font-ttf;charset=utf-8;base64,.*?format\("truetype"\)/g);
+		test.equal(m && m.length, 1, 'TrueType data:uri');
+		m = css.match(/data:application\/x-font-woff;charset=utf-8;base64,.*?format\("woff"\)/g);
+		test.equal(m && m.length, 1, 'WOFF data:uri');
 
 		test.done();
 	},

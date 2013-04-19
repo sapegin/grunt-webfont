@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 		var htmlDemo = (stylesheet === 'css' ? (options.htmlDemo !== false) : false);
 		var styles = optionToArray(options.styles, 'font,icon');
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
-		var embed = options.embed === true;
+		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
 		var fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
 
 		var fontfaceStyles = has(styles, 'font');
@@ -117,7 +117,7 @@ module.exports = function(grunt) {
 								grunt.warn(line);
 								allDone();
 							} else {
-								grunt.log.writeln("fontforge output ignored: ".grey + line);
+								grunt.log.writeln('fontforge output ignored: '.grey + line);
 							}
 						});
 					}
@@ -144,27 +144,27 @@ module.exports = function(grunt) {
 				var fontSrc2 = [];
 				if (has(types, 'eot')) {
 					fontSrc1.push('url("' + relativeFontPath + fontName + '.eot")');
-					if (!embed) {
-						fontSrc2.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
-					}
+					fontSrc2.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
 				}
 				if (has(types, 'woff')) {
-					var fontUrl;
-					if (embed) {
-						var fontFile = path.join(dest, fontName + '.woff');
-						// Convert to data:uri
-						var dataUri = fs.readFileSync(fontFile, 'base64');
-						fontUrl = 'data:application/x-font-woff;charset=utf-8;base64,' + dataUri;
-						// Remove WOFF file
-						fs.unlinkSync(fontFile);
+					var woffFontUrl;
+					if (has(embed, 'woff')) {
+						woffFontUrl = embedFont(path.join(dest, fontName + '.woff'));
 					}
 					else {
-						fontUrl = '"' + relativeFontPath + fontName + '.woff"';
+						woffFontUrl = '"' + relativeFontPath + fontName + '.woff"';
 					}
-					fontSrc2.push('url(' + fontUrl + ') format("woff")');
+					fontSrc2.push('url(' + woffFontUrl + ') format("woff")');
 				}
 				if (has(types, 'ttf')) {
-					fontSrc2.push('url("' + relativeFontPath + fontName + '.ttf") format("truetype")');
+					var ttfFontUrl;
+					if (has(embed, 'ttf')) {
+						ttfFontUrl = embedFont(path.join(dest, fontName + '.ttf'));
+					}
+					else {
+						ttfFontUrl = '"' + relativeFontPath + fontName + '.ttf"';
+					}
+					fontSrc2.push('url(' + ttfFontUrl + ') format("truetype")');
 				}
 				if (has(types, 'svg')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
@@ -183,7 +183,6 @@ module.exports = function(grunt) {
 					fontName: fontName,
 					fontSrc1: fontSrc1,
 					fontSrc2: fontSrc2,
-					embed: embed,
 					eot: has(types, 'eot'),
 					fontfaceStyles: fontfaceStyles,
 					baseStyles: baseStyles,
@@ -260,6 +259,18 @@ module.exports = function(grunt) {
 
 	function has(haystack, needle) {
 		return haystack.indexOf(needle) !== -1;
+	}
+
+	// Convert font file to data:uri and *remove* source file.
+	function embedFont(fontFile) {
+		// Convert to data:uri
+		var dataUri = fs.readFileSync(fontFile, 'base64');
+		var type = path.extname(fontFile).substring(1);
+		var fontUrl = 'data:application/x-font-' + type + ';charset=utf-8;base64,' + dataUri;
+		// Remove WOFF file
+		fs.unlinkSync(fontFile);
+
+		return fontUrl;
 	}
 
 };
