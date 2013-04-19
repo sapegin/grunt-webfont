@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 		var htmlDemo = (stylesheet === 'css' ? (options.htmlDemo !== false) : false);
 		var styles = optionToArray(options.styles, 'font,icon');
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
-		var embed = optionToArray(options.embed, true);
+		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, []);
 		var fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
 
 		var fontfaceStyles = has(styles, 'font');
@@ -144,13 +144,13 @@ module.exports = function(grunt) {
 				var fontSrc2 = [];
 				if (has(types, 'eot')) {
 					fontSrc1.push('url("' + relativeFontPath + fontName + '.eot")');
-					if (!embed) {
+					if (has(embed, "eot")) { // was !embed, but this does not make sense to me
 						fontSrc2.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
 					}
 				}
 				if (has(types, 'woff')) {
 					var fontUrl;
-					if (embed === true || has(embed, "woff")) {
+					if (has(embed, "woff")) {
 						var fontFile = path.join(dest, fontName + '.woff');
 						// Convert to data:uri
 						var dataUri = fs.readFileSync(fontFile, 'base64');
