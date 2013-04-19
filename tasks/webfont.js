@@ -107,15 +107,19 @@ module.exports = function(grunt) {
 						grunt.warn('fontforge not found', code);
 					}
 					else if (err || json.stderr) {
+						// We skip some informations about the bin
+						// and the "No glyphs" warning because fontforge shows it when font contains only one glyph
+						var notError = /\s?(Copyright|Executable based on sources from|Library based on sources from|Based on source from git|Warning: Font contained no glyphs)/;
 						var lines = (err && err.stderr || json.stderr).split('\n');
-						if (lines.length > 3) {
-							var warning = lines.pop();
-							// Skip "No glyphs" warning because fontforge shows it when font contains one glyph
-							if (warning !== 'Warning: Font contained no glyphs') {
-								grunt.warn(warning);
+						// write lines for verbose mode
+						lines.forEach(function(line) {
+							if (!line.match(notError)) {
+								grunt.warn(line);
 								allDone();
+							} else {
+								grunt.log.writeln("fontforge output ignored: ".grey + line);
 							}
-						}
+						});
 					}
 
 					var result = JSON.parse(json.stdout);
