@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 		var htmlDemo = (stylesheet === 'css' ? (options.htmlDemo !== false) : false);
 		var styles = optionToArray(options.styles, 'font,icon');
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
-		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, []);
+		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
 		var fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
 
 		var fontfaceStyles = has(styles, 'font');
