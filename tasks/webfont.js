@@ -150,7 +150,7 @@ module.exports = function(grunt) {
 				}
 				if (has(types, 'woff')) {
 					var fontUrl;
-					if (has(embed, "woff")) {
+					if (has(embed, 'woff')) {
 						var fontFile = path.join(dest, fontName + '.woff');
 						// Convert to data:uri
 						var dataUri = fs.readFileSync(fontFile, 'base64');
@@ -164,19 +164,19 @@ module.exports = function(grunt) {
 					fontSrc2.push('url(' + fontUrl + ') format("woff")');
 				}
 				if (has(types, 'ttf')) {
-					var fontUrl;
-					if (has(embed, "ttf")) {
-						var fontFile = path.join(dest, fontName + '.ttf');
+					var ttfFontUrl;
+					if (has(embed, 'ttf')) {
+						var ttfFontFile = path.join(dest, fontName + '.ttf');
 						// Convert to data:uri
-						var dataUri = fs.readFileSync(fontFile, 'base64');
-						fontUrl = 'data:application/x-font-ttf;charset=utf-8;base64,' + dataUri;
+						var ttfDataUri = fs.readFileSync(ttfFontFile, 'base64');
+						ttfFontUrl = 'data:application/x-font-ttf;charset=utf-8;base64,' + ttfDataUri;
 						// Remove WOFF file
-						fs.unlinkSync(fontFile);
+						fs.unlinkSync(ttfFontFile);
 					}
 					else {
-						fontUrl = '"' + relativeFontPath + fontName + '.ttf"';
+						ttfFontUrl = '"' + relativeFontPath + ttfFontName + '.ttf"';
 					}
-					fontSrc2.push('url(' + fontUrl + ') format("truetype")');
+					fontSrc2.push('url(' + ttfFontUrl + ') format("truetype")');
 				}
 				if (has(types, 'svg')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
