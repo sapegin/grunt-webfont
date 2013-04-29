@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 		var htmlDemo = (stylesheet === 'css' ? (options.htmlDemo !== false) : false);
 		var styles = optionToArray(options.styles, 'font,icon');
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
-		var embed = options.embed === true;
+		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
 		var fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
 
 		var fontfaceStyles = has(styles, 'font');
@@ -144,13 +144,13 @@ module.exports = function(grunt) {
 				var fontSrc2 = [];
 				if (has(types, 'eot')) {
 					fontSrc1.push('url("' + relativeFontPath + fontName + '.eot")');
-					if (!embed) {
+					if (has(embed, "eot")) { // was !embed, but this does not make sense to me
 						fontSrc2.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
 					}
 				}
 				if (has(types, 'woff')) {
 					var fontUrl;
-					if (embed) {
+					if (has(embed, 'woff')) {
 						var fontFile = path.join(dest, fontName + '.woff');
 						// Convert to data:uri
 						var dataUri = fs.readFileSync(fontFile, 'base64');
@@ -164,7 +164,19 @@ module.exports = function(grunt) {
 					fontSrc2.push('url(' + fontUrl + ') format("woff")');
 				}
 				if (has(types, 'ttf')) {
-					fontSrc2.push('url("' + relativeFontPath + fontName + '.ttf") format("truetype")');
+					var ttfFontUrl;
+					if (has(embed, 'ttf')) {
+						var ttfFontFile = path.join(dest, fontName + '.ttf');
+						// Convert to data:uri
+						var ttfDataUri = fs.readFileSync(ttfFontFile, 'base64');
+						ttfFontUrl = 'data:application/x-font-ttf;charset=utf-8;base64,' + ttfDataUri;
+						// Remove WOFF file
+						fs.unlinkSync(ttfFontFile);
+					}
+					else {
+						ttfFontUrl = '"' + relativeFontPath + fontName + '.ttf"';
+					}
+					fontSrc2.push('url(' + ttfFontUrl + ') format("truetype")');
 				}
 				if (has(types, 'svg')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
