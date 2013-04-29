@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 		// @todo Check that source files are svg or eps
 		var files = this.filesSrc;
 		if (!files.length) {
-			grunt.warn('Source SVG or EPS files not found.');
+			grunt.log.writeln('Source SVG or EPS files not found.'.grey);
 			allDone();
 		}
 
