@@ -204,6 +204,13 @@ The LESS mixins then may be used like so:
 
 ## Release History
 
+### 2013-04-30 v0.1.3
+
+* HTML demo works with CSS preprocessors stylesheets.
+* TTF files embedding (by [@katzlbt](https://github.com/katzlbt) and me).
+* Don not stop Grunt when font contains no glyphs (by [@iham](https://github.com/iham)).
+* Better fontforge stdout handling (by [@MoOx](https://github.com/MoOx)).
+
 ### 2013-04-13 v0.1.2
 
 * `relativeFontPath` option (by [@gregvanbrug](https://github.com/gregvanbrug)).
