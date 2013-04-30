@@ -380,6 +380,40 @@ exports.webfont = {
 		test.ok(!fs.existsSync('test/tmp/disable_demo/icons.html'), 'HTML file not created.');
 
 		test.done();
+	},
+
+	non_css_demo: function(test) {
+		test.ok(!fs.existsSync('test/tmp/non_css_demo/icons.css'), 'CSS file not created.');
+		test.ok(fs.existsSync('test/tmp/non_css_demo/icons.html'), 'HTML file created.');
+
+		var html = grunt.file.read('test/tmp/non_css_demo/icons.html');
+
+		test.ok(
+			find(html, '@font-face {'),
+			'Font-face declaration exists in HTML.'
+		);
+
+		test.ok(
+			find(html, '.icon {'),
+			'Base icon exists in HTML.'
+		);
+
+		test.ok(
+			!find(html, 'url("../iamrelative/icons-'),
+			'Relative paths should not be in HTML.'
+		);
+
+		// Every SVG file should have corresponding entry in <style> block
+		var svgs = grunt.file.expand('test/src/**.*');
+		svgs.forEach(function(file) {
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(html, '.icon_' + id + ':before'),
+				'Icon ' + id + ' CSS shound be in HTML file.'
+			);
+		});
+
+		test.done();
 	}
 
 };

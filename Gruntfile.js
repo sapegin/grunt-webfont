@@ -117,6 +117,15 @@ module.exports = function(grunt) {
 				options: {
 					htmlDemo: false
 				}
+			},
+			non_css_demo: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/non_css_demo',
+				options: {
+					stylesheet: 'styl',
+					relativeFontPath: '../iamrelative',
+					htmlDemo: true
+				}
 			}
 		},
 		nodeunit: {

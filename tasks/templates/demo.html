@@ -50,7 +50,7 @@
 
 		<%= styles %>
 		</style>
-		<link rel="stylesheet" href="<%= fontBaseName %>.css">
+		<% if (plainCss) { %><link rel="stylesheet" href="<%= fontBaseName %>.css"><% } %>
 	</head>
 	<body>
 		<h1><%= fontBaseName %></h1>

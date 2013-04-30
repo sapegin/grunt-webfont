@@ -104,8 +104,6 @@ Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with C
 
 If `true`, an HTML file will be available in `destCSS` folder to test the render.
 
-If `stylesheet` is not `css`, will be set to false automatically.
-
 #### [embed] `string|array` (default: false)
 
 If `true` embeds WOFF (*only WOFF*) file as data:uri.

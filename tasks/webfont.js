@@ -48,7 +48,8 @@ module.exports = function(grunt) {
 		var template = options.template;
 		var syntax = options.syntax || 'bem';
 		var stylesheet = options.stylesheet || 'css';
-		var htmlDemo = (stylesheet === 'css' ? (options.htmlDemo !== false) : false);
+		var plainCss = stylesheet === 'css';
+		var htmlDemo = options.htmlDemo !== false;
 		var styles = optionToArray(options.styles, 'font,icon');
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
 		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
@@ -136,9 +137,7 @@ module.exports = function(grunt) {
 				if (!relativeFontPath) {
 					relativeFontPath = path.relative(destCss, dest);
 				}
-				if (relativeFontPath.length && relativeFontPath[relativeFontPath.length-1] !== '/') {
-					relativeFontPath += '/';
-				}
+				relativeFontPath = appendSlash(relativeFontPath);
 
 				var fontSrc1 = [];
 				var fontSrc2 = [];
@@ -178,7 +177,6 @@ module.exports = function(grunt) {
 				});
 
 				var cssContext = {
-					relativeFontPath: relativeFontPath,
 					fontBaseName: fontBaseName,
 					fontName: fontName,
 					fontSrc1: fontSrc1,
@@ -209,12 +207,17 @@ module.exports = function(grunt) {
 
 				// Demo HTML
 				if (htmlDemo) {
+					// HTML should not contain relative paths
 					// If some styles was not included in CSS we should include them in HTML to properly render icons
+					var htmlRelativeFontPath = appendSlash(path.relative(destCss, dest));
+					var relativeRe = new RegExp(relativeFontPath, 'g');
 					cssContext = _.extend(cssContext, {
-						fontfaceStyles: !fontfaceStyles,
-						baseStyles: !baseStyles,
+						fontSrc1: fontSrc1.replace(relativeRe, htmlRelativeFontPath),
+						fontSrc2: fontSrc2.replace(relativeRe, htmlRelativeFontPath),
+						fontfaceStyles: !fontfaceStyles || !plainCss,
+						baseStyles: !baseStyles || !plainCss,
 						extraStyles: false,
-						iconsStyles: false
+						iconsStyles: false || !plainCss
 					});
 					var htmlStyles = grunt.template.process(cssTemplate, {data: cssContext});
 
@@ -223,7 +226,8 @@ module.exports = function(grunt) {
 						glyphs: glyphs,
 						baseClass: syntax === 'bem' ? 'icon' : '',
 						classPrefix: 'icon' + (syntax === 'bem' ? '_' : '-'),
-						styles: htmlStyles
+						styles: htmlStyles,
+						plainCss: plainCss
 					};
 					var demoTemplateFile = path.join(__dirname, 'templates/demo.html');
 					var demoFile = path.join(destCss, fontBaseName + '.html');
@@ -271,6 +275,13 @@ module.exports = function(grunt) {
 		fs.unlinkSync(fontFile);
 
 		return fontUrl;
+	}
+
+	function appendSlash(filepath) {
+		if (filepath.length && filepath[filepath.length-1] !== '/') {
+			filepath += '/';
+		}
+		return filepath;
 	}
 
 };
