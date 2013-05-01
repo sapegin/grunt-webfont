@@ -113,14 +113,18 @@ module.exports = function(grunt) {
 						var notError = /\s?(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git|Warning: Font contained no glyphs)/;
 						var lines = (err && err.stderr || json.stderr).split('\n');
 						// write lines for verbose mode
+						var warn = '';
 						lines.forEach(function(line) {
 							if (!line.match(notError)) {
-								grunt.warn(line);
-								allDone();
+								warn += line + "\n";
 							} else {
 								grunt.log.writeln('fontforge output ignored: '.grey + line);
 							}
 						});
+						if (warn !== '') {
+							grunt.warn(warn);
+							allDone();
+						}
 					}
 
 					var result = JSON.parse(json.stdout);
