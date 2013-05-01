@@ -118,7 +118,7 @@ module.exports = function(grunt) {
 							if (!line.match(notError)) {
 								warn += line + "\n";
 							} else {
-								grunt.log.writeln('fontforge output ignored: '.grey + line);
+								grunt.verbose.writeln("fontforge output ignored: ".grey + line);
 							}
 						});
 						if (warn !== '') {
