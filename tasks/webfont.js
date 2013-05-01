@@ -34,6 +34,7 @@ module.exports = function(grunt) {
 		if (!files.length) {
 			grunt.log.writeln('Source SVG or EPS files not found.'.grey);
 			allDone();
+			return;
 		}
 
 		// @todo Check that all needed tools installed: fontforge, ttf2eot, ttfautohint, sfnt2woff
