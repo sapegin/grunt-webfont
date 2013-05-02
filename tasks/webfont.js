@@ -123,7 +123,7 @@ module.exports = function(grunt) {
 							}
 						});
 						if (warn.length) {
-							grunt.warn(warn.join("\n"));
+							grunt.warn(warn.join('\n'));
 							allDone();
 						}
 					}
