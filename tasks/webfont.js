@@ -51,7 +51,6 @@ module.exports = function(grunt) {
 		var stylesheet = options.stylesheet || 'css';
 		var plainCss = stylesheet === 'css';
 		var htmlDemo = options.htmlDemo !== false;
-		var htmlDemoTemplate = options.htmlDemoTemplate;
 		var styles = optionToArray(options.styles, 'font,icon');
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
 		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
@@ -235,9 +234,7 @@ module.exports = function(grunt) {
 						styles: htmlStyles,
 						plainCss: plainCss
 					};
-					var demoTemplateFile = htmlDemoTemplate
-						? htmlDemoTemplate
-						: path.join(__dirname, 'templates/demo.html');
+					var demoTemplateFile = options.htmlDemoTemplate || path.join(__dirname, 'templates/demo.html');
 					var demoFile = path.join(destCss, fontBaseName + '.html');
 					var demoTemplate = fs.readFileSync(demoTemplateFile, 'utf8');
 					var demo = grunt.template.process(demoTemplate, {data: htmlContext});
