@@ -234,7 +234,7 @@ module.exports = function(grunt) {
 						styles: htmlStyles,
 						plainCss: plainCss
 					};
-					var demoTemplateFile = path.join(__dirname, 'templates/demo.html');
+					var demoTemplateFile = options.htmlDemoTemplate || path.join(__dirname, 'templates/demo.html');
 					var demoFile = path.join(destCss, fontBaseName + '.html');
 					var demoTemplate = fs.readFileSync(demoTemplateFile, 'utf8');
 					var demo = grunt.template.process(demoTemplate, {data: htmlContext});

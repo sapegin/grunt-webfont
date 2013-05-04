@@ -254,6 +254,18 @@ exports.webfont = {
 		test.done();
 	},
 
+	htmlDemoTemplate: function(test) {
+		var demo = grunt.file.read('test/tmp/htmlDemoTemplate/icons.html');
+
+		// There should be comment from custom template
+		test.ok(
+			find(demo, 'Custom template'),
+			'Comment from custom template.'
+		);
+
+		test.done();
+	},
+
 	relative_path: function(test) {
 		var css = grunt.file.read('test/tmp/relative_path/icons.css');
 

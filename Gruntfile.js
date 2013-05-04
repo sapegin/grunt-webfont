@@ -70,6 +70,13 @@ module.exports = function(grunt) {
 					template: 'test/templates/template.css'
 				}
 			},
+			htmlDemoTemplate: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/htmlDemoTemplate',
+				options: {
+					htmlDemoTemplate: 'test/templates/template.html'
+				}
+			},
 			relative_path: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/relative_path',

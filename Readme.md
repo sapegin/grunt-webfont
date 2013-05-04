@@ -90,7 +90,7 @@ Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `boots
 
 #### [template] `string` (default: null)
 
-Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (HTML demo page probably will not work with custom templates.)
+Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (you can use the custom HTML demo page instead of the default one probably will not work with custom templates)
 
 #### [stylesheet] `string` (default: `'css'`)
 
@@ -103,6 +103,10 @@ Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with C
 #### [htmlDemo] `boolean` (default: `true`)
 
 If `true`, an HTML file will be available in `destCSS` folder to test the render.
+
+#### [htmlDemoTemplate] `string` (default: null)
+
+Custom demo HTML template path (see `tasks/templates/demo.html` for an example) (requires htmlDemo option to be true)
 
 #### [embed] `string|array` (default: false)
 
