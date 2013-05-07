@@ -133,6 +133,13 @@ module.exports = function(grunt) {
 					relativeFontPath: '../iamrelative',
 					htmlDemo: true
 				}
+			},
+			parent_source: {
+				src: '../grunt-webfont/test/src/*.svg',
+				dest: 'test/tmp/parent_source',
+				options: {
+					hashes: false
+				}
 			}
 		},
 		nodeunit: {

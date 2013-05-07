@@ -426,6 +426,21 @@ exports.webfont = {
 		});
 
 		test.done();
-	}
+	},
 
+	parent_source: function(test) {
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/parent_source/icons.css');
+
+		// Every SVG file should have corresponding entry in CSS file
+		svgs.forEach(function(file) {
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon_' + id + ':before'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+		});
+
+		test.done();
+	}
 };

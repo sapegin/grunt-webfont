@@ -81,7 +81,7 @@ module.exports = function(grunt) {
 			// Copy source files to temporary directory
 			function(done) {
 				async.forEach(files, function(file, next) {
-					grunt.file.copy(file, path.join(tempDir, file));
+					grunt.file.copy(file, path.join(tempDir, path.basename(file)));
 					next();
 				}, done);
 			},
