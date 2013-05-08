@@ -102,11 +102,15 @@ Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with C
 
 #### [htmlDemo] `boolean` (default: `true`)
 
-If `true`, an HTML file will be available in `destCSS` folder to test the render.
+If `true`, an HTML file will be available (by default, in `destCSS` folder) to test the render.
 
 #### [htmlDemoTemplate] `string` (default: null)
 
 Custom demo HTML template path (see `tasks/templates/demo.html` for an example) (requires `htmlDemo` option to be true).
+
+#### [destHtml] `string` (default: `dest` value)
+
+Custom demo HTML demo path (requires `htmlDemo` option to be true).
 
 #### [embed] `string|array` (default: false)
 
