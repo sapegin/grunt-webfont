@@ -208,6 +208,11 @@ The LESS mixins then may be used like so:
 
 ## Release History
 
+### 2013-05-08 v0.1.4
+
+* `htmlDemoTemplate` option (by [@andreu86](https://github.com/andreu86)).
+* Various bug fixes and tweaks (thanks [@MoOx](https://github.com/MoOx), [@iham](https://github.com/iham), [@timhettler](https://github.com/timhettler)).
+
 ### 2013-04-30 v0.1.3
 
 * HTML demo works with CSS preprocessors stylesheets.
