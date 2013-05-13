@@ -15,18 +15,18 @@ I love pull requests. And following this simple guidelines will make your pull r
 
 ## JavaScript code style
 
-- Tab indentation
-- Single-quotes
-- Semicolon
-- Strict mode
-- No trailing whitespace
-- Variables where needed
-- Multiple variable statements (*not sure, but want to try*)
-- Space after keywords and between arguments and operators
+- Tab indentation.
+- Single-quotes.
+- Semicolon.
+- Strict mode.
+- No trailing whitespace.
+- Variables where needed.
+- Multiple variable statements.
+- Space after keywords and between arguments and operators.
 - Use === and !== over == and !=.
-- Return early
-- Limit line lengths to 120 chars
-- Prefer readability over religion
+- Return early.
+- Limit line lengths to 120 chars.
+- Prefer readability over religion.
 
 Example:
 
