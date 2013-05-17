@@ -108,7 +108,7 @@ If `true`, an HTML file will be available (by default, in `destCSS` folder) to t
 
 Custom demo HTML template path (see `tasks/templates/demo.html` for an example) (requires `htmlDemo` option to be true).
 
-#### [destHtml] `string` (default: `dest` value)
+#### [destHtml] `string` (default: `destCss` value)
 
 Custom demo HTML demo path (requires `htmlDemo` option to be true).
 
