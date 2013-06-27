@@ -20,6 +20,10 @@ args = parser.parse_args()
 
 f = fontforge.font()
 f.encoding = 'UnicodeFull'
+f.design_size = 16
+f.em = 512
+f.ascent = 448
+f.descent = 64
 
 m = md5.new()
 cp = 0xf100
@@ -53,8 +57,9 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 			glyph = f.createChar(cp)
 			glyph.importOutlines(filePath)
 
-			glyph.left_side_bearing = KERNING
-			glyph.right_side_bearing = KERNING
+			# glyph.left_side_bearing = KERNING
+			# glyph.right_side_bearing = KERNING
+			glyph.width = 512
 
 			# possible optimization?
 			# glyph.simplify()
