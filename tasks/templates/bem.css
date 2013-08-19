@@ -14,15 +14,30 @@
 	font-style:normal;
 	speak:none;
 	-webkit-font-smoothing:antialiased;
+	text-rendering: optimizeLegibility;
 }
 <% } %>
 <% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .icon-<%= glyphs[glyphIdx] %> {
 	&:before {
+		<% if (ligatures) { %>
+		content:"<%= glyphs[glyphIdx] %>";
+		<% } else { %>
 		content:"\<%= (61696+glyphIdx).toString(16) %>";
+		<% } %>
 	}
 }<% } %><% } %>
+<% if (ligatures) { %>
+.ligature-icons {
+    text-rendering: optimizeLegibility;
+    font-family: "<%= fontBaseName %>";
+}
+<% } %>
 <% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .icon_<%= glyphs[glyphIdx] %>:before {
+	<% if (ligatures) { %>
+	content:"<%= glyphs[glyphIdx] %>";
+	<% } else { %>
 	content:"\<%= (61696+glyphIdx).toString(16) %>";
+	<% } %>
 }<% } %><% } %>

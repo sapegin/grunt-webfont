@@ -442,5 +442,21 @@ exports.webfont = {
 		});
 
 		test.done();
+	},
+	
+	ligatures: function(test) {
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/ligatures/icons.css');
+
+		// Every SVG file should have corresponding entry in CSS file
+		svgs.forEach(function(file) {
+			var name = path.basename(file, '.svg');
+			test.ok(
+				find(css, 'content:"'+name+'";'),
+				'Icon ' + name + ' shound be in CSS file.'
+			);
+		});
+
+		test.done();
 	}
 };
