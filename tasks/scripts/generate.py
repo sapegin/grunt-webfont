@@ -15,6 +15,7 @@ parser.add_argument('output_dir', metavar='directory', type=unicode, help='outpu
 parser.add_argument('font', metavar='font', type=unicode, help='font name')
 parser.add_argument('types', metavar='types', type=lambda s: s.split(','), help='output types')
 parser.add_argument('--hashes', action='store_true', help='add hashes to file names')
+parser.add_argument('--ligatures', action='store_true', help='add hashes to file names')
 args = parser.parse_args()
 
 
@@ -30,6 +31,15 @@ cp = 0xf100
 files = []
 
 KERNING = 15
+
+def empty_char(f, c):
+	pen = f.createChar(ord(c), c).glyphPen()
+	pen.moveTo((0,0))
+	pen = None
+
+if args.ligatures:
+	f.addLookup("liga", "gsub_ligature", (), (("liga",(("latn",("dflt")),)),))
+	f.addLookupSubtable("liga", "liga")
 
 for dirname, dirnames, filenames in os.walk(args.input_dir):
 	for filename in filenames:
@@ -54,7 +64,12 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 				svgfile.close()
 
 			m.update(filename + str(size) + ';')
-			glyph = f.createChar(cp)
+			if args.ligatures:
+				[empty_char(f,c) for c in name]
+				glyph = f.createChar(cp, name)
+				glyph.addPosSub("liga", tuple(name))
+			else:
+				glyph = f.createChar(cp)
 			glyph.importOutlines(filePath)
 
 			# glyph.left_side_bearing = KERNING
@@ -76,12 +91,20 @@ f.fontname = args.font
 f.familyname = args.font
 f.fullname = args.font
 
+if args.ligatures:
+	def generate(filename):
+		f.generate(filename, flags=("opentype"))
+else:
+	def generate(filename):
+		f.generate(filename)
+	
+
 # TTF
-f.generate(fontfile + '.ttf')
+generate(fontfile + '.ttf')
 
 # SVG
 if 'svg' in args.types:
-	f.generate(fontfile + '.svg')
+	generate(fontfile + '.svg')
 
 	# Fix SVG header for webkit (from: https://github.com/fontello/font-builder/blob/master/bin/fontconvert.py)
 	svgfile = open(fontfile + '.svg', 'r+')
@@ -94,7 +117,7 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 # WOFF
 if 'woff' in args.types:
-	call(['sfnt2woff', fontfile + '.ttf'])
+	generate(fontfile + ".woff")
 
 # EOT
 if 'eot' in args.types:
