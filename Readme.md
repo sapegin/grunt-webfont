@@ -128,6 +128,10 @@ If `true` task will not be ran. In example, you can skip task on Windows (becase
 skip: require('os').platform() === 'win32'
 ```
 
+#### [ligatures] `boolean` (default: `false`)
+If `true` the generated font files and stylesheets will be generated with opentype ligature features. The character sequences to be replaced by the ligatures are determined by the file name (without extension) of the original SVG or EPS.
+
+For example, a source glyph of "mailru.svg" would generate a ligature replacing the word "mailru" with the corresponding glyph.
 
 ### Config Examples
 
