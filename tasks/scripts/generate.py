@@ -15,7 +15,7 @@ parser.add_argument('output_dir', metavar='directory', type=unicode, help='outpu
 parser.add_argument('font', metavar='font', type=unicode, help='font name')
 parser.add_argument('types', metavar='types', type=lambda s: s.split(','), help='output types')
 parser.add_argument('--hashes', action='store_true', help='add hashes to file names')
-parser.add_argument('--ligatures', action='store_true', help='add hashes to file names')
+parser.add_argument('--ligatures', action='store_true', help='add opentype ligatures to generated font files')
 args = parser.parse_args()
 
 
@@ -38,8 +38,8 @@ def empty_char(f, c):
 	pen = None
 
 if args.ligatures:
-	f.addLookup("liga", "gsub_ligature", (), (("liga",(("latn",("dflt")),)),))
-	f.addLookupSubtable("liga", "liga")
+	f.addLookup('liga', 'gsub_ligature', (), (('liga',(('latn',('dflt')),)),))
+	f.addLookupSubtable('liga', 'liga')
 
 for dirname, dirnames, filenames in os.walk(args.input_dir):
 	for filename in filenames:
@@ -67,7 +67,7 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 			if args.ligatures:
 				[empty_char(f,c) for c in name]
 				glyph = f.createChar(cp, name)
-				glyph.addPosSub("liga", tuple(name))
+				glyph.addPosSub('liga', tuple(name))
 			else:
 				glyph = f.createChar(cp)
 			glyph.importOutlines(filePath)
@@ -93,7 +93,7 @@ f.fullname = args.font
 
 if args.ligatures:
 	def generate(filename):
-		f.generate(filename, flags=("opentype"))
+		f.generate(filename, flags=('opentype'))
 else:
 	def generate(filename):
 		f.generate(filename)
@@ -117,7 +117,7 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 # WOFF
 if 'woff' in args.types:
-	generate(fontfile + ".woff")
+	generate(fontfile + '.woff')
 
 # EOT
 if 'eot' in args.types:
