@@ -212,6 +212,10 @@ The LESS mixins then may be used like so:
 
 ## Release History
 
+### 2013-08-20 v0.1.6
+
+* Bug fixes.
+
 ### 2013-06-30 v0.1.5
 
 * `destHtml` option (by [@timhettler](https://github.com/timhettler)).
