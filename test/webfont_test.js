@@ -415,6 +415,11 @@ exports.webfont = {
 			'Relative paths should not be in HTML.'
 		);
 
+		test.ok(
+			!find(html, '&:before'),
+			'LESS mixins should not be in HTML.'
+		);
+
 		// Every SVG file should have corresponding entry in <style> block
 		var svgs = grunt.file.expand('test/src/**.*');
 		svgs.forEach(function(file) {

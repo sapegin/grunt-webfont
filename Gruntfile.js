@@ -129,7 +129,7 @@ module.exports = function(grunt) {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/non_css_demo',
 				options: {
-					stylesheet: 'styl',
+					stylesheet: 'less',
 					relativeFontPath: '../iamrelative',
 					htmlDemo: true
 				}

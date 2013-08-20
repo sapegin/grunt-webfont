@@ -49,7 +49,6 @@ module.exports = function(grunt) {
 		var template = options.template;
 		var syntax = options.syntax || 'bem';
 		var stylesheet = options.stylesheet || 'css';
-		var plainCss = stylesheet === 'css';
 		var htmlDemo = options.htmlDemo !== false;
 		var htmlDemoTemplate = options.htmlDemoTemplate;
 		var destHtml = options.destHtml || destCss;
@@ -221,10 +220,11 @@ module.exports = function(grunt) {
 					cssContext = _.extend(cssContext, {
 						fontSrc1: fontSrc1.replace(relativeRe, htmlRelativeFontPath),
 						fontSrc2: fontSrc2.replace(relativeRe, htmlRelativeFontPath),
-						fontfaceStyles: !fontfaceStyles || !plainCss,
-						baseStyles: !baseStyles || !plainCss,
+						fontfaceStyles: true,
+						baseStyles: true,
 						extraStyles: false,
-						iconsStyles: false || !plainCss
+						iconsStyles: true,
+						stylesheet: 'css'
 					});
 					var htmlStyles = grunt.template.process(cssTemplate, {data: cssContext});
 
@@ -233,8 +233,7 @@ module.exports = function(grunt) {
 						glyphs: glyphs,
 						baseClass: syntax === 'bem' ? 'icon' : '',
 						classPrefix: 'icon' + (syntax === 'bem' ? '_' : '-'),
-						styles: htmlStyles,
-						plainCss: plainCss
+						styles: htmlStyles
 					};
 
 					var demoTemplate = htmlDemoTemplate
