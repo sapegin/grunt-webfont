@@ -110,9 +110,11 @@ module.exports = function(grunt) {
 						grunt.warn('fontforge not found', code);
 					}
 					else if (err || json.stderr) {
-						// We skip some informations about the bin
-						// and the "No glyphs" warning because fontforge shows it when font contains only one glyph
-						var notError = /\s?(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git|Warning: Font contained no glyphs)/;
+						// Skip some fontforege output and the "No glyphs" warning because fontforge shows it when font
+						// contains only one glyph.
+						// @todo There is a problem with "No glyphs" check, because it could be in any language (#38).
+						//       Now we skip any warnings ("Warning" is always in English.) But we should find a better way.
+						var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git|Warning:)/;
 						var lines = (err && err.stderr || json.stderr).split('\n');
 						// write lines for verbose mode
 						var warn = [];
