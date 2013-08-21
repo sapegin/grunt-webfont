@@ -140,6 +140,14 @@ module.exports = function(grunt) {
 				options: {
 					hashes: false
 				}
+			},
+			ligatures: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/ligatures',
+				options: {
+					hashes: false,
+					ligatures: true
+				}
 			}
 		},
 		nodeunit: {

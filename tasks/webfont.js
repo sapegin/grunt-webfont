@@ -46,6 +46,7 @@ module.exports = function(grunt) {
 		var dest = params.dest;
 		var relativeFontPath = options.relativeFontPath;
 		var addHashes = options.hashes !== false;
+		var addLigatures = options.ligatures === true;
 		var template = options.template;
 		var syntax = options.syntax || 'bem';
 		var stylesheet = options.stylesheet || 'css';
@@ -99,6 +100,9 @@ module.exports = function(grunt) {
 				];
 				if (addHashes) {
 					args.push('--hashes');
+				}
+				if (addLigatures) {
+					args.push('--ligatures');
 				}
 
 				grunt.util.spawn({
@@ -174,7 +178,7 @@ module.exports = function(grunt) {
 					fontSrc2.push('url(' + ttfFontUrl + ') format("truetype")');
 				}
 				if (has(types, 'svg')) {
-					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#webfont") format("svg")');
+					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#'+fontBaseName+'") format("svg")');
 				}
 				fontSrc1 = fontSrc1.join(fontSrcSeparator);
 				fontSrc2 = fontSrc2.join(fontSrcSeparator);
@@ -195,7 +199,8 @@ module.exports = function(grunt) {
 					extraStyles: extraStyles,
 					stylesheet: stylesheet,
 					iconsStyles: true,
-					glyphs: glyphs
+					glyphs: glyphs,
+					ligatures: addLigatures
 				};
 
 				var cssTemplate = template
@@ -235,7 +240,8 @@ module.exports = function(grunt) {
 						glyphs: glyphs,
 						baseClass: syntax === 'bem' ? 'icon' : '',
 						classPrefix: 'icon' + (syntax === 'bem' ? '_' : '-'),
-						styles: htmlStyles
+						styles: htmlStyles,
+						ligatures: addLigatures
 					};
 
 					var demoTemplate = htmlDemoTemplate
