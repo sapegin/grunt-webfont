@@ -215,6 +215,10 @@ The LESS mixins then may be used like so:
 
 ## Release History
 
+### 2013-08-21 v0.1.8
+
+* Set glyphs width automatically.
+
 ### 2013-08-21 v0.1.7
 
 * Ligatures (by [@prehnRA](https://github.com/prehnRA)).
