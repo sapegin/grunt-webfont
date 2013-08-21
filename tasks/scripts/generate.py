@@ -72,16 +72,13 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 				glyph = f.createChar(cp)
 			glyph.importOutlines(filePath)
 
-			# glyph.left_side_bearing = KERNING
-			# glyph.right_side_bearing = KERNING
-			glyph.width = 512
-
-			# possible optimization?
-			# glyph.simplify()
-			# glyph.round()
+			glyph.left_side_bearing = glyph.right_side_bearing = 0
+			glyph.round()
 
 			files.append(name)
 			cp += 1
+
+		f.autoWidth(0, 0, 512)
 
 fontfile = args.output_dir + '/' + args.font
 if args.hashes:
@@ -97,7 +94,7 @@ if args.ligatures:
 else:
 	def generate(filename):
 		f.generate(filename)
-	
+
 
 # TTF
 generate(fontfile + '.ttf')
