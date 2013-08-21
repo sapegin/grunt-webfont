@@ -8,36 +8,26 @@
 	font-style:normal;
 }
 <% } %>
-<% if (baseStyles) { %>.icon {
+<% if (baseStyles) { %>.icon<% if (ligatures) { %>,
+.ligature-icons<% } %> {
 	font-family:"<%= fontBaseName %>";
 	display:inline-block;
+	font-weight:normal;
 	font-style:normal;
 	speak:none;
+	text-decoration:inherit;
+	text-transform:none;
+	text-rendering:optimizeLegibility;
 	-webkit-font-smoothing:antialiased;
-	text-rendering: optimizeLegibility;
 }
 <% } %>
 <% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .icon-<%= glyphs[glyphIdx] %> {
 	&:before {
-		<% if (ligatures) { %>
-		content:"<%= glyphs[glyphIdx] %>";
-		<% } else { %>
-		content:"\<%= (61696+glyphIdx).toString(16) %>";
-		<% } %>
+		content:"<% if (ligatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 	}
 }<% } %><% } %>
-<% if (ligatures) { %>
-.ligature-icons {
-    text-rendering: optimizeLegibility;
-    font-family: "<%= fontBaseName %>";
-}
-<% } %>
 <% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .icon_<%= glyphs[glyphIdx] %>:before {
-	<% if (ligatures) { %>
-	content:"<%= glyphs[glyphIdx] %>";
-	<% } else { %>
-	content:"\<%= (61696+glyphIdx).toString(16) %>";
-	<% } %>
+	content:"<% if (ligatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 }<% } %><% } %>

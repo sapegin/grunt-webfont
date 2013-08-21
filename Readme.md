@@ -12,6 +12,7 @@ This task will make all you need to use font-face icon on your website: font in 
 * BEM or Bootstrap output CSS style.
 * CSS preprocessors support.
 * Data:uri embedding.
+* Ligatures.
 * HTML preview.
 
 
@@ -23,7 +24,6 @@ This plugin requires Grunt 0.4.
 
 ```
 brew install fontforge ttfautohint
-brew install https://raw.github.com/sapegin/grunt-webfont/master/Formula/sfnt2woff.rb
 npm install grunt-webfont --save-dev
 ```
 
@@ -32,9 +32,7 @@ You may need to use `sudo` for `brew`, depending on your setup.
 ### Linux
 
 ```
-sudo apt-get install fontforge eot-utils ttfautohint
-wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip
-unzip woff-code-latest.zip -d sfnt2woff && cd sfnt2woff && make && sudo mv sfnt2woff /usr/local/bin/
+sudo apt-get install fontforge ttfautohint
 npm install grunt-webfont --save-dev
 ```
 
@@ -120,6 +118,12 @@ IF `ttf` or `woff` or `ttf,woff` embeds TTF or/and WOFF file.
 
 If there’re more file types in `types` option they will be included as usual `url(font.type)` CSS links.
 
+#### [ligatures] `boolean` (default: `false`)
+
+If `true` the generated font files and stylesheets will be generated with opentype ligature features. The character sequences to be replaced by the ligatures are determined by the file name (without extension) of the original SVG or EPS.
+
+For example, you have a heart icon in `love.svg` file. The HTML `<h1>I <span class="ligature-icons">love</span> you!</h1>` will be rendered as `I ♥ you!`.
+
 #### [skip] `boolean` (default: `false`)
 
 If `true` task will not be ran. In example, you can skip task on Windows (becase of difficult installation):
@@ -127,11 +131,6 @@ If `true` task will not be ran. In example, you can skip task on Windows (becase
 ``` javascript
 skip: require('os').platform() === 'win32'
 ```
-
-#### [ligatures] `boolean` (default: `false`)
-If `true` the generated font files and stylesheets will be generated with opentype ligature features. The character sequences to be replaced by the ligatures are determined by the file name (without extension) of the original SVG or EPS.
-
-For example, a source glyph of "mailru.svg" would generate a ligature replacing the word "mailru" with the corresponding glyph.
 
 ### Config Examples
 
@@ -215,6 +214,10 @@ The LESS mixins then may be used like so:
 
 
 ## Release History
+
+### 2013-08-21 v0.1.7
+
+* Ligatures (by [@prehnRA](https://github.com/prehnRA)).
 
 ### 2013-08-20 v0.1.6
 
