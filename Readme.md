@@ -33,7 +33,7 @@ If you require Sass stylesheets:
 
 ```
 gem install sass
-``
+```
 
 ### Linux
 
