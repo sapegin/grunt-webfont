@@ -105,7 +105,7 @@ Custom CSS template path (see `tasks/templates` for some examples). Should be us
 
 #### [stylesheet] `string` (default: `'css'`)
 
-Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial). When using `sass` it is required to have sass installed
+Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial). When using `sass` it is required to have sass installed.
 
 #### [relativeFontPath] `string` (default: null)
 
