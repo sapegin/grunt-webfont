@@ -29,7 +29,7 @@ npm install grunt-webfont --save-dev
 
 You may need to use `sudo` for `brew`, depending on your setup.
 
-If you require sass stylesheets:
+If you require Sass stylesheets:
 
 ```
 gem install sass
@@ -50,7 +50,7 @@ If you require Sass stylesheets:
 sudo apt-get install ruby-full build-essential
 sudo apt-get install rubygems
 sudo gem install sass
-```
+``
 
 ## Configuration
 

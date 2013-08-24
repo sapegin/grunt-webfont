@@ -222,19 +222,16 @@ module.exports = function(grunt) {
                 // convert scss to sass
                 if (options.stylesheet === 'sass') {
                     var sassFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
-                    var args = [
-                        cssFile,
-                        sassFile
-                    ];
+
                     grunt.util.spawn({
                         cmd: 'sass-convert',
                         args: [cssFile, sassFile]
                     }, function(error, result, code){
                         if (error){
-                            grunt.log.errorlns('Please install Sass and run the script again. Error code = ' + code)
+                            grunt.log.errorlns('Please install Sass and run the script again. Error code = ' + code);
                         }
                     });
-                };
+                }
 
 				// Demo HTML
 				if (htmlDemo) {
