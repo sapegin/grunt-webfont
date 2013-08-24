@@ -29,6 +29,12 @@ npm install grunt-webfont --save-dev
 
 You may need to use `sudo` for `brew`, depending on your setup.
 
+If you require Sass stylesheets:
+
+```
+gem install sass
+```
+
 ### Linux
 
 ```
@@ -38,6 +44,13 @@ npm install grunt-webfont --save-dev
 
 *Note that if `ttfautohint` is not available in your distribution, your generated font will not be properly hinted.*
 
+If you require Sass stylesheets:
+
+```
+sudo apt-get install ruby-full build-essential
+sudo apt-get install rubygems
+sudo gem install sass
+``
 
 ## Configuration
 
@@ -92,7 +105,7 @@ Custom CSS template path (see `tasks/templates` for some examples). Should be us
 
 #### [stylesheet] `string` (default: `'css'`)
 
-Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
+Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial). When using `sass` it is required to have sass installed.
 
 #### [relativeFontPath] `string` (default: null)
 
