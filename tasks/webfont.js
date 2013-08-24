@@ -228,7 +228,8 @@ module.exports = function(grunt) {
                         args: [cssFile, sassFile]
                     }, function(error, result, code){
                         if (error){
-                            grunt.log.errorlns('Please install Sass and run the script again. Error code = ' + code);
+                            grunt.log.errorlns('Please install Sass and run the script again. Error code = ' + code + ". Falling back to scss.");
+                            grunt.file.write(sassFile, css);
                         }
                     });
                 }
