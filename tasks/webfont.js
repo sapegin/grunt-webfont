@@ -207,7 +207,8 @@ module.exports = function(grunt) {
 					? grunt.file.read(template)
 					: fs.readFileSync(path.join(__dirname, 'templates/' + syntax + '.css'), 'utf8');
 				var cssFilePrefix = (stylesheet === 'sass' || stylesheet === 'scss' ) ? '_' : '';
-				var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
+                var extension = (stylesheet === 'sass') ? 'scss' : stylesheet; // if sass is the wanted stylesheet, generate scss, conversion to sass is done afterward
+                var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + extension);
 
 				var css = grunt.template.process(cssTemplate, {data: cssContext});
 
@@ -217,6 +218,23 @@ module.exports = function(grunt) {
 				}
 
 				grunt.file.write(cssFile, css);
+
+                // convert scss to sass
+                if (options.stylesheet === 'sass') {
+                    var sassFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
+                    var args = [
+                        cssFile,
+                        sassFile
+                    ];
+                    grunt.util.spawn({
+                        cmd: 'sass-convert',
+                        args: [cssFile, sassFile]
+                    }, function(error, result, code){
+                        if (error){
+                            grunt.log.errorlns('Please install Sass and run the script again. Error code = ' + code)
+                        }
+                    });
+                };
 
 				// Demo HTML
 				if (htmlDemo) {
