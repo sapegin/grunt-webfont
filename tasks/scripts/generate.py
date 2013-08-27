@@ -32,13 +32,15 @@ files = []
 
 KERNING = 15
 
+
 def empty_char(f, c):
 	pen = f.createChar(ord(c), c).glyphPen()
-	pen.moveTo((0,0))
+	pen.moveTo((0, 0))
 	pen = None
 
+
 if args.ligatures:
-	f.addLookup('liga', 'gsub_ligature', (), (('liga',(('latn',('dflt')),)),))
+	f.addLookup('liga', 'gsub_ligature', (), (('liga', (('latn', ('dflt')), )), ))
 	f.addLookupSubtable('liga', 'liga')
 
 for dirname, dirnames, filenames in os.walk(args.input_dir):
@@ -65,7 +67,7 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 
 			m.update(filename + str(size) + ';')
 			if args.ligatures:
-				[empty_char(f,c) for c in name]
+				[empty_char(f, c) for c in name]
 				glyph = f.createChar(cp, name)
 				glyph.addPosSub('liga', tuple(name))
 			else:
