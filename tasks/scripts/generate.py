@@ -3,7 +3,7 @@
 import fontforge
 import os
 import argparse
-import md5
+import hashlib
 import json
 from subprocess import call
 from distutils.spawn import find_executable
@@ -26,7 +26,7 @@ f.em = 512
 f.ascent = 448
 f.descent = 64
 
-m = md5.new()
+m = hashlib.md5()
 cp = 0xf100
 files = []
 
