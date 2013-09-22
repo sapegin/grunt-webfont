@@ -215,6 +215,12 @@ The LESS mixins then may be used like so:
 
 ## Release History
 
+### 2013-09-22 v0.1.9
+
+* Fix handling pathes with spaces.
+* Font smoothing for Firefox on OS X (by [@MoOx](https://github.com/MoOx)).
+* Deprecated `md5` Pyhton module replaced with `hashlib` (by [@Nyalab](https://github.com/Nyalab)).
+
 ### 2013-08-21 v0.1.8
 
 * Set glyphs width automatically.
