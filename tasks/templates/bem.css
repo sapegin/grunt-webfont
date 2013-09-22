@@ -19,6 +19,7 @@
 	text-transform:none;
 	text-rendering:optimizeLegibility;
 	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
 }
 <% } %>
 <% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
