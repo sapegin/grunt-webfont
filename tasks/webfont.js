@@ -1,7 +1,7 @@
 /**
  * SVG to webfont converter for Grunt
  *
- * @requires fontforge, ttf2eot, ttfautohint, sfnt2woff
+ * @requires fontforge, ttfautohint, eotlitetool.py
  * @author Artem Sapegin (http://sapegin.me)
  */
 
