@@ -5,6 +5,8 @@ var path = require('path');
 module.exports = function(grunt) {
 	'use strict';
 
+	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
 	grunt.initConfig({
 		webfont: {
 			test1: {
@@ -179,16 +181,15 @@ module.exports = function(grunt) {
 				undef: true
 			}
 		},
+		jscs: {
+			basicddd: ['tasks/*.js']
+		},
 		clean: ['test/tmp']
 	});
 
 	grunt.loadTasks('tasks');
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-nodeunit');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-
-	grunt.registerTask('default', ['clean', 'webfont', 'nodeunit', 'jshint', 'clean']);
+	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit', 'clean']);
 	grunt.registerTask('build', ['default']);
 
 };

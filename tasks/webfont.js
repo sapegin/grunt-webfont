@@ -16,8 +16,8 @@ module.exports = function(grunt) {
 	var _ = grunt.util._;
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
-		this.requiresConfig([ this.name, this.target, 'src' ].join('.'));
-		this.requiresConfig([ this.name, this.target, 'dest' ].join('.'));
+		this.requiresConfig([this.name, this.target, 'src'].join('.'));
+		this.requiresConfig([this.name, this.target, 'dest'].join('.'));
 
 		var allDone = this.async();
 		var params = this.data;
@@ -126,7 +126,8 @@ module.exports = function(grunt) {
 						lines.forEach(function(line) {
 							if (!line.match(notError)) {
 								warn.push(line);
-							} else {
+							}
+							else {
 								grunt.verbose.writeln("fontforge output ignored: ".grey + line);
 							}
 						});

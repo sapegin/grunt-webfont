@@ -1,0 +1,21 @@
+{
+	"requireCurlyBraces": ["for", "while", "do"],
+	"requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return"],
+	"requireSpacesInFunctionExpression": { "beforeOpeningCurlyBrace": true },
+	"disallowSpacesInFunctionExpression": { "beforeOpeningRoundBrace": true },
+	"disallowMultipleVarDecl": true,
+	"disallowSpacesInsideArrayBrackets": true,
+	"disallowSpaceAfterObjectKeys": true,
+	"disallowLeftStickedOperators": ["?", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+	"requireRightStickedOperators": ["!"],
+	"disallowRightStickedOperators": ["?", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+	"requireLeftStickedOperators": [","],
+	"requireKeywordsOnNewLine": ["else"],
+	"requireLineFeedAtFileEnd": true,
+	"validateJSDoc": {
+		"checkParamNames": true,
+		"checkRedundantParams": true,
+		"requireParamTypes": true
+	},
+	"excludeFiles": ["node_modules/**"]
+}
