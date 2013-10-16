@@ -133,7 +133,8 @@ For example you can group your icons into several folders and add folder name to
 ```js
 options: {
 	rename: function(name) {
-		return [path.basename(path.dirname(name)), path.basename(name)].join('-');  // .icon_entypo-add, .icon_fontawesome-add, etc.
+		// .icon_entypo-add, .icon_fontawesome-add, etc.
+		return [path.basename(path.dirname(name)), path.basename(name)].join('-');
 	}
 }
 ```
@@ -228,6 +229,11 @@ The LESS mixins then may be used like so:
 
 
 ## Release History
+
+### 2013-10-16 v0.1.10
+
+* `rename` option.
+* Quote Base64 strings to prevent errors in Stylus.
 
 ### 2013-09-22 v0.1.9
 
