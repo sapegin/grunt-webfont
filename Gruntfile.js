@@ -1,4 +1,7 @@
 /*jshint node:true*/
+
+var path = require('path');
+
 module.exports = function(grunt) {
 	'use strict';
 
@@ -147,6 +150,16 @@ module.exports = function(grunt) {
 				options: {
 					hashes: false,
 					ligatures: true
+				}
+			},
+			duplicate_names: {
+				src: '../grunt-webfont/test/src_duplicate_names/**/*.svg',
+				dest: 'test/tmp/duplicate_names',
+				options: {
+					hashes: false,
+					rename: function(name) {
+						return [path.basename(path.dirname(name)), path.basename(name)].join('-');
+					}
 				}
 			}
 		},

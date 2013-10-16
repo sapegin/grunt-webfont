@@ -448,7 +448,7 @@ exports.webfont = {
 
 		test.done();
 	},
-	
+
 	ligatures: function(test) {
 		var svgs = grunt.file.expand('test/src/**.*');
 		var css = grunt.file.read('test/tmp/ligatures/icons.css');
@@ -463,5 +463,22 @@ exports.webfont = {
 		});
 
 		test.done();
+	},
+
+	duplicate_names: function(test) {
+		var svgs = grunt.file.expand('test/src_duplicate_names/**/*.svg');
+		var css = grunt.file.read('test/tmp/duplicate_names/icons.css');
+
+		// Every SVG file should have corresponding entry in CSS file
+		svgs.forEach(function(file) {
+			var id = [path.basename(path.dirname(file)), path.basename(file, '.svg')].join('-');
+			test.ok(
+				find(css, '.icon_' + id + ':before'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+		});
+
+		test.done();
 	}
+
 };

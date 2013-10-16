@@ -57,6 +57,7 @@ module.exports = function(grunt) {
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
 		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
 		var fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
+		var rename = options.rename || path.basename;
 
 		var fontfaceStyles = has(styles, 'font');
 		var baseStyles = has(styles, 'icon');
@@ -83,7 +84,7 @@ module.exports = function(grunt) {
 			// Copy source files to temporary directory
 			function(done) {
 				async.forEach(files, function(file, next) {
-					grunt.file.copy(file, path.join(tempDir, path.basename(file)));
+					grunt.file.copy(file, path.join(tempDir, rename(file)));
 					next();
 				}, done);
 			},
