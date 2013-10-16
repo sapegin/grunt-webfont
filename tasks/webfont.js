@@ -163,9 +163,9 @@ module.exports = function(grunt) {
 						woffFontUrl = embedFont(path.join(dest, fontName + '.woff'));
 					}
 					else {
-						woffFontUrl = '"' + relativeFontPath + fontName + '.woff"';
+						woffFontUrl = relativeFontPath + fontName + '.woff';
 					}
-					fontSrc2.push('url(' + woffFontUrl + ') format("woff")');
+					fontSrc2.push('url("' + woffFontUrl + '") format("woff")');
 				}
 				if (has(types, 'ttf')) {
 					var ttfFontUrl;
@@ -173,9 +173,9 @@ module.exports = function(grunt) {
 						ttfFontUrl = embedFont(path.join(dest, fontName + '.ttf'));
 					}
 					else {
-						ttfFontUrl = '"' + relativeFontPath + fontName + '.ttf"';
+						ttfFontUrl = relativeFontPath + fontName + '.ttf';
 					}
-					fontSrc2.push('url(' + ttfFontUrl + ') format("truetype")');
+					fontSrc2.push('url("' + ttfFontUrl + '") format("truetype")');
 				}
 				if (has(types, 'svg')) {
 					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#'+fontBaseName+'") format("svg")');
