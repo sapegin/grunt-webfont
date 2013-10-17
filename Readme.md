@@ -52,65 +52,94 @@ Inside your `Gruntfile.js` file add a section named `webfont`. See Parameters se
 
 ### Parameters
 
-#### src `string|array`
+#### src
+
+Type: `string|array`
 
 Glyphs list: SVG or EPS. String or array. Wildcards are supported.
 
-#### dest `string`
+#### dest
+
+Type: `string`
 
 Directory for resulting files.
 
-#### [destCss] `string` (default: `dest` value)
+#### destCss
+
+Type: `string` Default: _`dest` value_
 
 Directory for resulting CSS files (if different than font directory).
 
 #### Options
 
-#### [font] `string` (default: `'icons'`)
+#### font
 
+Type: `string`
 Name of font and base name of font files.
 
-#### [hashes] `boolean` (default: `true`)
+#### hashes
+
+Type: `boolean` Default: `true`
 
 Append font file names with unique string to flush browser cache when you update your icons.
 
-#### [styles] `string|array` (default: `'font,icon'`)
+#### styles
+
+Type: `string|array` Default: `'font,icon'`
 
 List of styles to be added to CSS files: `font` (`font-face` declaration), `icon` (base `.icon` class), `extra` (extra stuff for Bootstrap (only for `syntax` = `'bootstrap'`).
 
-#### [types] `string|array` (default: `'woff,ttf,eot,svg'`)
+#### types
+
+Type: `string|array` Default: `'woff,ttf,eot,svg'`
 
 Font files types to generate.
 
-#### [syntax] `string` (default: `'bem'`)
+#### syntax
+
+Type: `string` Default: `bem`
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
 
-#### [template] `string` (default: null)
+#### template
+
+Type: `string` Default: `null`
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
 
-#### [stylesheet] `string` (default: `'css'`)
+#### stylesheet  (default: `'css'`)
+
+Type: `string`
 
 Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
 
-#### [relativeFontPath] `string` (default: null)
+#### relativeFontPath  (default: null)
+
+Type: `string`
 
 Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with CSS preprocessors.
 
-#### [htmlDemo] `boolean` (default: `true`)
+#### htmlDemo
+
+Type: `boolean` Default: `true`
 
 If `true`, an HTML file will be available (by default, in `destCSS` folder) to test the render.
 
-#### [htmlDemoTemplate] `string` (default: null)
+#### htmlDemoTemplate
+
+Type: `string` Default: `null`
 
 Custom demo HTML template path (see `tasks/templates/demo.html` for an example) (requires `htmlDemo` option to be true).
 
-#### [destHtml] `string` (default: `destCss` value)
+#### destHtml
+
+Type: `string` Default: _`destCss` value_
 
 Custom demo HTML demo path (requires `htmlDemo` option to be true).
 
-#### [embed] `string|array` (default: false)
+#### embed
+
+Type: `string|array` Default: `false`
 
 If `true` embeds WOFF (*only WOFF*) file as data:uri.
 
@@ -118,13 +147,17 @@ IF `ttf` or `woff` or `ttf,woff` embeds TTF or/and WOFF file.
 
 If there’re more file types in `types` option they will be included as usual `url(font.type)` CSS links.
 
-#### [ligatures] `boolean` (default: `false`)
+#### ligatures
+
+Type: `boolean` Default: `false`
 
 If `true` the generated font files and stylesheets will be generated with opentype ligature features. The character sequences to be replaced by the ligatures are determined by the file name (without extension) of the original SVG or EPS.
 
 For example, you have a heart icon in `love.svg` file. The HTML `<h1>I <span class="ligature-icons">love</span> you!</h1>` will be rendered as `I ♥ you!`.
 
-#### [rename] `function` (default: `path.basename`)
+#### rename
+
+Type: `function` Default: `path.basename`
 
 You can use this function to change how file names translates to class names (the part after `icon_` or `icon-`). By default it’s a name of a file.
 
@@ -132,14 +165,16 @@ For example you can group your icons into several folders and add folder name to
 
 ```js
 options: {
-	rename: function(name) {
-		// .icon_entypo-add, .icon_fontawesome-add, etc.
-		return [path.basename(path.dirname(name)), path.basename(name)].join('-');
-	}
+  rename: function(name) {
+    // .icon_entypo-add, .icon_fontawesome-add, etc.
+    return [path.basename(path.dirname(name)), path.basename(name)].join('-');
+  }
 }
 ```
 
-#### [skip] `boolean` (default: `false`)
+#### skip
+
+Type: `boolean` Default: `false`
 
 If `true` task will not be ran. In example, you can skip task on Windows (becase of difficult installation):
 
@@ -169,7 +204,7 @@ webfont: {
     dest: 'build/fonts',
     destCss: 'build/fonts/css'
     options: {
-    	font: 'ponies'
+      font: 'ponies'
     }
   }
 }
@@ -184,8 +219,8 @@ webfont: {
     dest: 'build/fonts',
     destCss: 'build/styles',
     options: {
-    	stylesheet: 'styl',
-    	relativeFontPath: '/build/fonts'
+      stylesheet: 'styl',
+      relativeFontPath: '/build/fonts'
     }
   }
 }
@@ -199,8 +234,8 @@ webfont: {
     src: 'icons/*.svg',
     dest: 'build/fonts',
     options: {
-    	types: 'woff',
-    	embed: true
+      types: 'woff',
+      embed: true
     }
   }
 }
@@ -223,7 +258,7 @@ The LESS mixins then may be used like so:
 
 ```css
 .profile-button {
-	.icon-profile;
+  .icon-profile;
 }
 ```
 
