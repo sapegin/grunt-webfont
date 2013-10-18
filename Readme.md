@@ -74,7 +74,7 @@ Directory for resulting CSS files (if different than font directory).
 
 #### font
 
-Type: `string`
+Type: `string` Default: `icons`
 Name of font and base name of font files.
 
 #### hashes
