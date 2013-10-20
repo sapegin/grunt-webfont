@@ -243,21 +243,25 @@ module.exports = function(grunt) {
 						baseClass: (function() {
 							if (syntax === 'bem') {
 								return 'icon';
-							} else if (syntax === 'suit') {
+							}
+							else if (syntax === 'suit') {
 								return 'Icon';
-							} else {
+							}
+							else {
 								return '';
 							}
 						}()),
 						classPrefix: (function() {
 							if (syntax === 'bem') {
 								return 'icon_';
-							} else if (syntax === 'suit') {
+							}
+							else if (syntax === 'suit') {
 								return 'Icon--';
-							} else {
+							}
+							else {
 								return '-';
 							}
-						}())'icon' + (syntax === 'bem' ? '_' : '-'),
+						}()),
 						styles: htmlStyles,
 						ligatures: addLigatures
 					};
