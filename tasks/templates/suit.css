@@ -7,7 +7,7 @@
 }
 <% } %>
 <% if (baseStyles) { %>.Icon<% if (ligatures) { %>,
-.LigatureIcons<% } %> {
+.LigatureIcon<% } %> {
   font-family:"<%= fontBaseName %>";
   display:inline-block;
   font-weight:normal;
