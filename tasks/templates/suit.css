@@ -1,0 +1,32 @@
+<% if (fontfaceStyles) { %>@font-face {
+  font-family:"<%= fontBaseName %>";<% if (eot) { %>
+  src:<%= fontSrc1 %>;<% }%>
+  src:<%= fontSrc2 %>;
+  font-weight:normal;
+  font-style:normal;
+}
+<% } %>
+<% if (baseStyles) { %>.Icon<% if (ligatures) { %>,
+.LigatureIcons<% } %> {
+  font-family:"<%= fontBaseName %>";
+  display:inline-block;
+  font-weight:normal;
+  font-style:normal;
+  speak:none;
+  text-decoration:inherit;
+  text-transform:none;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+<% } %>
+<% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+.Icon--<%= glyphs[glyphIdx] %> {
+        &:before {
+                content:"<% if (ligatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+        }
+}<% } %><% } %>
+<% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+.Icon--<%= glyphs[glyphIdx] %>:before {
+  content:"<% if (ligatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+}<% } %><% } %>
