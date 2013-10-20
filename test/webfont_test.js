@@ -116,7 +116,7 @@ exports.webfont = {
 				'Icon ' + id + ' shound be in CSS file.'
 			);
 			test.ok(
-				find(html, '<div class="icons__item" data-name="' + id + '"><i class=" icon-' + id + '"></i> icon-' + id + '</div>'),
+				find(html, '<div class="icons__item" data-name="' + id + '">'),
 				'Icon ' + id + ' shound be in HTML file.'
 			);
 		});
