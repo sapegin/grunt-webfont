@@ -101,6 +101,11 @@ else:
 # TTF
 generate(fontfile + '.ttf')
 
+# Hint the TTF file
+# ttfautohint is optional
+if find_executable('ttfautohint'):
+	call("ttfautohint -s -n '" + fontfile + ".ttf' '" + fontfile + "-hinted.ttf' && mv '" + fontfile + "-hinted.ttf' '" + fontfile + ".ttf'", shell=True)
+
 # SVG
 if 'svg' in args.types:
 	generate(fontfile + '.svg')
@@ -124,12 +129,8 @@ if 'eot' in args.types:
 	call("python '" + scriptPath + "/eotlitetool.py' '" + fontfile + ".ttf' -o '" + fontfile + ".eot'", shell=True)
 	call("mv '" + fontfile + ".eotlite' '" + fontfile + ".eot'", shell=True)
 
-# Hint the TTF file or delete it if not needed
-# ttfautohint is optional
-if 'ttf' in args.types:
-	if find_executable('ttfautohint'):
-		call("ttfautohint -s -n '" + fontfile + ".ttf' '" + fontfile + "-hinted.ttf' && mv '" + fontfile + "-hinted.ttf' '" + fontfile + ".ttf'", shell=True)
-else:
+# Delete TTF if not needed
+if not 'ttf' in args.types:
 	os.remove(fontfile + '.ttf')
 
 print json.dumps({'file': fontfile, 'names': files})
