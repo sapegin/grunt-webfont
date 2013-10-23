@@ -36,9 +36,9 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-nodeunit": "~0.2.1",
+    "grunt-contrib-nodeunit": "~0.2.2",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-jscs-checker": "~0.2.0",
+    "grunt-jscs-checker": "~0.2.2",
     "stylus": "~0.38.0",
     "matchdep": "~0.3.0"
   },
