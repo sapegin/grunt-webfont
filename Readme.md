@@ -265,6 +265,10 @@ The LESS mixins then may be used like so:
 
 ## Release History
 
+### 2013-10-23 v0.1.11
+
+* Autohint for all formats (by [@borodean](https://github.com/borodean)).
+
 ### 2013-10-16 v0.1.10
 
 * `rename` option.
