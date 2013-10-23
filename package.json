@@ -7,6 +7,9 @@
     "name": "Artem Sapegin",
     "url": "http://sapegin.me/"
   },
+  "contributors": [
+    "Maxime Thirouin (http://moox.io/)"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/sapegin/grunt-webfont.git"
