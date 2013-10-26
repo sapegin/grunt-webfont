@@ -241,7 +241,6 @@ webfont: {
 }
 ```
 
-
 ## CSS Preprocessors Caveats
 
 You can change CSS file syntax using `stylesheet` option (see above). It change file extension (so you can specify any) with some tweaks. Replace all comments with single line comments (which will be removed after compilation).
@@ -262,74 +261,9 @@ The LESS mixins then may be used like so:
 }
 ```
 
+## Changelog
 
-## Release History
-
-### 2013-10-23 v0.1.11
-
-* Autohint for all formats (by [@borodean](https://github.com/borodean)).
-
-### 2013-10-16 v0.1.10
-
-* `rename` option.
-* Quote Base64 strings to prevent errors in Stylus.
-
-### 2013-09-22 v0.1.9
-
-* Fix handling pathes with spaces.
-* Font smoothing for Firefox on OS X (by [@MoOx](https://github.com/MoOx)).
-* Deprecated `md5` Pyhton module replaced with `hashlib` (by [@Nyalab](https://github.com/Nyalab)).
-
-### 2013-08-21 v0.1.8
-
-* Set glyphs width automatically.
-
-### 2013-08-21 v0.1.7
-
-* Ligatures (by [@prehnRA](https://github.com/prehnRA)).
-
-### 2013-08-20 v0.1.6
-
-* Bug fixes.
-
-### 2013-06-30 v0.1.5
-
-* `destHtml` option (by [@timhettler](https://github.com/timhettler)).
-* Improved kerning (by [@frekw](https://github.com/frekw)).
-
-### 2013-05-08 v0.1.4
-
-* `htmlDemoTemplate` option (by [@andreu86](https://github.com/andreu86)).
-* Various bug fixes and tweaks (thanks [@MoOx](https://github.com/MoOx), [@iham](https://github.com/iham), [@timhettler](https://github.com/timhettler)).
-
-### 2013-04-30 v0.1.3
-
-* HTML demo works with CSS preprocessors stylesheets.
-* TTF files embedding (by [@katzlbt](https://github.com/katzlbt) and me).
-* Don not stop Grunt when font contains no glyphs (by [@iham](https://github.com/iham)).
-* Better fontforge stdout handling (by [@MoOx](https://github.com/MoOx)).
-
-### 2013-04-13 v0.1.2
-
-* `relativeFontPath` option (by [@gregvanbrug](https://github.com/gregvanbrug)).
-* `template` option.
-* Better LESS support (by [@gregvanbrug](https://github.com/gregvanbrug)).
-* Better Stylus support.
-* Bug fixes.
-
-### 2013-03-17 v0.1.1
-
-* Fix error when generating font with one glyph.
-
-### 2013-02-18 v0.1.0
-
-* Grunt 0.4 support.
-* Separate CSS/font destinations (by [@scanieso](https://github.com/scanieso)).
-* Minimal CSS preprocessors support (by [@MoOx](https://github.com/MoOx)).
-* Updated generator script (by [@MoOx](https://github.com/MoOx) and me).
-* Generated CSS not include broken links to font files.
-* Data:uri WOFF files embedding.
-
+The changelog can be found in the `CHANGELOG.md` file.
 
 ---
 
