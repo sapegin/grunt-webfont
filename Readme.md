@@ -107,15 +107,15 @@ Type: `string` Default: `null`
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
 
-#### stylesheet  (default: `'css'`)
+#### stylesheet
 
-Type: `string`
+Type: `string` Default: `'css'`
 
 Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
 
-#### relativeFontPath  (default: null)
+#### relativeFontPath
 
-Type: `string`
+Type: `string` Default: `null`
 
 Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with CSS preprocessors.
 
