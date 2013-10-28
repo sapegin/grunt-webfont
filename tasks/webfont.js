@@ -210,10 +210,13 @@ module.exports = function(grunt) {
 				fontSrc1 = fontSrc1.join(fontSrcSeparator);
 				fontSrc2 = fontSrc2.join(fontSrcSeparator);
 
+				var cssTemplate = readTemplate(template, syntax, '.css');
+				var templateJson = JSON.parse(readTemplate(template, syntax, '.json'));
+				var cssFilePrefix = cssFilePrefixes[stylesheet] || '';
+				var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
+
 				// Prepage glyph names to use as CSS classes
-				glyphs = _.map(glyphs, function(name) {
-					return name.replace(/ /g, '-');
-				});
+				glyphs = _.map(glyphs, _.dasherize);
 
 				var cssContext = {
 					fontBaseName: fontBaseName,
@@ -228,11 +231,6 @@ module.exports = function(grunt) {
 					glyphs: glyphs,
 					ligatures: addLigatures
 				};
-
-				var cssTemplate = readTemplate(template, syntax, '.css');
-				var templateJson = JSON.parse(readTemplate(template, syntax, '.json'));
-				var cssFilePrefix = cssFilePrefixes[stylesheet] || '';
-				var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
 
 				var css = grunt.template.process(cssTemplate, {data: cssContext});
 
