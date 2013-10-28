@@ -15,6 +15,50 @@ module.exports = function(grunt) {
 	var async = grunt.util.async;
 	var _ = grunt.util._;
 
+
+	// @font-face’s src values generation rules
+	var fontsSrcs = {
+		eot: [
+			{
+				ext: '.eot'
+			},
+			{
+				ext: '.eot?#iefix',
+				format: 'embedded-opentype'
+			}
+		],
+		woff: [
+			false,
+			{
+				ext: '.woff',
+				format: 'woff',
+				embeddable: true
+			},
+		],
+		ttf: [
+			false,
+			{
+				ext: '.ttf',
+				format: 'truetype',
+				embeddable: true
+			},
+		],
+		svg: [
+			false,
+			{
+				ext: '.svg?#{fontBaseName}',
+				format: 'svg'
+			},
+		]
+	};
+
+	// CSS fileaname prefixes: _icons.scss
+	var cssFilePrefixes = {
+		sass: '_',
+		scss: '_'
+	};
+
+
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
 		this.requiresConfig([this.name, this.target, 'src'].join('.'));
 		this.requiresConfig([this.name, this.target, 'dest'].join('.'));
@@ -55,6 +99,7 @@ module.exports = function(grunt) {
 		var destHtml = options.destHtml || destCss;
 		var styles = optionToArray(options.styles, 'font,icon');
 		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
+		var order = optionToArray(options.order, 'eot,woff,ttf,svg');
 		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
 		var fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
 		var rename = options.rename || path.basename;
@@ -153,35 +198,15 @@ module.exports = function(grunt) {
 				}
 				relativeFontPath = appendSlash(relativeFontPath);
 
+				// Generate @font-face’s `src` values
 				var fontSrc1 = [];
 				var fontSrc2 = [];
-				if (has(types, 'eot')) {
-					fontSrc1.push('url("' + relativeFontPath + fontName + '.eot")');
-					fontSrc2.push('url("' + relativeFontPath + fontName + '.eot?#iefix") format("embedded-opentype")');
-				}
-				if (has(types, 'woff')) {
-					var woffFontUrl;
-					if (has(embed, 'woff')) {
-						woffFontUrl = embedFont(path.join(dest, fontName + '.woff'));
-					}
-					else {
-						woffFontUrl = relativeFontPath + fontName + '.woff';
-					}
-					fontSrc2.push('url("' + woffFontUrl + '") format("woff")');
-				}
-				if (has(types, 'ttf')) {
-					var ttfFontUrl;
-					if (has(embed, 'ttf')) {
-						ttfFontUrl = embedFont(path.join(dest, fontName + '.ttf'));
-					}
-					else {
-						ttfFontUrl = relativeFontPath + fontName + '.ttf';
-					}
-					fontSrc2.push('url("' + ttfFontUrl + '") format("truetype")');
-				}
-				if (has(types, 'svg')) {
-					fontSrc2.push('url("' + relativeFontPath + fontName + '.svg?#'+fontBaseName+'") format("svg")');
-				}
+				order.forEach(function(type) {
+					if (!has(types, type)) return;
+					var font = fontsSrcs[type];
+					if (font[0]) fontSrc1.push(generateFontSrc(type, font[0]));
+					if (font[1]) fontSrc2.push(generateFontSrc(type, font[1]));
+				});
 				fontSrc1 = fontSrc1.join(fontSrcSeparator);
 				fontSrc2 = fontSrc2.join(fontSrcSeparator);
 
@@ -195,7 +220,6 @@ module.exports = function(grunt) {
 					fontName: fontName,
 					fontSrc1: fontSrc1,
 					fontSrc2: fontSrc2,
-					eot: has(types, 'eot'),
 					fontfaceStyles: fontfaceStyles,
 					baseStyles: baseStyles,
 					extraStyles: extraStyles,
@@ -205,10 +229,9 @@ module.exports = function(grunt) {
 					ligatures: addLigatures
 				};
 
-				var cssTemplate = template
-					? grunt.file.read(template)
-					: fs.readFileSync(path.join(__dirname, 'templates/' + syntax + '.css'), 'utf8');
-				var cssFilePrefix = (stylesheet === 'sass' || stylesheet === 'scss' ) ? '_' : '';
+				var cssTemplate = readTemplate(template, syntax, '.css');
+				var templateJson = JSON.parse(readTemplate(template, syntax, '.json'));
+				var cssFilePrefix = cssFilePrefixes[stylesheet] || '';
 				var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
 
 				var css = grunt.template.process(cssTemplate, {data: cssContext});
@@ -222,35 +245,7 @@ module.exports = function(grunt) {
 
 				// Demo HTML
 				if (htmlDemo) {
-					// HTML should not contain relative paths
-					// If some styles was not included in CSS we should include them in HTML to properly render icons
-					var htmlRelativeFontPath = appendSlash(path.relative(destCss, dest));
-					var relativeRe = new RegExp(relativeFontPath, 'g');
-					cssContext = _.extend(cssContext, {
-						fontSrc1: fontSrc1.replace(relativeRe, htmlRelativeFontPath),
-						fontSrc2: fontSrc2.replace(relativeRe, htmlRelativeFontPath),
-						fontfaceStyles: true,
-						baseStyles: true,
-						extraStyles: false,
-						iconsStyles: true,
-						stylesheet: 'css'
-					});
-					var htmlStyles = grunt.template.process(cssTemplate, {data: cssContext});
-
-					var htmlContext = _.extend(cssContext, {
-						baseClass: syntax === 'bem' ? 'icon' : '',
-						classPrefix: 'icon' + (syntax === 'bem' ? '_' : '-'),
-						styles: htmlStyles
-					});
-
-					var demoTemplate = htmlDemoTemplate
-						? grunt.file.read(htmlDemoTemplate)
-						: fs.readFileSync(path.join(__dirname, 'templates/demo.html'), 'utf8');
-					var demoFile = path.join(destHtml, fontBaseName + '.html');
-
-					var demo = grunt.template.process(demoTemplate, {data: htmlContext});
-
-					grunt.file.write(demoFile, demo);
+					generateDemoHtml(cssContext, cssTemplate, templateJson, fontSrc1, fontSrc2);
 				}
 
 				done();
@@ -264,41 +259,97 @@ module.exports = function(grunt) {
 
 		], allDone);
 
+
+		function generateDemoHtml(baseContext, cssTemplate, templateJson, fontSrc1, fontSrc2) {
+			// HTML should not contain relative paths
+			// If some styles was not included in CSS we should include them in HTML to properly render icons
+			var htmlRelativeFontPath = appendSlash(path.relative(destCss, dest));
+			var relativeRe = new RegExp(relativeFontPath, 'g');
+			var context = _.extend(baseContext, {
+				fontSrc1: fontSrc1.replace(relativeRe, htmlRelativeFontPath),
+				fontSrc2: fontSrc2.replace(relativeRe, htmlRelativeFontPath),
+				fontfaceStyles: true,
+				baseStyles: true,
+				extraStyles: false,
+				iconsStyles: true,
+				stylesheet: 'css'
+			});
+			var htmlStyles = grunt.template.process(cssTemplate, {data: context});
+
+			var htmlContext = _.extend(context, {
+				baseClass: templateJson.baseClass,
+				classPrefix: templateJson.classPrefix,
+				styles: htmlStyles
+			});
+
+			var demoTemplate = readTemplate(htmlDemoTemplate, 'demo', '.html');
+			var demoFile = path.join(destHtml, fontBaseName + '.html');
+
+			var demo = grunt.template.process(demoTemplate, {data: htmlContext});
+
+			grunt.file.write(demoFile, demo);
+		}
+
+		function optionToArray(val, defVal) {
+			if (val === undefined) val = defVal;
+			if (!val) return [];
+			if (typeof val !== 'string') return val;
+			if (val.indexOf(',') !== -1) {
+				return val.split(',');
+			}
+			else {
+				return [val];
+			}
+		}
+
+		function has(haystack, needle) {
+			return haystack.indexOf(needle) !== -1;
+		}
+
+		// Convert font file to data:uri and *remove* source file.
+		function embedFont(fontFile) {
+			// Convert to data:uri
+			var dataUri = fs.readFileSync(fontFile, 'base64');
+			var type = path.extname(fontFile).substring(1);
+			var fontUrl = 'data:application/x-font-' + type + ';charset=utf-8;base64,' + dataUri;
+			// Remove WOFF file
+			fs.unlinkSync(fontFile);
+
+			return fontUrl;
+		}
+
+		function appendSlash(filepath) {
+			if (filepath.length && filepath[filepath.length-1] !== '/') {
+				filepath += '/';
+			}
+			return filepath;
+		}
+
+		function generateFontSrc(type, font) {
+			var filename = (fontName + font.ext).replace('{fontBaseName}', fontBaseName);
+
+			var url;
+			if (font.embeddable && has(embed, type)) {
+				url = embedFont(path.join(dest, filename));
+			}
+			else {
+				url = relativeFontPath + filename;
+			}
+
+			var src = 'url("' + url + '")';
+			if (font.format) src += ' format("' + font.format + '")';
+
+			return src;
+		}
+
+		function readTemplate(template, syntax, ext) {
+			if (template) {
+				return grunt.file.read(template.replace(/\.css$/, ext));
+			}
+			else {
+				return fs.readFileSync(path.join(__dirname, 'templates/' + syntax + ext), 'utf8');
+			}
+		}
+
 	});
-
-	function optionToArray(val, defVal) {
-		if (val === undefined) val = defVal;
-		if (!val) return [];
-		if (typeof val !== 'string') return val;
-		if (val.indexOf(',') !== -1) {
-			return val.split(',');
-		}
-		else {
-			return [val];
-		}
-	}
-
-	function has(haystack, needle) {
-		return haystack.indexOf(needle) !== -1;
-	}
-
-	// Convert font file to data:uri and *remove* source file.
-	function embedFont(fontFile) {
-		// Convert to data:uri
-		var dataUri = fs.readFileSync(fontFile, 'base64');
-		var type = path.extname(fontFile).substring(1);
-		var fontUrl = 'data:application/x-font-' + type + ';charset=utf-8;base64,' + dataUri;
-		// Remove WOFF file
-		fs.unlinkSync(fontFile);
-
-		return fontUrl;
-	}
-
-	function appendSlash(filepath) {
-		if (filepath.length && filepath[filepath.length-1] !== '/') {
-			filepath += '/';
-		}
-		return filepath;
-	}
-
 };

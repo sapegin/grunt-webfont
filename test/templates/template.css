@@ -1,7 +1,7 @@
 /* Custom template */
 
 <% if (fontfaceStyles) { %>@font-face {
-	font-family:"<%= fontBaseName %>";<% if (eot) { %>
+	font-family:"<%= fontBaseName %>";<% if (fontSrc1) { %>
 	src: <%= fontSrc1 %>;<% }%>
 	src: <%= fontSrc2 %>;
 	font-weight:normal;
