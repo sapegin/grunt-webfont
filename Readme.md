@@ -263,7 +263,7 @@ The LESS mixins then may be used like so:
 
 ## Changelog
 
-The changelog can be found in the `CHANGELOG.md` file.
+The changelog can be found in the `Changelog.md` file.
 
 ---
 
