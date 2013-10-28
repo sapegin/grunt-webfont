@@ -237,14 +237,11 @@ module.exports = function(grunt) {
 					});
 					var htmlStyles = grunt.template.process(cssTemplate, {data: cssContext});
 
-					var htmlContext = {
-						fontBaseName: fontBaseName,
-						glyphs: glyphs,
+					var htmlContext = _.extend(cssContext, {
 						baseClass: syntax === 'bem' ? 'icon' : '',
 						classPrefix: 'icon' + (syntax === 'bem' ? '_' : '-'),
-						styles: htmlStyles,
-						ligatures: addLigatures
-					};
+						styles: htmlStyles
+					});
 
 					var demoTemplate = htmlDemoTemplate
 						? grunt.file.read(htmlDemoTemplate)
