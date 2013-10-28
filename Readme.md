@@ -9,7 +9,7 @@ This task will make all you need to use font-face icon on your website: font in 
 * Very flexible.
 * Semantic: uses [Unicode private use area](http://bit.ly/ZnkwaT).
 * [Cross-browser](http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax/): IE8+.
-* BEM or Bootstrap output CSS style.
+* BEM, Bootstrap or SUIT output CSS style.
 * CSS preprocessors support.
 * Data:uri embedding.
 * Ligatures.
@@ -99,7 +99,7 @@ Font files types to generate.
 
 Type: `string` Default: `bem`
 
-Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
+Icon classes syntax. `bem` for double class names: `icon icon_awesome`, `bootstrap` for single class names: `icon-awesome`, `suit` for [SUIT](https://github.com/suitcss/suit) structured class names: `Icon Icon--awesome`.
 
 #### template
 
