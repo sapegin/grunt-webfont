@@ -10,9 +10,9 @@ from distutils.spawn import find_executable
 
 
 parser = argparse.ArgumentParser(description='Convert a directory of SVG and EPS files into a unified font file.')
-parser.add_argument('input_dir', metavar='directory', type=unicode, help='directory of vector files')
-parser.add_argument('output_dir', metavar='directory', type=unicode, help='output directory')
-parser.add_argument('font', metavar='font', type=unicode, help='font name')
+parser.add_argument('input_dir', metavar='directory', type=str, help='directory of vector files')
+parser.add_argument('output_dir', metavar='directory', type=str, help='output directory')
+parser.add_argument('font', metavar='font', type=str, help='font name')
 parser.add_argument('types', metavar='types', type=lambda s: s.split(','), help='output types')
 parser.add_argument('--hashes', action='store_true', help='add hashes to file names')
 parser.add_argument('--ligatures', action='store_true', help='add opentype ligatures to generated font files')
@@ -127,11 +127,10 @@ if 'woff' in args.types:
 # EOT
 if 'eot' in args.types:
 	# eotlitetool.py script to generate IE7-compatible .eot fonts
-	call("python '" + scriptPath + "/eotlitetool.py' '" + fontfile + ".ttf' -o '" + fontfile + ".eot'", shell=True)
-	call("mv '" + fontfile + ".eotlite' '" + fontfile + ".eot'", shell=True)
+	call("python '" + scriptPath + "/eotlitetool.py' '" + fontfile + ".ttf' --output '" + fontfile + ".eot'", shell=True)
 
 # Delete TTF if not needed
 if not 'ttf' in args.types:
 	os.remove(fontfile + '.ttf')
 
-print json.dumps({'file': fontfile, 'names': files})
+print(json.dumps({'file': fontfile, 'names': files}))
