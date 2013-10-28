@@ -4,7 +4,7 @@
 
 * Scripts should work on Python 3 now.
 * Custom HTML demo template receives CSS options (by [@andreu86](https://github.com/andreu86)).
-* HTML demo improvements (by [@mrzmyr](https://github.com/mrzmyr)).
+* Readme improvements (by [@mrzmyr](https://github.com/mrzmyr)).
 
 ### 2013-10-23 v0.1.11
 
