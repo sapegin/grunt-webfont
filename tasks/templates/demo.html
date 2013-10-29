@@ -5,16 +5,21 @@
 		<title><%= fontBaseName %></title>
 		<style>
 		body {
+			margin:0;
+			padding:10px 20px;
 			background:#fff;
 			color:#222;
 			}
 		h1, div, footer {
-			font-family:'Helvetica Neue', Arial, sans-serif;
+			font-family:"Helvetica Neue", Arial, sans-serif;
 			}
 		h1 {
-			font-size:18px;
+			margin:0 0 20px;
+			font-size:32px;
+			font-weight:normal;
 			}
 		.icons {
+			margin-bottom:40px;
 			-webkit-column-count:5;
 			   -moz-column-count:5;
 			        column-count:5;
@@ -28,7 +33,7 @@
 			cursor:pointer;
 			}
 		.icons__item:hover {
-			color:#800;
+			color:#3c90be;
 			}
 		.icons__item i {
 			display:inline-block;
@@ -37,13 +42,10 @@
 			}
 		.icons__item:hover i {
 			-webkit-transform:scale(1.5);
-			   -moz-transform:scale(1.5);
-			    -ms-transform:scale(1.5);
-			     -o-transform:scale(1.5);
 			        transform:scale(1.5);
 			}
 		footer {
-			margin-top:2em;
+			margin-top:40px;
 			font-size:14px;
 			color:#999;
 			}
