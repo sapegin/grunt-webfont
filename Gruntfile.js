@@ -191,7 +191,7 @@ module.exports = function(grunt) {
 			}
 		},
 		jscs: {
-			basicddd: ['tasks/*.js']
+			all: ['tasks/*.js']
 		},
 		clean: ['test/tmp']
 	});
