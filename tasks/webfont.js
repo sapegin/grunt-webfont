@@ -15,6 +15,7 @@ module.exports = function(grunt) {
 	var async = grunt.util.async;
 	var _ = grunt.util._;
 
+	var COMMAND_NOT_FOUND = 127;
 
 	// @font-face’s src values generation rules
 	var fontsSrcsMap = {
@@ -73,8 +74,9 @@ module.exports = function(grunt) {
 
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
-		this.requiresConfig([this.name, this.target, 'src'].join('.'));
-		this.requiresConfig([this.name, this.target, 'dest'].join('.'));
+		['src', 'dest'].forEach(function(name) {
+			this.requiresConfig([this.name, this.target, name].join('.'));
+		}.bind(this));
 
 		var allDone = this.async();
 		var params = this.data;
@@ -151,8 +153,8 @@ module.exports = function(grunt) {
 
 		// Clean output directory
 		function cleanOutputDir(done) {
-			var files = grunt.file.expand(path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}'))
-				.concat(generatedFontFiles());
+			var htmlDemoFileMask = path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}');
+			var files = grunt.file.expand(htmlDemoFileMask).concat(generatedFontFiles());
 			async.forEach(files, function(file, next) {
 				fs.unlink(file, next);
 			}, done);
@@ -188,7 +190,7 @@ module.exports = function(grunt) {
 				cmd: 'fontforge',
 				args: args
 			}, function(err, json, code) {
-				if (code === 127) {
+				if (code === COMMAND_NOT_FOUND) {
 					grunt.log.errorlns('Please install fontforge and all other requirements.');
 					grunt.warn('fontforge not found', code);
 				}
@@ -198,7 +200,7 @@ module.exports = function(grunt) {
 					var success = !!generatedFontFiles();
 					var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git)/;
 					var lines = (err && err.stderr || json.stderr).split('\n');
-					// Write lines for verbose mode
+
 					var warn = [];
 					lines.forEach(function(line) {
 						if (!line.match(notError) && !success) {
@@ -208,6 +210,7 @@ module.exports = function(grunt) {
 							grunt.verbose.writeln("fontforge: ".grey + line);
 						}
 					});
+
 					if (warn.length) {
 						grunt.warn(warn.join('\n'));
 						allDone();
@@ -224,14 +227,14 @@ module.exports = function(grunt) {
 
 		// Generate CSS
 		function generateStylesheet(done) {
+			// Relative fonts path
 			if (!o.relativeFontPath) {
 				o.relativeFontPath = path.relative(o.destCss, o.dest);
 			}
 			o.relativeFontPath = appendSlash(o.relativeFontPath);
 
-			// Generate @font-face’s `src` values
+			// Generate font URLs to use in @font-face
 			var fontSrcs = [[], []];
-			var fontSrcSeparator = option(fontSrcSeparators, o.stylesheet);
 			o.order.forEach(function(type) {
 				if (!has(o.types, type)) return;
 				fontsSrcsMap[type].forEach(function(font, idx) {
@@ -240,15 +243,18 @@ module.exports = function(grunt) {
 					}
 				});
 			});
-			fontSrcs = _.map(fontSrcs, function(font) {
-				return font.join(fontSrcSeparator);
+
+			// Convert them to strings that could be used in CSS
+			var fontSrcSeparator = option(fontSrcSeparators, o.stylesheet);
+			fontSrcs.forEach(function(font, idx) {
+				// o.fontSrc1, o.fontSrc2
+				o['fontSrc'+(idx+1)] = font.join(fontSrcSeparator);
 			});
-			o.fontSrc1 = fontSrcs[0];
-			o.fontSrc2 = fontSrcs[1];
 
 			// Prepage glyph names to use as CSS classes
 			o.glyphs = _.map(o.glyphs, _.dasherize);
 
+			// Generate CSS
 			o.cssTemplate = readTemplate(o.template, o.syntax, '.css');
 			var cssFilePrefix = option(cssFilePrefixes, o.stylesheet);
 			var cssFile = path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
@@ -262,6 +268,7 @@ module.exports = function(grunt) {
 				css = css.replace(/\/\* *(.*?) *\*\//g, '// $1');
 			}
 
+			// Save file
 			grunt.file.write(cssFile, css);
 
 			done();
@@ -273,8 +280,8 @@ module.exports = function(grunt) {
 
 			// HTML should not contain relative paths
 			// If some styles was not included in CSS we should include them in HTML to properly render icons
-			var htmlRelativeFontPath = appendSlash(path.relative(o.destCss, o.dest));
 			var relativeRe = new RegExp(o.relativeFontPath, 'g');
+			var htmlRelativeFontPath = appendSlash(path.relative(o.destCss, o.dest));
 			var context = _.extend(o, {
 				fontSrc1: o.fontSrc1.replace(relativeRe, htmlRelativeFontPath),
 				fontSrc2: o.fontSrc2.replace(relativeRe, htmlRelativeFontPath),
@@ -284,20 +291,21 @@ module.exports = function(grunt) {
 				iconsStyles: true,
 				stylesheet: 'css'
 			});
-
 			var htmlStyles = grunt.template.process(o.cssTemplate, {data: context});
 			var htmlContext = _.extend(context, {
 				styles: htmlStyles
 			});
 
+			// Read JSON file corresponding to CSS template with values for HTML template
 			var templateJson = readTemplate(o.template, o.syntax, '.json');
 			if (templateJson) htmlContext = _.extend(htmlContext, JSON.parse(templateJson));
 
+			// Generate HTML
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
 			var demoFile = path.join(o.destHtml, o.fontBaseName + '.html');
-
 			var demo = grunt.template.process(demoTemplate, {data: htmlContext});
 
+			// Save file
 			grunt.file.write(demoFile, demo);
 
 			done();
@@ -359,7 +367,7 @@ module.exports = function(grunt) {
 			return filepath;
 		}
 
-		// Generate @font-face’s src value
+		// Generate URL for @font-face
 		function generateFontSrc(type, font) {
 			var filename = template(o.fontName + font.ext, o);
 
