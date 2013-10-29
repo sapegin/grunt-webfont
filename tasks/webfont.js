@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
 
 	// @font-face’s src values generation rules
-	var fontsSrcs = {
+	var fontsSrcsMap = {
 		eot: [
 			{
 				ext: '.eot'
@@ -54,8 +54,15 @@ module.exports = function(grunt) {
 
 	// CSS fileaname prefixes: _icons.scss
 	var cssFilePrefixes = {
+		_default: '',
 		sass: '_',
 		scss: '_'
+	};
+
+	//
+	var fontSrcSeparators = {
+		_default: ',\n\t\t',
+		styl: ', '
 	};
 
 
@@ -81,212 +88,226 @@ module.exports = function(grunt) {
 			return;
 		}
 
-		// @todo Check that all needed tools installed: fontforge, ttf2eot, ttfautohint, sfnt2woff
+		// @todo Check that all needed tools installed: fontforge, ttfautohint
 
 		// Options
-		var fontBaseName = options.font || 'icons';
-		var fontName = fontBaseName;
-		var destCss = params.destCss || params.dest;
-		var dest = params.dest;
-		var relativeFontPath = options.relativeFontPath;
-		var addHashes = options.hashes !== false;
-		var addLigatures = options.ligatures === true;
-		var template = options.template;
-		var syntax = options.syntax || 'bem';
-		var stylesheet = options.stylesheet || 'css';
-		var htmlDemo = options.htmlDemo !== false;
-		var htmlDemoTemplate = options.htmlDemoTemplate;
-		var destHtml = options.destHtml || destCss;
-		var styles = optionToArray(options.styles, 'font,icon');
-		var types = optionToArray(options.types, 'woff,ttf,eot,svg');
-		var order = optionToArray(options.order, 'eot,woff,ttf,svg');
-		var embed = options.embed === true ? ['woff'] : optionToArray(options.embed, false);
-		var fontSrcSeparator = stylesheet === 'styl' ? ', ' : ',\n\t\t';
-		var rename = options.rename || path.basename;
+		var o = {
+			fontBaseName: options.font || 'icons',
+			destCss: params.destCss || params.dest,
+			dest: params.dest,
+			relativeFontPath: options.relativeFontPath,
+			addHashes: options.hashes !== false,
+			addLigatures: options.ligatures === true,
+			template: options.template,
+			syntax: options.syntax || 'bem',
+			stylesheet: options.stylesheet || 'css',
+			htmlDemo: options.htmlDemo !== false,
+			htmlDemoTemplate: options.htmlDemoTemplate,
+			styles: optionToArray(options.styles, 'font,icon'),
+			types: optionToArray(options.types, 'woff,ttf,eot,svg'),
+			order: optionToArray(options.order, 'eot,woff,ttf,svg'),
+			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
+			rename: options.rename || path.basename
+		};
 
-		var fontfaceStyles = has(styles, 'font');
-		var baseStyles = has(styles, 'icon');
-		var extraStyles = has(styles, 'extra');
+		o = _.extend(o, {
+			fontName: o.fontBaseName,
+			destHtml: options.destHtml || o.destCss,
+			fontfaceStyles: has(o.styles, 'font'),
+			baseStyles: has(o.styles, 'icon'),
+			extraStyles: has(o.styles, 'extra'),
+			files: files,
+			glyphs: []
+		});
 
-		var glyphs = [];
-
-		// Create output directory
-		grunt.file.mkdir(destCss);
-		grunt.file.mkdir(dest);
-
-		// Clean output directory
-		grunt.file.expand(path.join(destCss, fontBaseName + '*.{' + stylesheet + ',html}'))
-			.concat(grunt.file.expand(path.join(dest, fontBaseName + '*.{woff,ttf,eot,svg}')))
-			.forEach(function(file) {
-				fs.unlinkSync(file);
-			});
-
-		// Create temporary directory
-		var tempDir = temp.mkdirSync();
-
+		// Run!
 		async.waterfall([
-
-			// Copy source files to temporary directory
-			function(done) {
-				async.forEach(files, function(file, next) {
-					grunt.file.copy(file, path.join(tempDir, rename(file)));
-					next();
-				}, done);
-			},
-
-			// Run Fontforge
-			function(done) {
-				var args = [
-					'-script',
-					path.join(__dirname, 'scripts/generate.py'),
-					tempDir,
-					dest,
-					fontBaseName,
-					types.join(',')
-				];
-				if (addHashes) {
-					args.push('--hashes');
-				}
-				if (addLigatures) {
-					args.push('--ligatures');
-				}
-
-				grunt.util.spawn({
-					cmd: 'fontforge',
-					args: args
-				}, function(err, json, code) {
-					if (code === 127) {
-						grunt.log.errorlns('Please install fontforge and all other requirements.');
-						grunt.warn('fontforge not found', code);
-					}
-					else if (err || json.stderr) {
-						// Skip some fontforege output and the "No glyphs" warning because fontforge shows it when font
-						// contains only one glyph.
-						// @todo There is a problem with "No glyphs" check, because it could be in any language (#38).
-						//       Now we skip any warnings ("Warning" is always in English.) But we should find a better way.
-						var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git|Warning:)/;
-						var lines = (err && err.stderr || json.stderr).split('\n');
-						// write lines for verbose mode
-						var warn = [];
-						lines.forEach(function(line) {
-							if (!line.match(notError)) {
-								warn.push(line);
-							}
-							else {
-								grunt.verbose.writeln("fontforge output ignored: ".grey + line);
-							}
-						});
-						if (warn.length) {
-							grunt.warn(warn.join('\n'));
-							allDone();
-						}
-					}
-
-					var result = JSON.parse(json.stdout);
-					fontName = path.basename(result.file);
-					glyphs = result.names;
-
-					done();
-				});
-			},
-
-			// Write CSS and HTML
-			function(done) {
-				// CSS
-				if (!relativeFontPath) {
-					relativeFontPath = path.relative(destCss, dest);
-				}
-				relativeFontPath = appendSlash(relativeFontPath);
-
-				// Generate @font-face’s `src` values
-				var fontSrc1 = [];
-				var fontSrc2 = [];
-				order.forEach(function(type) {
-					if (!has(types, type)) return;
-					var font = fontsSrcs[type];
-					if (font[0]) fontSrc1.push(generateFontSrc(type, font[0]));
-					if (font[1]) fontSrc2.push(generateFontSrc(type, font[1]));
-				});
-				fontSrc1 = fontSrc1.join(fontSrcSeparator);
-				fontSrc2 = fontSrc2.join(fontSrcSeparator);
-
-				var cssTemplate = readTemplate(template, syntax, '.css');
-				var templateJson = JSON.parse(readTemplate(template, syntax, '.json'));
-				var cssFilePrefix = cssFilePrefixes[stylesheet] || '';
-				var cssFile = path.join(destCss, cssFilePrefix + fontBaseName + '.' + stylesheet);
-
-				// Prepage glyph names to use as CSS classes
-				glyphs = _.map(glyphs, _.dasherize);
-
-				var cssContext = {
-					fontBaseName: fontBaseName,
-					fontName: fontName,
-					fontSrc1: fontSrc1,
-					fontSrc2: fontSrc2,
-					fontfaceStyles: fontfaceStyles,
-					baseStyles: baseStyles,
-					extraStyles: extraStyles,
-					stylesheet: stylesheet,
-					iconsStyles: true,
-					glyphs: glyphs,
-					ligatures: addLigatures
-				};
-
-				var css = grunt.template.process(cssTemplate, {data: cssContext});
-
-				// Fix CSS preprocessors comments: single line comments will be removed after compilation
-				if (has(['sass', 'scss', 'less', 'styl'], stylesheet)) {
-					css = css.replace(/\/\* *(.*?) *\*\//g, '// $1');
-				}
-
-				grunt.file.write(cssFile, css);
-
-				// Demo HTML
-				if (htmlDemo) {
-					generateDemoHtml(cssContext, cssTemplate, templateJson, fontSrc1, fontSrc2);
-				}
-
-				done();
-			},
-
-			// Print log
-			function(done) {
-				grunt.log.writeln("Font '" + fontName + "' with " + glyphs.length + " glyphs created." );
-				done();
-			}
-
+			createOutputDirs,
+			cleanOutputDir,
+			copyFilesToTempDir,
+			generateFont,
+			generateStylesheet,
+			generateDemoHtml,
+			printDone
 		], allDone);
 
 
-		function generateDemoHtml(baseContext, cssTemplate, templateJson, fontSrc1, fontSrc2) {
+		/**
+		 * Font generation steps
+		 */
+
+		// Create output directory
+		function createOutputDirs(done) {
+			grunt.file.mkdir(o.destCss);
+			grunt.file.mkdir(o.dest);
+			done();
+		}
+
+		// Clean output directory
+		function cleanOutputDir(done) {
+			var files = grunt.file.expand(path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}'))
+				.concat(grunt.file.expand(path.join(o.dest, o.fontBaseName + '*.{woff,ttf,eot,svg}')));
+			async.forEach(files, function(file, next) {
+				fs.unlink(file, next);
+			}, done);
+		}
+
+		// Copy source files to temporary directory
+		function copyFilesToTempDir(done) {
+			o.tempDir = temp.mkdirSync();
+			async.forEach(o.files, function(file, next) {
+				grunt.file.copy(file, path.join(o.tempDir, o.rename(file)));
+				next();
+			}, done);
+		}
+
+		// Run Fontforge
+		function generateFont(done) {
+			var args = [
+				'-script',
+				path.join(__dirname, 'scripts/generate.py'),
+				o.tempDir,
+				o.dest,
+				o.fontBaseName,
+				o.types.join(',')
+			];
+			if (o.addHashes) {
+				args.push('--hashes');
+			}
+			if (o.addLigatures) {
+				args.push('--ligatures');
+			}
+
+			grunt.util.spawn({
+				cmd: 'fontforge',
+				args: args
+			}, function(err, json, code) {
+				if (code === 127) {
+					grunt.log.errorlns('Please install fontforge and all other requirements.');
+					grunt.warn('fontforge not found', code);
+				}
+				else if (err || json.stderr) {
+					// Skip some fontforege output and the "No glyphs" warning because fontforge shows it when font
+					// contains only one glyph.
+					// @todo There is a problem with "No glyphs" check, because it could be in any language (#38).
+					//       Now we skip any warnings ("Warning" is always in English.) But we should find a better way.
+					var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git|Warning:)/;
+					var lines = (err && err.stderr || json.stderr).split('\n');
+					// write lines for verbose mode
+					var warn = [];
+					lines.forEach(function(line) {
+						if (!line.match(notError)) {
+							warn.push(line);
+						}
+						else {
+							grunt.verbose.writeln("fontforge output ignored: ".grey + line);
+						}
+					});
+					if (warn.length) {
+						grunt.warn(warn.join('\n'));
+						allDone();
+					}
+				}
+
+				var result = JSON.parse(json.stdout);
+				o.fontName = path.basename(result.file);
+				o.glyphs = result.names;
+
+				done();
+			});
+		}
+
+		// Generate CSS
+		function generateStylesheet(done) {
+			if (!o.relativeFontPath) {
+				o.relativeFontPath = path.relative(o.destCss, o.dest);
+			}
+			o.relativeFontPath = appendSlash(o.relativeFontPath);
+
+			// Generate @font-face’s `src` values
+			var fontSrcs = [[], []];
+			var fontSrcSeparator = option(fontSrcSeparators, o.stylesheet);
+			o.order.forEach(function(type) {
+				if (!has(o.types, type)) return;
+				fontsSrcsMap[type].forEach(function(font, idx) {
+					if (font) {
+						fontSrcs[idx].push(generateFontSrc(type, font));
+					}
+				});
+			});
+			fontSrcs = _.map(fontSrcs, function(font) {
+				return font.join(fontSrcSeparator);
+			});
+			o.fontSrc1 = fontSrcs[0];
+			o.fontSrc2 = fontSrcs[1];
+
+			// Prepage glyph names to use as CSS classes
+			o.glyphs = _.map(o.glyphs, _.dasherize);
+
+			o.cssTemplate = readTemplate(o.template, o.syntax, '.css');
+			var cssFilePrefix = option(cssFilePrefixes, o.stylesheet);
+			var cssFile = path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
+			var cssContext = _.extend(o, {
+				iconsStyles: true
+			});
+			var css = grunt.template.process(o.cssTemplate, {data: cssContext});
+
+			// Fix CSS preprocessors comments: single line comments will be removed after compilation
+			if (has(['sass', 'scss', 'less', 'styl'], o.stylesheet)) {
+				css = css.replace(/\/\* *(.*?) *\*\//g, '// $1');
+			}
+
+			grunt.file.write(cssFile, css);
+
+			done();
+		}
+
+		// Generate HTML demo page
+		function generateDemoHtml(done) {
+			if (!o.htmlDemo) return done();
+
 			// HTML should not contain relative paths
 			// If some styles was not included in CSS we should include them in HTML to properly render icons
-			var htmlRelativeFontPath = appendSlash(path.relative(destCss, dest));
-			var relativeRe = new RegExp(relativeFontPath, 'g');
-			var context = _.extend(baseContext, {
-				fontSrc1: fontSrc1.replace(relativeRe, htmlRelativeFontPath),
-				fontSrc2: fontSrc2.replace(relativeRe, htmlRelativeFontPath),
+			var htmlRelativeFontPath = appendSlash(path.relative(o.destCss, o.dest));
+			var relativeRe = new RegExp(o.relativeFontPath, 'g');
+			var context = _.extend(o, {
+				fontSrc1: o.fontSrc1.replace(relativeRe, htmlRelativeFontPath),
+				fontSrc2: o.fontSrc2.replace(relativeRe, htmlRelativeFontPath),
 				fontfaceStyles: true,
 				baseStyles: true,
 				extraStyles: false,
 				iconsStyles: true,
 				stylesheet: 'css'
 			});
-			var htmlStyles = grunt.template.process(cssTemplate, {data: context});
+			var htmlStyles = grunt.template.process(o.cssTemplate, {data: context});
 
+			var templateJson = JSON.parse(readTemplate(o.template, o.syntax, '.json'));
 			var htmlContext = _.extend(context, {
 				baseClass: templateJson.baseClass,
 				classPrefix: templateJson.classPrefix,
 				styles: htmlStyles
 			});
 
-			var demoTemplate = readTemplate(htmlDemoTemplate, 'demo', '.html');
-			var demoFile = path.join(destHtml, fontBaseName + '.html');
+			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
+			var demoFile = path.join(o.destHtml, o.fontBaseName + '.html');
 
 			var demo = grunt.template.process(demoTemplate, {data: htmlContext});
 
 			grunt.file.write(demoFile, demo);
+
+			done();
 		}
+
+		// Print log
+		function printDone(done) {
+			grunt.log.writeln("Font '" + o.fontName + "' with " + o.glyphs.length + " glyphs created." );
+			done();
+		}
+
+
+		/**
+		 * Helpers
+		 */
 
 		function optionToArray(val, defVal) {
 			if (val === undefined) val = defVal;
@@ -302,6 +323,15 @@ module.exports = function(grunt) {
 
 		function has(haystack, needle) {
 			return haystack.indexOf(needle) !== -1;
+		}
+
+		function option(map, type) {
+			if (type in map) {
+				return map[type];
+			}
+			else {
+				return map._default;
+			}
 		}
 
 		// Convert font file to data:uri and *remove* source file.
@@ -324,14 +354,14 @@ module.exports = function(grunt) {
 		}
 
 		function generateFontSrc(type, font) {
-			var filename = (fontName + font.ext).replace('{fontBaseName}', fontBaseName);
+			var filename = (o.fontName + font.ext).replace('{fontBaseName}', o.fontBaseName); // @todo
 
 			var url;
-			if (font.embeddable && has(embed, type)) {
-				url = embedFont(path.join(dest, filename));
+			if (font.embeddable && has(o.embed, type)) {
+				url = embedFont(path.join(o.dest, filename));
 			}
 			else {
-				url = relativeFontPath + filename;
+				url = o.relativeFontPath + filename;
 			}
 
 			var src = 'url("' + url + '")';
