@@ -65,7 +65,6 @@ module.exports = function(grunt) {
 		styl: ', '
 	};
 
-
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
 		this.requiresConfig([this.name, this.target, 'src'].join('.'));
 		this.requiresConfig([this.name, this.target, 'dest'].join('.'));
@@ -347,7 +346,7 @@ module.exports = function(grunt) {
 		}
 
 		function appendSlash(filepath) {
-			if (filepath.length && filepath[filepath.length-1] !== '/') {
+			if (filepath.length && !_.endsWith(filepath, '/')) {
 				filepath += '/';
 			}
 			return filepath;
