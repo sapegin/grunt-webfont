@@ -59,11 +59,15 @@ module.exports = function(grunt) {
 		scss: '_'
 	};
 
-	//
+	// @font-face’s src parts seperators
 	var fontSrcSeparators = {
 		_default: ',\n\t\t',
 		styl: ', '
 	};
+
+	// Any font file
+	var fontFileMask = '*.{woff,ttf,eot,svg}';
+
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
 		this.requiresConfig([this.name, this.target, 'src'].join('.'));
@@ -145,7 +149,7 @@ module.exports = function(grunt) {
 		// Clean output directory
 		function cleanOutputDir(done) {
 			var files = grunt.file.expand(path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}'))
-				.concat(grunt.file.expand(path.join(o.dest, o.fontBaseName + '*.{woff,ttf,eot,svg}')));
+				.concat(generatedFontFiles());
 			async.forEach(files, function(file, next) {
 				fs.unlink(file, next);
 			}, done);
@@ -186,20 +190,19 @@ module.exports = function(grunt) {
 					grunt.warn('fontforge not found', code);
 				}
 				else if (err || json.stderr) {
-					// Skip some fontforege output and the "No glyphs" warning because fontforge shows it when font
-					// contains only one glyph.
-					// @todo There is a problem with "No glyphs" check, because it could be in any language (#38).
-					//       Now we skip any warnings ("Warning" is always in English.) But we should find a better way.
-					var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git|Warning:)/;
+					// Skip some fontforge output such as copyrights. Show warnings only when no font files was created
+					// or in verbose mode.
+					var success = !!generatedFontFiles();
+					var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git)/;
 					var lines = (err && err.stderr || json.stderr).split('\n');
-					// write lines for verbose mode
+					// Write lines for verbose mode
 					var warn = [];
 					lines.forEach(function(line) {
-						if (!line.match(notError)) {
+						if (!line.match(notError) && !success) {
 							warn.push(line);
 						}
 						else {
-							grunt.verbose.writeln("fontforge output ignored: ".grey + line);
+							grunt.verbose.writeln("fontforge: ".grey + line);
 						}
 					});
 					if (warn.length) {
@@ -376,6 +379,10 @@ module.exports = function(grunt) {
 			else {
 				return fs.readFileSync(path.join(__dirname, 'templates/' + syntax + ext), 'utf8');
 			}
+		}
+
+		function generatedFontFiles() {
+			return grunt.file.expand(path.join(o.dest, o.fontBaseName + fontFileMask));
 		}
 
 	});
