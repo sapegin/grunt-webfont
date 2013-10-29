@@ -14,6 +14,7 @@ This task will make all you need to use font-face icon on your website: font in 
 * Data:uri embedding.
 * Ligatures.
 * HTML preview.
+* Custom templates.
 
 
 ## Installation
@@ -91,9 +92,15 @@ List of styles to be added to CSS files: `font` (`font-face` declaration), `icon
 
 #### types
 
-Type: `string|array` Default: `'woff,ttf,eot,svg'`
+Type: `string|array` Default: `'eot,woff,ttf,svg'`
 
 Font files types to generate.
+
+#### order
+
+Type: `string|array` Default: `'eot,woff,ttf,svg'`
+
+Order of `@font-face`’s `src` values in CSS file.
 
 #### syntax
 
@@ -106,6 +113,17 @@ Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `boots
 Type: `string` Default: `null`
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
+
+You should provide CSS and JSON files. Variables from JSON files used in HTML demo page.
+
+```json
+{
+	"baseClass": "icon",
+	"classPrefix": "icon_"
+}
+```
+
+If you use custom HTML template (`htmlDemoTemplate` option) you can avoid JSON file.
 
 #### stylesheet
 
