@@ -1,5 +1,13 @@
 ## Release History
 
+### 2013-10-29 v0.2.0
+
+* Huge code refactoring.
+* Templates refactoring (see readme and #55).
+* Scripts now really works in Python 3 (#50).
+* Smarter warnings handling (#38).
+* `order` option.
+
 ### 2013-10-28 v0.1.12
 
 * Scripts should work on Python 3 now.
