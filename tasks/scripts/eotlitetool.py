@@ -235,7 +235,7 @@ class FontError(Exception):
     pass
 
 def multichar(str):
-    vals = struct.unpack('4B', str[:4])
+    vals = struct.unpack('4B', (str[:4]).encode())
     return (vals[0] << 24) + (vals[1] << 16) + (vals[2] << 8) + vals[3]
 
 def multicharval(v):
@@ -373,7 +373,7 @@ def make_eot_name_headers(fontdata, nameTableDir):
         else:
             nameheaders.append(struct.pack('4x'))  # len = 0, padding = 0
 
-    return ''.join(nameheaders)
+    return b''.join(nameheaders)
 
 # just return a null-string (len = 0)
 def make_root_string():
@@ -445,11 +445,11 @@ def make_eot_header(fontdata):
                         *([eotSize, fontDataSize, version, flags] + panose + [charset, italic] +
                           [weight, fsType, magicNumber] + urange + codepage + [checkSumAdjustment]))
 
-    return ''.join((fixed, nameheaders, rootstring))
+    return b''.join((fixed, nameheaders, rootstring))
 
 
 def write_eot_font(eot, header, data):
-    open(eot,'wb').write(''.join((header, data)))
+    open(eot,'wb').write(b''.join((header, data)))
     return
 
 def main():
