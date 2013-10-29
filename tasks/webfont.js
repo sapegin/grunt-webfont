@@ -313,7 +313,7 @@ module.exports = function(grunt) {
 
 		// Print log
 		function printDone(done) {
-			grunt.log.writeln("Font '" + o.fontName + "' with " + o.glyphs.length + " glyphs created." );
+			grunt.log.writeln('Font ' + o.fontName.cyan + ' with ' + o.glyphs.length + ' glyphs created.');
 			done();
 		}
 
