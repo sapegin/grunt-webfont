@@ -60,7 +60,7 @@
 			<% } %>
 		</div>
 
-		<% if (ligatures) { %>
+		<% if (addLigatures) { %>
 		<div class="ligature-icons" style="display:none">
 			<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { var glyph = glyphs[glyphIdx]; %>
 				<%= glyph %>
@@ -70,7 +70,7 @@
 
 		<h1>Usage</h1>
 		<pre><code>&lt;i class=&quot;<%= baseClass ? baseClass + ' ' : '' %><%= classPrefix %><span id="name">name</span>&quot;&gt;&lt;/i&gt;</code></pre>
-		<% if (ligatures) { %>
+		<% if (addLigatures) { %>
 		<pre><code>&lt;i class=&quot;ligature-icons&quot;&gt;<span id="name2">name</span>&lt;/i&gt;</code></pre>
 		<% } %>
 

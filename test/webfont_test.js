@@ -479,6 +479,19 @@ exports.webfont = {
 		});
 
 		test.done();
+	},
+
+	order: function(test) {
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/order/icons.css');
+
+		// Font-face src rules should be in right order
+		test.ok(
+			find(css, 'src:url("icons.svg?#icons") format("svg"),\n\t\turl("icons.woff") format("woff");'),
+			'Font-face src rules should be in right order.'
+		);
+
+		test.done();
 	}
 
 };

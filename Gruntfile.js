@@ -163,6 +163,15 @@ module.exports = function(grunt) {
 						return [path.basename(path.dirname(name)), path.basename(name)].join('-');
 					}
 				}
+			},
+			order: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/order',
+				options: {
+					types: 'woff,svg',
+					order: 'svg,woff',
+					hashes: false
+				}
 			}
 		},
 		nodeunit: {

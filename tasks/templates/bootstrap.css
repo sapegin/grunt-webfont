@@ -2,7 +2,7 @@
 /* Based on https://github.com/endtwist/fontcustom/blob/master/lib/fontcustom/templates/fontcustom.css */
 
 <% if (fontfaceStyles) { %>@font-face {
-	font-family:"<%= fontBaseName %>";<% if (eot) { %>
+	font-family:"<%= fontBaseName %>";<% if (fontSrc1) { %>
 	src:<%= fontSrc1 %>;<% }%>
 	src:<%= fontSrc2 %>;
 	font-weight:normal;
@@ -12,7 +12,7 @@
 <% if (baseStyles) { %>
 /* Bootstrap Overrides */
 [class^="icon-"]:before,
-[class*=" icon-"]:before<% if (ligatures) { %>,
+[class*=" icon-"]:before<% if (addLigatures) { %>,
 .ligature-icons<% } %> {
 	font-family:"<%= fontBaseName %>";
 	display:inline-block;
@@ -83,10 +83,10 @@ li[class*=" icon-"].icon-large:before {
 <% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .icon-<%= glyphs[glyphIdx] %> {
 	&:before {
-		content:"<% if (ligatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 	}
 }<% } %><% } %>
 <% if (iconsStyles && stylesheet !== 'less') { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .icon-<%= glyphs[glyphIdx] %>:before {
-	content:"<% if (ligatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 }<% } %><% } %>
