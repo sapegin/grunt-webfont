@@ -65,8 +65,11 @@ module.exports = function(grunt) {
 		styl: ', '
 	};
 
+	// All font file formats
+	var fontFormats = 'eot,woff,ttf,svg';
+
 	// Any font file
-	var fontFileMask = '*.{woff,ttf,eot,svg}';
+	var fontFileMask = '*.{' + fontFormats + '}';
 
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
@@ -107,8 +110,8 @@ module.exports = function(grunt) {
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			styles: optionToArray(options.styles, 'font,icon'),
-			types: optionToArray(options.types, 'woff,ttf,eot,svg'),
-			order: optionToArray(options.order, 'eot,woff,ttf,svg'),
+			types: optionToArray(options.types, fontFormats),
+			order: optionToArray(options.order, fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename
 		};
@@ -281,14 +284,14 @@ module.exports = function(grunt) {
 				iconsStyles: true,
 				stylesheet: 'css'
 			});
-			var htmlStyles = grunt.template.process(o.cssTemplate, {data: context});
 
-			var templateJson = JSON.parse(readTemplate(o.template, o.syntax, '.json'));
+			var htmlStyles = grunt.template.process(o.cssTemplate, {data: context});
 			var htmlContext = _.extend(context, {
-				baseClass: templateJson.baseClass,
-				classPrefix: templateJson.classPrefix,
 				styles: htmlStyles
 			});
+
+			var templateJson = readTemplate(o.template, o.syntax, '.json');
+			if (templateJson) htmlContext = _.extend(htmlContext, JSON.parse(templateJson));
 
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
 			var demoFile = path.join(o.destHtml, o.fontBaseName + '.html');
@@ -336,13 +339,14 @@ module.exports = function(grunt) {
 			}
 		}
 
-		// Convert font file to data:uri and *remove* source file.
+		// Convert font file to data:uri and remove source file
 		function embedFont(fontFile) {
 			// Convert to data:uri
 			var dataUri = fs.readFileSync(fontFile, 'base64');
 			var type = path.extname(fontFile).substring(1);
 			var fontUrl = 'data:application/x-font-' + type + ';charset=utf-8;base64,' + dataUri;
-			// Remove WOFF file
+
+			// Remove font file
 			fs.unlinkSync(fontFile);
 
 			return fontUrl;
@@ -355,8 +359,9 @@ module.exports = function(grunt) {
 			return filepath;
 		}
 
+		// Generate @font-face’s src value
 		function generateFontSrc(type, font) {
-			var filename = (o.fontName + font.ext).replace('{fontBaseName}', o.fontBaseName); // @todo
+			var filename = template(o.fontName + font.ext, o);
 
 			var url;
 			if (font.embeddable && has(o.embed, type)) {
@@ -383,6 +388,12 @@ module.exports = function(grunt) {
 
 		function generatedFontFiles() {
 			return grunt.file.expand(path.join(o.dest, o.fontBaseName + fontFileMask));
+		}
+
+		function template(tmpl, context) {
+			return tmpl.replace(/\{([^\}]+)\}/g, function(m, key) {
+				return context[key];
+			});
 		}
 
 	});
