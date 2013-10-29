@@ -104,7 +104,7 @@ generate(fontfile + '.ttf')
 # Hint the TTF file
 # ttfautohint is optional
 if find_executable('ttfautohint'):
-	call("ttfautohint -s -n '" + fontfile + ".ttf' '" + fontfile + "-hinted.ttf' && mv '" + fontfile + "-hinted.ttf' '" + fontfile + ".ttf'", shell=True)
+	call("ttfautohint --symbol --latin-fallback --no-info '" + fontfile + ".ttf' '" + fontfile + "-hinted.ttf' && mv '" + fontfile + "-hinted.ttf' '" + fontfile + ".ttf'", shell=True)
 	f = fontforge.open(fontfile + '.ttf')
 
 # SVG
