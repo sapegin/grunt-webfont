@@ -23,12 +23,12 @@
 }
 <% } %>
 <% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
-.icon-<%= glyphs[glyphIdx] %> {
+.<%= _.dasherize(classPrefix) %><%= glyphs[glyphIdx] %> {
 	&:before {
 		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 	}
 }<% } %><% } %>
 <% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
-.icon_<%= glyphs[glyphIdx] %>:before {
+.<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
 	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 }<% } %><% } %>
