@@ -219,7 +219,15 @@ module.exports = function(grunt) {
 
 				// Trim fontforge result
 				var json = fontforgeProcess.stdout.replace(/^[^{]+/, '').replace(/[^}]+$/, '');
-				var result = JSON.parse(json);
+
+				// Parse json
+				var result;
+				try {
+					result = JSON.parse(json);
+				} catch (e) {
+					grunt.warn('Webfont did not receive a popper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
+				}
+
 				o.fontName = path.basename(result.file);
 				o.glyphs = result.names;
 
