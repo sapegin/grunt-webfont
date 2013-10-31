@@ -217,7 +217,9 @@ module.exports = function(grunt) {
 					}
 				}
 
-				var result = JSON.parse(json.stdout);
+				// Trim fontforge result
+				var json = fontforgeProcess.stdout.replace(/^[^{]+/, '').replace(/[^}]+$/, '');
+				var result = JSON.parse(json);
 				o.fontName = path.basename(result.file);
 				o.glyphs = result.names;
 
