@@ -189,17 +189,17 @@ module.exports = function(grunt) {
 			grunt.util.spawn({
 				cmd: 'fontforge',
 				args: args
-			}, function(err, json, code) {
+			}, function(err, fontforgeProcess, code) {
 				if (code === COMMAND_NOT_FOUND) {
 					grunt.log.errorlns('Please install fontforge and all other requirements.');
 					grunt.warn('fontforge not found', code);
 				}
-				else if (err || json.stderr) {
+				else if (err || fontforgeProcess.stderr) {
 					// Skip some fontforge output such as copyrights. Show warnings only when no font files was created
 					// or in verbose mode.
 					var success = !!generatedFontFiles();
 					var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git)/;
-					var lines = (err && err.stderr || json.stderr).split('\n');
+					var lines = (err && err.stderr || fontforgeProcess.stderr).split('\n');
 
 					var warn = [];
 					lines.forEach(function(line) {
