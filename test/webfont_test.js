@@ -32,7 +32,7 @@ exports.webfont = {
 		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'url("icons.' + type),
-				'File path ' + type + ' shound be in CSS file.'
+				'File path ' + type + ' should be in CSS file.'
 			);
 		});
 
@@ -51,11 +51,11 @@ exports.webfont = {
 			var id = path.basename(file, '.svg');
 			test.ok(
 				find(css, '.icon-' + id + ':before'),
-				'Icon ' + id + ' shound be in CSS file.'
+				'Icon ' + id + ' should be in CSS file.'
 			);
 			test.ok(
 				find(html, '<div class="icons__item" data-name="' + id + '"><i class="icon icon-' + id + '"></i> icon-' + id + '</div>'),
-				'Icon ' + id + ' shound be in HTML file.'
+				'Icon ' + id + ' should be in HTML file.'
 			);
 		});
 
@@ -95,7 +95,7 @@ exports.webfont = {
 		'woff,svg'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'url("fonts/myfont-' + hash + '.' + type),
-				'File path ' + type + ' shound be in CSS file.'
+				'File path ' + type + ' should be in CSS file.'
 			);
 		});
 
@@ -103,7 +103,7 @@ exports.webfont = {
 		'ttf,eot'.split(',').forEach(function(type) {
 			test.ok(
 				!find(css, 'fonts/myfont-' + hash + '.' + type),
-				'File path ' + type + ' shound be in CSS file.'
+				'File path ' + type + ' should be in CSS file.'
 			);
 		});
 
@@ -113,11 +113,11 @@ exports.webfont = {
 			var id = path.basename(file, '.svg');
 			test.ok(
 				find(css, '.icon-' + id + ':before'),
-				'Icon ' + id + ' shound be in CSS file.'
+				'Icon ' + id + ' should be in CSS file.'
 			);
 			test.ok(
 				find(html, '<div class="icons__item" data-name="' + id + '"><i class=" icon-' + id + '"></i> icon-' + id + '</div>'),
-				'Icon ' + id + ' shound be in HTML file.'
+				'Icon ' + id + ' should be in HTML file.'
 			);
 		});
 
@@ -226,7 +226,7 @@ exports.webfont = {
 		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'icons.' + type),
-				'File path ' + type + ' shound be in CSS file.'
+				'File path ' + type + ' should be in CSS file.'
 			);
 		});
 
@@ -235,7 +235,7 @@ exports.webfont = {
 			var id = path.basename(file, '.svg');
 			test.ok(
 				find(css, '.icon-' + id + ':before'),
-				'Icon ' + id + ' shound be in CSS file.'
+				'Icon ' + id + ' should be in CSS file.'
 			);
 		});
 
@@ -273,7 +273,7 @@ exports.webfont = {
 		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'url("../iamrelative/icons.' + type),
-				'File path ' + type + ' shound be in CSS file.'
+				'File path ' + type + ' should be in CSS file.'
 			);
 		});
 
@@ -319,7 +319,7 @@ exports.webfont = {
 			var id = path.basename(file, '.svg');
 			test.ok(
 				find(less, '.icon-' + id + ' {\n\t&:before'),
-				'LESS Mixin ' + id + ' shound be in CSS file.'
+				'LESS Mixin ' + id + ' should be in CSS file.'
 			);
 		});
 
@@ -422,7 +422,7 @@ exports.webfont = {
 			var id = path.basename(file, '.svg');
 			test.ok(
 				find(html, '.icon-' + id + ':before'),
-				'Icon ' + id + ' CSS shound be in HTML file.'
+				'Icon ' + id + ' CSS should be in HTML file.'
 			);
 		});
 
@@ -438,7 +438,7 @@ exports.webfont = {
 			var id = path.basename(file, '.svg');
 			test.ok(
 				find(css, '.icon-' + id + ':before'),
-				'Icon ' + id + ' shound be in CSS file.'
+				'Icon ' + id + ' should be in CSS file.'
 			);
 		});
 
@@ -454,7 +454,7 @@ exports.webfont = {
 			var name = path.basename(file, '.svg');
 			test.ok(
 				find(css, 'content:"'+name+'";'),
-				'Icon ' + name + ' shound be in CSS file.'
+				'Icon ' + name + ' should be in CSS file.'
 			);
 		});
 
@@ -470,7 +470,7 @@ exports.webfont = {
 			var id = [path.basename(path.dirname(file)), path.basename(file, '.svg')].join('-');
 			test.ok(
 				find(css, '.icon-' + id + ':before'),
-				'Icon ' + id + ' shound be in CSS file.'
+				'Icon ' + id + ' should be in CSS file.'
 			);
 		});
 
