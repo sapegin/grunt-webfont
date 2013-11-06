@@ -116,7 +116,7 @@ module.exports = function(grunt) {
 			order: optionToArray(options.order, fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
-			baseClass: options.baseClass || "icon",
+			baseClass: options.syntax === 'bootstrap' ? "" : options.baseClass || "icon",
 			classPrefix: options.classPrefix || "icon-"
 		};
 
