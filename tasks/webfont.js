@@ -126,6 +126,9 @@ module.exports = function(grunt) {
 			glyphs: []
 		});
 
+		var templateJson = readTemplate(o.template, o.syntax, '.json');
+		if (templateJson) o = _.extend(o, JSON.parse(templateJson));
+
 		// Run!
 		async.waterfall([
 			createOutputDirs,
@@ -256,9 +259,6 @@ module.exports = function(grunt) {
 				iconsStyles: true
 			});
 
-			var templateJson = readTemplate(o.template, o.syntax, '.json');
-			if (templateJson) cssContext = _.extend(cssContext, JSON.parse(templateJson));
-
 			var css = grunt.template.process(o.cssTemplate, {data: cssContext});
 
 			// Fix CSS preprocessors comments: single line comments will be removed after compilation
@@ -293,9 +293,6 @@ module.exports = function(grunt) {
 			var htmlContext = _.extend(context, {
 				styles: htmlStyles
 			});
-
-			var templateJson = readTemplate(o.template, o.syntax, '.json');
-			if (templateJson) htmlContext = _.extend(htmlContext, JSON.parse(templateJson));
 
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
 			var demoFile = path.join(o.destHtml, o.fontBaseName + '.html');
