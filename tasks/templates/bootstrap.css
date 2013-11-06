@@ -11,8 +11,8 @@
 <% } %>
 <% if (baseStyles) { %>
 /* Bootstrap Overrides */
-[class^="<%= classPrefix %>-"]:before,
-[class*=" <%= classPrefix %>-"]:before<% if (addLigatures) { %>,
+[class^="<%= classPrefix %>"]:before,
+[class*=" <%= classPrefix %>"]:before<% if (addLigatures) { %>,
 .ligature-icons<% } %> {
 	font-family:"<%= fontBaseName %>";
 	display:inline-block;
@@ -28,7 +28,7 @@
 <% if (iconsStyles && stylesheet === 'less') { %>
 /* Mixins */
 <% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
-.<%= classPrefix %>-<%= glyphs[glyphIdx] %><% if(glyphIdx === glyphs.length-1) { %> { <% } else { %>, <% } } %>
+.<%= classPrefix %><%= glyphs[glyphIdx] %><% if(glyphIdx === glyphs.length-1) { %> { <% } else { %>, <% } } %>
 	&:before {
 		font-family:"<%= fontBaseName %>";
 		display:inline-block;
@@ -44,50 +44,50 @@ a [class*=" <%= classPrefix %>-"] {
 	text-decoration:inherit;
 }
 /* Makes the font 33% larger relative to the icon container */
-.<%= baseClass %>-large:before {
+.<%= classPrefix %>large:before {
 	vertical-align:top;
 	font-size:1.333em;
 }
 /* Keeps button heights with and without icons the same */
-.btn [class^="<%= classPrefix %>-"],
-.btn [class*=" <%= classPrefix %>-"] {
+.btn [class^="<%= classPrefix %>"],
+.btn [class*=" <%= classPrefix %>"] {
 	line-height:0.9em;
 }
-li [class^="<%= classPrefix %>-"],
-li [class*=" <%= classPrefix %>-"] {
+li [class^="<%= classPrefix %>"],
+li [class*=" <%= classPrefix %>"] {
 	display:inline-block;
 	width:1.25em;
 	text-align:center;
 }
-/* 1.5 increased font size for <%= classPrefix %>-large * 1.25 width */
-li .<%= classPrefix %>-large[class^="<%= classPrefix %>-"],
-li .<%= classPrefix %>-large[class*=" <%= classPrefix %>-"] {
+/* 1.5 increased font size for <%= classPrefix %>large * 1.25 width */
+li .<%= classPrefix %>-large[class^="<%= classPrefix %>"],
+li .<%= classPrefix %>-large[class*=" <%= classPrefix %>"] {
 	width:1.875em;
 }
-li[class^="<%= classPrefix %>-"],
-li[class*=" <%= classPrefix %>-"] {
+li[class^="<%= classPrefix %>"],
+li[class*=" <%= classPrefix %>"] {
 	margin-left:0;
 	list-style-type:none;
 }
-li[class^="<%= classPrefix %>-"]:before,
-li[class*=" <%= classPrefix %>-"]:before {
+li[class^="<%= classPrefix %>"]:before,
+li[class*=" <%= classPrefix %>"]:before {
 	text-indent:-2em;
 	text-align:center;
 }
-li[class^="<%= classPrefix %>-"].<%= classPrefix %>-large:before,
-li[class*=" <%= classPrefix %>-"].<%= classPrefix %>-large:before {
+li[class^="<%= classPrefix %>"].<%= classPrefix %>large:before,
+li[class*=" <%= classPrefix %>"].<%= classPrefix %>large:before {
 	text-indent:-1.333em;
 }
 <% } %>
 
 <% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 <% if (stylesheet === 'less') { %>
-.<%= classPrefix %>-<%= glyphs[glyphIdx] %> {
+.<%= classPrefix %><%= glyphs[glyphIdx] %> {
 	&:before {
 		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 	}
 }<% } else { %>
-.<%= classPrefix %>-<%= glyphs[glyphIdx] %>:before {
+.<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
 	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 }<% } %>
 <% } } %>
