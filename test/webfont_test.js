@@ -50,11 +50,11 @@ exports.webfont = {
 		svgs.forEach(function(file) {
 			var id = path.basename(file, '.svg');
 			test.ok(
-				find(css, '.icon-' + id + ':before'),
+				find(css, '.custom-icon-' + id + ':before'),
 				'Icon ' + id + ' should be in CSS file.'
 			);
 			test.ok(
-				find(html, '<div class="icons__item" data-name="' + id + '"><i class="icon icon-' + id + '"></i> icon-' + id + '</div>'),
+				find(html, '<div class="icons__item" data-name="' + id + '"><i class="icon-base custom-icon-' + id + '"></i> custom-icon-' + id + '</div>'),
 				'Icon ' + id + ' should be in HTML file.'
 			);
 		});
@@ -112,11 +112,11 @@ exports.webfont = {
 		svgs.forEach(function(file) {
 			var id = path.basename(file, '.svg');
 			test.ok(
-				find(css, '.icon-' + id + ':before'),
+				find(css, '.custom-icon-' + id + ':before'),
 				'Icon ' + id + ' should be in CSS file.'
 			);
 			test.ok(
-				find(html, '<div class="icons__item" data-name="' + id + '"><i class=" icon-' + id + '"></i> icon-' + id + '</div>'),
+				find(html, '<div class="icons__item" data-name="' + id + '"><i class=" custom-icon-' + id + '"></i> custom-icon-' + id + '</div>'),
 				'Icon ' + id + ' should be in HTML file.'
 			);
 		});
