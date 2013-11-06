@@ -271,6 +271,10 @@ module.exports = function(grunt) {
 			var cssContext = _.extend(o, {
 				iconsStyles: true
 			});
+
+			var templateJson = readTemplate(o.template, o.syntax, '.json');
+			if (templateJson) cssContext = _.extend(cssContext, JSON.parse(templateJson));
+
 			var css = grunt.template.process(o.cssTemplate, {data: cssContext});
 
 			// Fix CSS preprocessors comments: single line comments will be removed after compilation
