@@ -13,7 +13,9 @@ module.exports = function(grunt) {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/test1',
 				options: {
-					hashes: false
+					hashes: false,
+					baseClass: 'icon-base',
+					classPrefix: 'custom-icon-'
 				}
 			},
 			test2: {
@@ -23,7 +25,9 @@ module.exports = function(grunt) {
 				options: {
 					font: 'myfont',
 					types: 'woff,svg',
-					syntax: 'bootstrap'
+					syntax: 'bootstrap',
+					baseClass: 'icon-base',
+					classPrefix: 'custom-icon-'
 				}
 			},
 			embed: {
