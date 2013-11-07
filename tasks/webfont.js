@@ -108,6 +108,7 @@ module.exports = function(grunt) {
 			addLigatures: options.ligatures === true,
 			template: options.template,
 			syntax: options.syntax || 'bem',
+			syntaxOptions: options.syntaxOptions || {},
 			stylesheet: options.stylesheet || 'css',
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
@@ -116,7 +117,6 @@ module.exports = function(grunt) {
 			order: optionToArray(options.order, fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename
-
 		};
 
 		o = _.extend(o, {
@@ -272,10 +272,8 @@ module.exports = function(grunt) {
 			var cssContext = _.extend(o, {
 				iconsStyles: true
 			});
-
-			// Read JSON file corresponding to CSS template with values for HTML template
-			var templateJson = readTemplate(o.template, o.syntax, '.json');
-			if (templateJson) cssContext = _.extend(cssContext, JSON.parse(templateJson));
+			//update css context with template's json values and options
+			cssContext = getCssTemplateContext(cssContext, o.template, o.syntax);
 
 			var css = grunt.template.process(o.cssTemplate, {data: cssContext});
 
@@ -312,9 +310,8 @@ module.exports = function(grunt) {
 				styles: htmlStyles
 			});
 
-			// Read JSON file corresponding to CSS template with values for HTML template
-			var templateJson = readTemplate(o.template, o.syntax, '.json');
-			if (templateJson) htmlContext = _.extend(htmlContext, JSON.parse(templateJson));
+			//update html context with template's json values and options
+			htmlContext = getCssTemplateContext(htmlContext, o.template, o.syntax);
 
 			// Generate HTML
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
@@ -418,6 +415,17 @@ module.exports = function(grunt) {
 			return tmpl.replace(/\{([^\}]+)\}/g, function(m, key) {
 				return context[key];
 			});
+		}
+
+		function getCssTemplateContext( baseContext, template, syntax ) {
+			// Read JSON file corresponding to CSS template with values for HTML template
+			var templateJson = readTemplate(template, syntax, '.json');
+			if (templateJson) baseContext = _.extend(baseContext, JSON.parse(templateJson));
+
+			//Now override values with syntaxOptions
+			if (o.syntaxOptions) baseContext = _.extend(baseContext, o.syntaxOptions );
+
+			return baseContext;
 		}
 
 	});
