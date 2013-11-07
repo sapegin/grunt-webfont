@@ -488,6 +488,36 @@ exports.webfont = {
 		);
 
 		test.done();
-	}
+	},
 
+	syntax_options: function(test) {
+		var svgs = grunt.file.expand('test/src/**.*');
+		var less = grunt.file.read('test/tmp/syntax_options/icons.less');
+		var html = grunt.file.read('test/tmp/syntax_options/icons.html');
+
+		test.ok(
+				find(less, '.glyph-icon {'),
+				'Class .glyph-icon should be in LESS file.'
+		);
+
+
+		// Every SVG file should have corresponding entry in LESS and HTML files
+		svgs.forEach(function(file) {
+			var id = path.basename(file, '.svg');
+			test.ok(
+					find(less, '.make-icon-' + id + '() {'),
+					'Mixin .make-icon-' + id + ' should be in LESS file.'
+			);
+			test.ok(
+					find(less, '.glyph_' + id + '{'),
+					'Icon .glyph_' + id + ' should be in LESS file.'
+			);
+			test.ok(
+					find(html, '<div class="icons__item" data-name="' + id + '"><i class="glyph-icon glyph_' + id + '"></i> glyph_' + id + '</div>'),
+					'Icon .glyph_' + id + ' should be in HTML file.'
+			);
+		});
+
+		test.done();
+	}
 };
