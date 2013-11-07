@@ -130,35 +130,6 @@ Type: `object` Default: `{}`
 
 Extends/Overrides CSS template or syntax's JSON file. Allows custom class names in default css templates.
 
-`bem` example
-``` javascript
-webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts',
-    syntax: 'bem',
-    templateOptions: {
-        baseClass: 'glyph-icon',
-        classPrefix: 'glyph_',
-        mixinPrefix: 'glyph-'
-    }
-  }
-}
-```
-`bootstrap` example
-``` javascript
-webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts',
-    syntax: 'bootstrap',
-    templateOptions: {
-        classPrefix: 'glyph-',
-    }
-  }
-}
-```
-
 #### stylesheet
 
 Type: `string` Default: `'css'`
@@ -261,6 +232,38 @@ webfont: {
   }
 }
 ```
+
+#### Custom CSS classes using templateOptions
+
+`bem` example
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    syntax: 'bem',
+    templateOptions: {
+        baseClass: 'glyph-icon',
+        classPrefix: 'glyph_',
+        mixinPrefix: 'glyph-'
+    }
+  }
+}
+```
+`bootstrap` example
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    syntax: 'bootstrap',
+    templateOptions: {
+        classPrefix: 'glyph-',
+    }
+  }
+}
+```
+
 
 #### To use with CSS preprocessor
 
