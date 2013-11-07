@@ -108,13 +108,14 @@ Type: `string` Default: `bem`
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
 
+
 #### template
 
 Type: `string` Default: `null`
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
 
-You should provide CSS and JSON files. Variables from JSON files used in HTML demo page.
+You should provide CSS and JSON files. Variables from JSON files used in CSS template and HTML demo page.
 
 ```json
 {
@@ -123,7 +124,40 @@ You should provide CSS and JSON files. Variables from JSON files used in HTML de
 }
 ```
 
-If you use custom HTML template (`htmlDemoTemplate` option) you can avoid JSON file.
+#### templateOptions
+
+Type: `object` Default: `{}`
+
+Extends/Overrides CSS template or syntax's JSON file. Allows custom class names in default css templates.
+
+`bem` example
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    syntax: 'bem',
+    templateOptions: {
+        baseClass: 'glyph-icon',
+        classPrefix: 'glyph_',
+        mixinPrefix: 'glyph-'
+    }
+  }
+}
+```
+`bootstrap` example
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    syntax: 'bootstrap',
+    templateOptions: {
+        classPrefix: 'glyph-',
+    }
+  }
+}
+```
 
 #### stylesheet
 
