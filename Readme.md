@@ -108,6 +108,7 @@ Type: `string` Default: `bem`
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
 
+
 #### template
 
 Type: `string` Default: `null`
@@ -140,6 +141,22 @@ options: {
 {
   "baseClass": "icon",
   "classPrefix": "icon_"
+}
+```
+
+#### templateOptions
+
+Type: `object` Default: `{}`
+
+Extends/overrides CSS template or syntax’s JSON file. Allows custom class names in default css templates.
+
+``` javascript
+options: {
+	templateOptions: {
+		baseClass: 'glyph-icon',
+		classPrefix: 'glyph_',
+		mixinPrefix: 'glyph-'
+	}
 }
 ```
 
@@ -214,7 +231,7 @@ Type: `boolean` Default: `false`
 
 If `true` task will not be ran. In example, you can skip task on Windows (becase of difficult installation):
 
-``` javascript
+```javascript
 skip: require('os').platform() === 'win32'
 ```
 
@@ -222,7 +239,7 @@ skip: require('os').platform() === 'win32'
 
 #### Simple font generation
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',
@@ -233,7 +250,7 @@ webfont: {
 
 #### Custom font name, fonts and CSS in different folders
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',
@@ -246,9 +263,26 @@ webfont: {
 }
 ```
 
+#### Custom CSS classes
+
+```js
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    syntax: 'bem',
+    templateOptions: {
+        baseClass: 'glyph-icon',
+        classPrefix: 'glyph_',
+        mixinPrefix: 'glyph-'
+    }
+  }
+}
+```
+
 #### To use with CSS preprocessor
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',
@@ -264,7 +298,7 @@ webfont: {
 
 #### Embedded font file
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',

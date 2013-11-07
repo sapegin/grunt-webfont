@@ -108,6 +108,7 @@ module.exports = function(grunt) {
 			addLigatures: options.ligatures === true,
 			template: options.template,
 			syntax: options.syntax || 'bem',
+			templateOptions: options.templateOptions || {},
 			stylesheet: options.stylesheet || 'css',
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
@@ -264,6 +265,13 @@ module.exports = function(grunt) {
 			// Prepage glyph names to use as CSS classes
 			o.glyphs = _.map(o.glyphs, _.dasherize);
 
+			// Read JSON file corresponding to CSS template
+			var templateJson = readTemplate(o.template, o.syntax, '.json');
+			if (templateJson) o = _.extend(o, JSON.parse(templateJson));
+
+			// Now override values with templateOptions
+			if (o.templateOptions) o = _.extend(o, o.templateOptions);
+
 			// Generate CSS
 			o.cssTemplate = readTemplate(o.template, o.syntax, '.css');
 			var cssFilePrefix = option(cssFilePrefixes, o.stylesheet);
@@ -271,6 +279,7 @@ module.exports = function(grunt) {
 			var cssContext = _.extend(o, {
 				iconsStyles: true
 			});
+
 			var css = grunt.template.process(o.cssTemplate, {data: cssContext});
 
 			// Fix CSS preprocessors comments: single line comments will be removed after compilation
@@ -305,10 +314,6 @@ module.exports = function(grunt) {
 			var htmlContext = _.extend(context, {
 				styles: htmlStyles
 			});
-
-			// Read JSON file corresponding to CSS template with values for HTML template
-			var templateJson = readTemplate(o.template, o.syntax, '.json');
-			if (templateJson) htmlContext = _.extend(htmlContext, JSON.parse(templateJson));
 
 			// Generate HTML
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
@@ -413,6 +418,5 @@ module.exports = function(grunt) {
 				return context[key];
 			});
 		}
-
 	});
 };
