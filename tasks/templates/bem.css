@@ -25,12 +25,15 @@
 
 <% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 <% if (stylesheet === 'less') { %>
-.icon-<%= glyphs[glyphIdx] %> {
+.icon-<%= glyphs[glyphIdx] %>() {
 	&:before {
 		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 	}
+}
+.icon_<%= glyphs[glyphIdx] %>{
+ 	.icon-<%= glyphs[glyphIdx] %>();
 }<% } else { %>
-.icon-<%= glyphs[glyphIdx] %>:before {
+.icon_<%= glyphs[glyphIdx] %>:before {
 	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
-}<% } %><% } } %>
+}<% } } } %>
 
