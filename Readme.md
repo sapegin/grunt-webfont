@@ -108,6 +108,18 @@ Type: `string` Default: `bem`
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
 
+#### baseClass
+
+Type: `string` Default: `icon`
+
+Base icon class used for `bem` syntax.
+
+#### classPrefix
+
+Type: `string` Default: `icon-`
+
+Icon and related classes will be prefixed with this value.
+
 #### template
 
 Type: `string` Default: `null`
@@ -118,8 +130,8 @@ You should provide CSS and JSON files. Variables from JSON files used in HTML de
 
 ```json
 {
-	"baseClass": "icon",
-	"classPrefix": "icon_"
+	"foo": "a",
+	"bar": "2"
 }
 ```
 
@@ -209,6 +221,20 @@ webfont: {
   icons: {
     src: 'icons/*.svg',
     dest: 'build/fonts'
+  }
+}
+```
+
+#### Simple font generation with custom class names
+
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    options: {
+        classPrefix: 'custom-icon-'
+    }
   }
 }
 ```
