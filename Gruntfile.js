@@ -172,6 +172,21 @@ module.exports = function(grunt) {
 					order: 'svg,woff',
 					hashes: false
 				}
+			},
+
+			template_options: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/template_options',
+				options: {
+					hashes: false,
+					syntax: 'bem',
+					stylesheet: 'less',
+					templateOptions: {
+						baseClass: "glyph-icon",
+						classPrefix: "glyph_",
+						mixinPrefix: "make-icon-"
+					}
+				}
 			}
 		},
 		nodeunit: {

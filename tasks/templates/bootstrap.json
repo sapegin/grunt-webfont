@@ -1,4 +1,5 @@
 {
 	"baseClass": "",
-	"classPrefix": "icon-"
+	"classPrefix": "icon-",
+	"mixinPrefix": ""
 }
