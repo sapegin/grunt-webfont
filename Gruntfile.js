@@ -174,14 +174,14 @@ module.exports = function(grunt) {
 				}
 			},
 
-			syntax_options: {
+			template_options: {
 				src: 'test/src/*.svg',
-				dest: 'test/tmp/syntax_options',
+				dest: 'test/tmp/template_options',
 				options: {
 					hashes: false,
 					syntax: 'bem',
 					stylesheet: 'less',
-					syntaxOptions: {
+					templateOptions: {
 						baseClass: "glyph-icon",
 						classPrefix: "glyph_",
 						mixinPrefix: "make-icon-"

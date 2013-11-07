@@ -490,10 +490,10 @@ exports.webfont = {
 		test.done();
 	},
 
-	syntax_options: function(test) {
+	template_options: function(test) {
 		var svgs = grunt.file.expand('test/src/**.*');
-		var less = grunt.file.read('test/tmp/syntax_options/icons.less');
-		var html = grunt.file.read('test/tmp/syntax_options/icons.html');
+		var less = grunt.file.read('test/tmp/template_options/icons.less');
+		var html = grunt.file.read('test/tmp/template_options/icons.html');
 
 		test.ok(
 				find(less, '.glyph-icon {'),

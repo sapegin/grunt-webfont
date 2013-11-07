@@ -108,7 +108,7 @@ module.exports = function(grunt) {
 			addLigatures: options.ligatures === true,
 			template: options.template,
 			syntax: options.syntax || 'bem',
-			syntaxOptions: options.syntaxOptions || {},
+			templateOptions: options.templateOptions || {},
 			stylesheet: options.stylesheet || 'css',
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
@@ -423,7 +423,7 @@ module.exports = function(grunt) {
 			if (templateJson) baseContext = _.extend(baseContext, JSON.parse(templateJson));
 
 			//Now override values with syntaxOptions
-			if (o.syntaxOptions) baseContext = _.extend(baseContext, o.syntaxOptions );
+			if (o.templateOptions) baseContext = _.extend(baseContext, o.templateOptions );
 
 			return baseContext;
 		}
