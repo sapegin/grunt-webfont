@@ -22,13 +22,18 @@
 	-moz-osx-font-smoothing:grayscale;
 }
 <% } %>
-<% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
-.icon-<%= glyphs[glyphIdx] %> {
+
+<% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+<% if (stylesheet === 'less') { %>
+.icon-<%= glyphs[glyphIdx] %>() {
 	&:before {
 		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
 	}
-}<% } %><% } %>
-<% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+}
+.icon_<%= glyphs[glyphIdx] %>{
+ 	.icon-<%= glyphs[glyphIdx] %>();
+}<% } else { %>
 .icon_<%= glyphs[glyphIdx] %>:before {
 	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
-}<% } %><% } %>
+}<% } } } %>
+
