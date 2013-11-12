@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 	var fs = require('fs');
 	var path = require('path');
 	var temp = require('temp');
-	var async = grunt.util.async;
+	var async = require('async');
 	var _ = grunt.util._;
 
 	var COMMAND_NOT_FOUND = 127;

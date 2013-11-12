@@ -172,6 +172,14 @@ module.exports = function(grunt) {
 					order: 'svg,woff',
 					hashes: false
 				}
+			},
+			node: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/node',
+				options: {
+					hashes: false,
+					engine: 'node'
+				}
 			}
 		},
 		nodeunit: {

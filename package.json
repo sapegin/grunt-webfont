@@ -31,15 +31,18 @@
     "node": "*"
   },
   "dependencies": {
-    "temp": "~0.4.0"
+    "temp": "~0.4.0",
+    "svgicons2svgfont": "0.0.1",
+    "async": "~0.2.9",
+    "lodash": "~2.3.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-jshint": "~0.7.1",
     "grunt-contrib-nodeunit": "~0.2.2",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-jscs-checker": "~0.2.2",
-    "stylus": "~0.38.0",
+    "grunt-jscs-checker": "~0.2.3",
+    "stylus": "~0.40.2",
     "matchdep": "~0.3.0"
   },
   "peerDependencies": {
