@@ -1,7 +1,7 @@
 /**
  * SVG to webfont converter for Grunt
  *
- * @requires fontforge, ttfautohint, eotlitetool.py
+ * @requires ttfautohint
  * @author Artem Sapegin (http://sapegin.me)
  */
 
@@ -96,8 +96,6 @@ module.exports = function(grunt) {
 			return;
 		}
 
-		// @todo Check that all needed tools installed: fontforge, ttfautohint
-
 		// Options
 		var o = {
 			fontBaseName: options.font || 'icons',
@@ -115,7 +113,8 @@ module.exports = function(grunt) {
 			types: optionToArray(options.types, fontFormats),
 			order: optionToArray(options.order, fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
-			rename: options.rename || path.basename
+			rename: options.rename || path.basename,
+			engine: options.engine || 'fontforge'
 		};
 
 		o = _.extend(o, {
@@ -169,69 +168,18 @@ module.exports = function(grunt) {
 			}, done);
 		}
 
-		// Run Fontforge
+		// Generate font using selected engine
 		function generateFont(done) {
-			var args = [
-				'-script',
-				path.join(__dirname, 'scripts/generate.py'),
-				o.tempDir,
-				o.dest,
-				o.fontBaseName,
-				o.types.join(',')
-			];
-			if (o.addHashes) {
-				args.push('--hashes');
-			}
-			if (o.addLigatures) {
-				args.push('--ligatures');
-			}
-
-			grunt.util.spawn({
-				cmd: 'fontforge',
-				args: args
-			}, function(err, fontforgeProcess, code) {
-				if (code === COMMAND_NOT_FOUND) {
-					grunt.log.errorlns('Please install fontforge and all other requirements.');
-					grunt.warn('fontforge not found', code);
+			var engine = require('./engines/' + o.engine);
+			engine(grunt, o, function(result) {
+				if (result) {
+					o = _.extend(o, result);
+					done();
 				}
-				else if (err || fontforgeProcess.stderr) {
-					// Skip some fontforge output such as copyrights. Show warnings only when no font files was created
-					// or in verbose mode.
-					var success = !!generatedFontFiles();
-					var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git)/;
-					var lines = (err && err.stderr || fontforgeProcess.stderr).split('\n');
-
-					var warn = [];
-					lines.forEach(function(line) {
-						if (!line.match(notError) && !success) {
-							warn.push(line);
-						}
-						else {
-							grunt.verbose.writeln("fontforge: ".grey + line);
-						}
-					});
-
-					if (warn.length) {
-						grunt.warn(warn.join('\n'));
-						allDone();
-					}
+				else {
+					// Font was not created, exit
+					allDone();
 				}
-
-				// Trim fontforge result
-				var json = fontforgeProcess.stdout.replace(/^[^{]+/, '').replace(/[^}]+$/, '');
-
-				// Parse json
-				var result;
-				try {
-					result = JSON.parse(json);
-				} catch (e) {
-					grunt.warn('Webfont did not receive a popper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
-				}
-
-				o.fontName = path.basename(result.file);
-				o.glyphs = result.names;
-
-				done();
 			});
 		}
 

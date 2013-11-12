@@ -127,7 +127,7 @@ if 'woff' in args.types:
 # EOT
 if 'eot' in args.types:
 	# eotlitetool.py script to generate IE7-compatible .eot fonts
-	call("python '" + scriptPath + "/eotlitetool.py' '" + fontfile + ".ttf' --output '" + fontfile + ".eot'", shell=True)
+	call("python '" + scriptPath + "/../../bin/eotlitetool.py' '" + fontfile + ".ttf' --output '" + fontfile + ".eot'", shell=True)
 
 # Delete TTF if not needed
 if not 'ttf' in args.types:
