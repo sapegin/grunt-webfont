@@ -114,16 +114,34 @@ Type: `string` Default: `null`
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
 
-You should provide CSS and JSON files. Variables from JSON files used in HTML demo page.
+Template is a pair of CSS and JSON files with the same name.
 
-```json
-{
-	"baseClass": "icon",
-	"classPrefix": "icon_"
+Example Gruntfile:
+
+```js
+options: {
+  template: 'my_templates/tmpl.css'
 }
 ```
 
-If you use custom HTML template (`htmlDemoTemplate` option) you can avoid JSON file.
+`my_templates/tmpl.css`:
+
+```css
+@font-face {
+  font-family:"<%= fontBaseName %>";
+  ...
+}
+...
+```
+
+`my_templates/tmpl.json`:
+
+```json
+{
+  "baseClass": "icon",
+  "classPrefix": "icon_"
+}
+```
 
 #### stylesheet
 
