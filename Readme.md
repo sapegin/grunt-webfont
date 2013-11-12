@@ -116,7 +116,7 @@ Custom CSS template path (see `tasks/templates` for some examples). Should be us
 
 Template is a pair of CSS and JSON files with the same name.
 
-Example Gruntfile:
+For example, your Gruntfile:
 
 ```js
 options: {
