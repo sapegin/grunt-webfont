@@ -20,6 +20,8 @@ module.exports = function(grunt, o, done) {
 
 	// @todo Append hashes
 	// @todo Autohint TTF
+	// @todo Generate only needed font types
+	// @todo Parallelize WOFF and EOT generation
 	// @todo Fix line height, kerning, sizes, etc. (see generate.py)
 	// @todo SVGO for SVG font and for every glyph (?)
 	// @todo Tweak SVG (as in FF script)
