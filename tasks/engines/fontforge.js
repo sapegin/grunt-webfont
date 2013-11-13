@@ -10,8 +10,12 @@ module.exports = function(grunt, o, done) {
 	'use strict';
 
 	var path = require('path');
+	var _ = require('lodash');
 
 	var COMMAND_NOT_FOUND = 127;
+
+	// http://en.wikipedia.org/wiki/Private_Use_(Unicode)
+	var UNICODE_PUA_START = 0xE001;
 
 	// Run Fontforge
 	var args = [
@@ -72,13 +76,19 @@ module.exports = function(grunt, o, done) {
 			grunt.warn('Webfont did not receive a popper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
 		}
 
+		var codepointIdx = 0;
+		var codepoints = _.map(result.names, function(name) {
+			return (UNICODE_PUA_START + codepointIdx++).toString(16);
+		});
+
 		done({
 			fontName: path.basename(result.file),
-			glyphs: result.names
+			glyphs: result.names,
+			codepoints: codepoints
 		});
 	});
 
-	// @todo
+	// @todo Copypasted from webfont.js
 	var fontFormats = 'eot,woff,ttf,svg';
 	var fontFileMask = '*.{' + fontFormats + '}';
 	function generatedFontFiles() {

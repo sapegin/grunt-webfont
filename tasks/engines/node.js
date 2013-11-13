@@ -18,7 +18,6 @@ module.exports = function(grunt, o, done) {
 	var ttf2woff = require('ttf2woff');
 	var ttf2eot = require('ttf2eot');
 
-	// @todo Codepoints should be the same in CSS file and in fonts
 	// @todo Append hashes
 	// @todo Autohint TTF
 	// @todo SVGO?
@@ -30,7 +29,8 @@ module.exports = function(grunt, o, done) {
 
 	var result = {
 		fontName: o.fontName,
-		glyphs: []
+		glyphs: [],
+		codepoints: []
 	};
 
 
@@ -46,12 +46,11 @@ module.exports = function(grunt, o, done) {
 
 	// Convert SVG files to SVG font
 	function svgFilesToSvgFont(done) {
-		console.log(o.files);
 		svgicons2svgfont(o.files, svgFontPath, {
 			fontName: o.fontName,
 			callback: function(glyphs) {
-				console.log('done', glyphs);
 				result.glyphs = _.pluck(glyphs, 'name');
+				result.codepoints = _.pluck(glyphs, 'codepoint');
 				done();
 			}
 		});
@@ -80,7 +79,6 @@ module.exports = function(grunt, o, done) {
 		fs.writeFileSync(fontPath('eot'), eot);
 		done();
 	}
-
 
 	function allDone() {
 		done(result);

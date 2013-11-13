@@ -174,6 +174,7 @@ module.exports = function(grunt) {
 			var engine = require('./engines/' + o.engine);
 			engine(grunt, o, function(result) {
 				if (result) {
+					// console.log(result);
 					o = _.extend(o, result);
 					done();
 				}

@@ -27,7 +27,7 @@ f.ascent = 448
 f.descent = 64
 
 m = hashlib.md5()
-cp = 0xf100
+cp = 0xE001
 files = []
 
 KERNING = 15
