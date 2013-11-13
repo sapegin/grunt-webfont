@@ -13,7 +13,8 @@ module.exports = function(grunt) {
 	var path = require('path');
 	var temp = require('temp');
 	var async = require('async');
-	var _ = grunt.util._;
+	var _ = require('lodash');
+	var _s = require('underscore.string');
 
 	var COMMAND_NOT_FOUND = 127;
 
@@ -210,7 +211,7 @@ module.exports = function(grunt) {
 			});
 
 			// Prepage glyph names to use as CSS classes
-			o.glyphs = _.map(o.glyphs, _.dasherize);
+			o.glyphs = _.map(o.glyphs, _s.dasherize);
 
 			// Generate CSS
 			o.cssTemplate = readTemplate(o.template, o.syntax, '.css');
@@ -319,7 +320,7 @@ module.exports = function(grunt) {
 		}
 
 		function appendSlash(filepath) {
-			if (filepath.length && !_.endsWith(filepath, '/')) {
+			if (filepath.length && !_s.endsWith(filepath, '/')) {
 				filepath += '/';
 			}
 			return filepath;
