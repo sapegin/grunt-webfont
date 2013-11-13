@@ -20,9 +20,11 @@ module.exports = function(grunt, o, done) {
 
 	// @todo Append hashes
 	// @todo Autohint TTF
-	// @todo SVGO?
+	// @todo Fix line height, kerning, sizes, etc. (see generate.py)
+	// @todo SVGO for SVG font and for every glyph (?)
 	// @todo Tweak SVG (as in FF script)
 	// @todo Make everything works in memory (don’t write SVG font to file and read it back)
+	// @todo Ligatures
 
 	var svgFontPath = fontPath('svg');
 	var ttfFont;
