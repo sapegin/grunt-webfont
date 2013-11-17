@@ -1,4 +1,9 @@
-## Release History
+### 2013-11-17 v0.2.1
+
+* `templateOptions` option and templates refactoring (by [@tylerbeck](https://github.com/tylerbeck)).
+* Improve fontforge result parsing (by [@jantimon](https://github.com/jantimon)).
+* Tweak HTML demo page look & feel.
+* Tweak `ttfautohint` call.
 
 ### 2013-10-29 v0.2.0
 
