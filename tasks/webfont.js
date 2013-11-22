@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			styles: optionToArray(options.styles, 'font,icon'),
-			types: optionToArray(options.types, fontFormats),
+			types: optionToArray(options.types, 'eot,woff,ttf'),
 			order: optionToArray(options.order, fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename

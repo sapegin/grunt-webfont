@@ -92,7 +92,7 @@ List of styles to be added to CSS files: `font` (`font-face` declaration), `icon
 
 #### types
 
-Type: `string|array` Default: `'eot,woff,ttf,svg'`
+Type: `string|array` Default: `'eot,woff,ttf'`
 
 Font files types to generate.
 
