@@ -12,7 +12,7 @@ function find(haystack, needle) {
 exports.webfont = {
 	test1: function(test) {
 		// All out files should be created and should not be empty
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			var name = type.toUpperCase();
 			test.ok(fs.existsSync('test/tmp/test1/icons.' + type), name + ' file created.');
 			test.ok(grunt.file.read('test/tmp/test1/icons.' + type).length, name + ' file not empty.');
@@ -29,7 +29,7 @@ exports.webfont = {
 		var html = grunt.file.read('test/tmp/test1/icons.html');
 
 		// CSS links to font files are correct
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'url("icons.' + type),
 				'File path ' + type + ' should be in CSS file.'
@@ -126,7 +126,7 @@ exports.webfont = {
 
 	embed: function(test) {
 		// All out files should be created and should not be empty
-		'ttf,eot,svg'.split(',').forEach(function(type) {
+		'ttf,eot'.split(',').forEach(function(type) {
 			var name = type.toUpperCase(),
 				prefix = 'test/tmp/embed/icons.';
 			test.ok(fs.existsSync(prefix + type), name + ' file created.');
@@ -151,7 +151,7 @@ exports.webfont = {
 
 	embed_woff: function(test) {
 		// Excluded file types should not be created + WOFF should be deleted
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			var name = type.toUpperCase(),
 				prefix = 'test/tmp/embed_woff/icons.';
 			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
@@ -169,7 +169,7 @@ exports.webfont = {
 
 	embed_ttf: function(test) {
 		// Excluded file types should not be created + TTF should be deleted
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			var name = type.toUpperCase(),
 				prefix = 'test/tmp/embed_ttf/icons.';
 			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
@@ -187,7 +187,7 @@ exports.webfont = {
 
 	embed_ttf_woff: function(test) {
 		// Excluded file types should not be created + TTF should be deleted
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			var name = type.toUpperCase(),
 				prefix = 'test/tmp/embed_ttf_woff/icons.';
 			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
@@ -207,7 +207,7 @@ exports.webfont = {
 
 	one: function(test) {
 		// All out files should be created and should not be empty
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			var name = type.toUpperCase();
 			test.ok(fs.existsSync('test/tmp/one/icons.' + type), name + ' file created.');
 			test.ok(grunt.file.read('test/tmp/one/icons.' + type).length, name + ' file not empty.');
@@ -223,7 +223,7 @@ exports.webfont = {
 			css = grunt.file.read('test/tmp/one/icons.css');
 
 		// CSS links to font files are correct
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'icons.' + type),
 				'File path ' + type + ' should be in CSS file.'
@@ -270,7 +270,7 @@ exports.webfont = {
 		var css = grunt.file.read('test/tmp/relative_path/icons.css');
 
 		// CSS links to font files are correct
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'url("../iamrelative/icons.' + type),
 				'File path ' + type + ' should be in CSS file.'
