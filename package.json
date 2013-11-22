@@ -41,12 +41,12 @@
     "underscore.string": "~2.3.3"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.7.1",
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-nodeunit": "~0.2.2",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-jscs-checker": "~0.2.3",
-    "stylus": "~0.40.2",
+    "grunt-jscs-checker": "~0.2.4",
+    "stylus": "~0.40.3",
     "matchdep": "~0.3.0"
   },
   "peerDependencies": {
