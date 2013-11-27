@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "temp": "~0.4.0",
-    "svgicons2svgfont": "0.0.1",
+    "svgicons2svgfont": "0.0.2",
     "async": "~0.2.9",
     "lodash": "~2.3.0",
     "svg2ttf": "~1.1.1",
@@ -45,7 +45,7 @@
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-nodeunit": "~0.2.2",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-jscs-checker": "~0.2.4",
+    "grunt-jscs-checker": "~0.2.5",
     "stylus": "~0.40.3",
     "matchdep": "~0.3.0"
   },
