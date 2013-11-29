@@ -255,7 +255,7 @@ webfont: {
   icons: {
     src: 'icons/*.svg',
     dest: 'build/fonts',
-    destCss: 'build/fonts/css'
+    destCss: 'build/fonts/css',
     options: {
       font: 'ponies'
     }
