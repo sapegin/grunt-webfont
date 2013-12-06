@@ -204,12 +204,23 @@ module.exports = function(grunt) {
 				undef: true
 			}
 		},
+        watch: {
+            scripts: {
+                files: '<%= jshint.all %>',
+                tasks: ['jshint', 'jscs'],
+                options: {
+                    debounceDelay: 100,
+                    nospawn: true
+                }
+            },
+        },
 		jscs: {
 			all: ['tasks/*.js']
 		},
 		clean: ['test/tmp']
 	});
 
+    grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit', 'clean']);
