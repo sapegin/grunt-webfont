@@ -5,8 +5,10 @@
  * @author Artem Sapegin (http://sapegin.me)
  */
 
-/*jshint node:true, laxbreak:true, latedef:false */
+/* jshint node:true, laxbreak:true, latedef:false */
+
 module.exports = function(grunt) {
+
 	'use strict';
 
 	var fs = require('fs');
@@ -15,9 +17,16 @@ module.exports = function(grunt) {
 	var async = grunt.util.async;
 	var _ = grunt.util._;
 
+	/**
+	 * Constant for command not found error
+	 * @type {Number}
+	 */
 	var COMMAND_NOT_FOUND = 127;
 
-	// @font-face’s src values generation rules
+	/**
+	 * @font-face’s src values generation rules
+	 * @type {Object}
+	 */
 	var fontsSrcsMap = {
 		eot: [
 			{
@@ -53,27 +62,39 @@ module.exports = function(grunt) {
 		]
 	};
 
-	// CSS fileaname prefixes: _icons.scss
+	/**
+	 * CSS fileaname prefixes: _icons.scss
+	 * @type {Object}
+	 */
 	var cssFilePrefixes = {
 		_default: '',
 		sass: '_',
 		scss: '_'
 	};
 
-	// @font-face’s src parts seperators
+	/**
+	 * @font-face’s src parts seperators
+	 * @type {Object}
+	 */
 	var fontSrcSeparators = {
 		_default: ',\n\t\t',
 		styl: ', '
 	};
 
-	// All font file formats
+	/**
+	 * All font file formats
+	 * @type {String}
+	 */
 	var fontFormats = 'eot,woff,ttf,svg';
 
-	// Any font file
+	/**
+	 * Any font file
+	 * @type {String}
+	 */
 	var fontFileMask = '*.{' + fontFormats + '}';
 
-
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
+
 		['src', 'dest'].forEach(function(name) {
 			this.requiresConfig([this.name, this.target, name].join('.'));
 		}.bind(this));
@@ -82,23 +103,26 @@ module.exports = function(grunt) {
 		var params = this.data;
 		var options = params.options || {};
 
-		if (options.skip) {
-			allDone();
-			return;
-		}
+		if (options.skip) return allDone();
 
-		// Source files
-		// @todo Check that source files are svg or eps
+		/**
+		 * Source files
+		 * @todo Check that source files are svg or eps
+		 * @type {Array}
+		 */
 		var files = this.filesSrc;
+
 		if (!files.length) {
 			grunt.log.writeln('Source SVG or EPS files not found.'.grey);
-			allDone();
-			return;
+			return allDone();
 		}
 
 		// @todo Check that all needed tools installed: fontforge, ttfautohint
 
-		// Options
+		/**
+		 * Options
+		 * @type {Object}
+		 */
 		var o = {
 			fontBaseName: options.font || 'icons',
 			destCss: params.destCss || params.dest,
@@ -129,7 +153,9 @@ module.exports = function(grunt) {
 			glyphs: []
 		});
 
-		// Run!
+		/**
+		 * Run all tasks asynchronously
+		 */
 		async.waterfall([
 			createOutputDirs,
 			cleanOutputDir,
@@ -140,19 +166,24 @@ module.exports = function(grunt) {
 			printDone
 		], allDone);
 
-
 		/**
 		 * Font generation steps
 		 */
 
-		// Create output directory
+		/**
+		 * Create output directory
+		 * @param  {Function} done
+		 */
 		function createOutputDirs(done) {
 			grunt.file.mkdir(o.destCss);
 			grunt.file.mkdir(o.dest);
 			done();
 		}
 
-		// Clean output directory
+		/**
+		 * Clean output directory
+		 * @param  {Function} done
+		 */
 		function cleanOutputDir(done) {
 			var htmlDemoFileMask = path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}');
 			var files = grunt.file.expand(htmlDemoFileMask).concat(generatedFontFiles());
@@ -161,7 +192,10 @@ module.exports = function(grunt) {
 			}, done);
 		}
 
-		// Copy source files to temporary directory
+		/**
+		 * Copy source files to temporary directory
+		 * @param  {Function} done
+		 */
 		function copyFilesToTempDir(done) {
 			o.tempDir = temp.mkdirSync();
 			async.forEach(o.files, function(file, next) {
@@ -170,7 +204,10 @@ module.exports = function(grunt) {
 			}, done);
 		}
 
-		// Run Fontforge
+		/**
+		 * Run Fontforge
+		 * @param  {Function} done [description]
+		 */
 		function generateFont(done) {
 			var args = [
 				'-script',
@@ -236,8 +273,12 @@ module.exports = function(grunt) {
 			});
 		}
 
-		// Generate CSS
+		/**
+		 * Generate CSS
+		 * @param  {Function} done
+		 */
 		function generateStylesheet(done) {
+
 			// Relative fonts path
 			if (!o.relativeFontPath) {
 				o.relativeFontPath = path.relative(o.destCss, o.dest);
@@ -293,7 +334,10 @@ module.exports = function(grunt) {
 			done();
 		}
 
-		// Generate HTML demo page
+		/**
+		 * Generate HTML demo page
+		 * @param  {Function} done
+		 */
 		function generateDemoHtml(done) {
 			if (!o.htmlDemo) return done();
 
@@ -332,11 +376,16 @@ module.exports = function(grunt) {
 			done();
 		}
 
-
 		/**
 		 * Helpers
 		 */
 
+		 /**
+		  * Convert a string of comma seperated words into an array
+		  * @param  {String} val    input string
+		  * @param  {String} defVal default value
+		  * @return {Array}        array of seperated words
+		  */
 		function optionToArray(val, defVal) {
 			if (val === undefined) val = defVal;
 			if (!val) return [];
@@ -349,20 +398,36 @@ module.exports = function(grunt) {
 			}
 		}
 
+		/**
+		 * in_array helper
+		 * @param  {Array}  haystack haystack to find the needle in
+		 * @param  {Mixed}  needle   the needle to find
+		 * @return {Boolean}         boolean if needle was found
+		 */
 		function has(haystack, needle) {
 			return haystack.indexOf(needle) !== -1;
 		}
 
-		function option(map, type) {
-			if (type in map) {
-				return map[type];
+		/**
+		 * Default method
+		 * @param  {Object} map  map of keys
+		 * @param  {String} key key to find in the map
+		 * @return {Mixed}      Any type which is in the object
+		 */
+		function option(map, key) {
+			if (key in map) {
+				return map[key];
 			}
 			else {
 				return map._default;
 			}
 		}
 
-		// Convert font file to data:uri and remove source file
+		/**
+		 * Convert font file to data:uri and remove source file
+		 * @param  {Blob} fontFile font blob
+		 * @return {String} fontUrl data base64 string of the fontfile
+		 */
 		function embedFont(fontFile) {
 			// Convert to data:uri
 			var dataUri = fs.readFileSync(fontFile, 'base64');
@@ -375,6 +440,11 @@ module.exports = function(grunt) {
 			return fontUrl;
 		}
 
+		/**
+		 * append a slash to end of a filepath if it not exists
+		 * @param  {String} filepath path to add the slash
+		 * @return {String}          path where the slash optionally was appended
+		 */
 		function appendSlash(filepath) {
 			if (filepath.length && !_.endsWith(filepath, '/')) {
 				filepath += '/';
@@ -382,11 +452,18 @@ module.exports = function(grunt) {
 			return filepath;
 		}
 
-		// Generate URL for @font-face
+		/**
+		 * Generate URL for @font-face
+		 * @param  {String} type type of font
+		 * @param  {Object} font
+		 * @return {String}      src path of font
+		 */
 		function generateFontSrc(type, font) {
-			var filename = template(o.fontName + font.ext, o);
 
+			var filename = template(o.fontName + font.ext, o);
 			var url;
+			var src;
+
 			if (font.embeddable && has(o.embed, type)) {
 				url = embedFont(path.join(o.dest, filename));
 			}
@@ -394,25 +471,45 @@ module.exports = function(grunt) {
 				url = o.relativeFontPath + filename;
 			}
 
-			var src = 'url("' + url + '")';
-			if (font.format) src += ' format("' + font.format + '")';
+			src = 'url("' + url + '")';
+
+			if (font.format) {
+				src += ' format("' + font.format + '")';
+			}
 
 			return src;
 		}
 
+		/**
+		 * Get the template file blob
+		 * @param  {String} template the template path
+		 * @param  {String} syntax   syntax of the template
+		 * @param  {String} ext      extention of the template
+		 * @return {Blob}   file     file blob of the template
+		 */
 		function readTemplate(template, syntax, ext) {
+			var file = fs.readFileSync(path.join(__dirname, 'templates/' + syntax + ext), 'utf8');
+
 			if (template) {
-				return grunt.file.read(template.replace(/\.css$/, ext));
+				file = grunt.file.read(template.replace(/\.css$/, ext));
 			}
-			else {
-				return fs.readFileSync(path.join(__dirname, 'templates/' + syntax + ext), 'utf8');
-			}
+
+			return file;
 		}
 
+		/**
+		 * Generate font file
+		 * @return {Blob}
+		 */
 		function generatedFontFiles() {
 			return grunt.file.expand(path.join(o.dest, o.fontBaseName + fontFileMask));
 		}
 
+		/**
+		 * [template description]
+		 * @param  {Template} tmpl
+		 * @param  {Object} context
+		 */
 		function template(tmpl, context) {
 			return tmpl.replace(/\{([^\}]+)\}/g, function(m, key) {
 				return context[key];
