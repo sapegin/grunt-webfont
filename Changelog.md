@@ -1,3 +1,8 @@
+### 2013-12-13 v0.2.2
+
+* You can use templates with any extension: `.sass` for example (by [@borodean](https://github.com/borodean)).
+* SVG fonts disabled by default.
+
 ### 2013-11-17 v0.2.1
 
 * `templateOptions` option and templates refactoring (by [@tylerbeck](https://github.com/tylerbeck)).
