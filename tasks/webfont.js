@@ -401,9 +401,8 @@ module.exports = function(grunt) {
 		}
 
 		function readTemplate(template, syntax, ext) {
-			var filename;
 			if (template) {
-				filename = template.replace(/\.[^\\\/.]+$/, '') + ext;
+				var filename = template.replace(/\.[^\\\/.]+$/, '') + ext;
 				return grunt.file.read(filename);
 			}
 			else {
