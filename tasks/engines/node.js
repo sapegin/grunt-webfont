@@ -6,7 +6,7 @@
  */
 
 /*jshint node:true, laxbreak:true, latedef:false */
-module.exports = function(grunt, o, done) {
+module.exports = function(grunt, o, allDone) {
 	'use strict';
 
 	var fs = require('fs');
@@ -18,45 +18,33 @@ module.exports = function(grunt, o, done) {
 	var svg2ttf = require('svg2ttf');
 	var ttf2woff = require('ttf2woff');
 	var ttf2eot = require('ttf2eot');
+	var md5 = require('crypto').createHash('md5');
 
-	// @todo Append hashes
 	// @todo Autohint TTF
 	// @todo Fix line height, kerning, sizes, etc. (see generate.py)
 	// @todo SVGO for SVG font and for every glyph (?)
 	// @todo Tweak SVG (as in FF script)
 	// @todo Ligatures
 
-	var result = {
-		fontName: o.fontName,
-		glyphs: [],
-		codepoints: []
-	};
 	var fonts = {};
 
 	var generators = {
-		svg: function(allDone) {
-			var steps = 2;
-			var done = function() {
-				steps--;
-				if (steps === 0) allDone(font);
-			};
-
+		svg: function(done) {
 			var font = '';
 			var decoder = new StringDecoder('utf8');
-			var stream = svgicons2svgfont(o.files, {
-				fontName: o.fontName,
-				callback: function(glyphs) {
-					result.glyphs = _.pluck(glyphs, 'name');
-					result.codepoints = _.pluck(glyphs, 'codepoint');
-					done();
-				}
+			var stream = svgicons2svgfont(svgFilesToStreams(o.files), {
+				fontName: o.fontName
 			});
 			stream.on('data', function(chunk) {
 				font += decoder.write(chunk);
 			});
 			stream.on('end', function() {
 				fonts.svg = font;
-				done();
+				if (o.addHashes) {
+					md5.update(font);
+					o.fontName += '-' + md5.digest('hex');
+				}
+				done(font);
 			});
 		},
 
@@ -119,12 +107,18 @@ module.exports = function(grunt, o, done) {
 		};
 	}
 
-	function getFontPath(type) {
-		return path.join(o.dest, o.fontName + '.' + type);
+	function svgFilesToStreams(files) {
+		return files.map(function(file, idx) {
+			return {
+				codepoint: parseInt(o.codepoints[idx], 16),
+				name: o.glyphs[idx],
+				stream: fs.createReadStream(file)
+			};
+		});
 	}
 
-	function allDone() {
-		done(result);
+	function getFontPath(type) {
+		return path.join(o.dest, o.fontName + '.' + type);
 	}
 
 };

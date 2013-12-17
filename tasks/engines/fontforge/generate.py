@@ -28,7 +28,6 @@ f.descent = 64
 
 m = hashlib.md5()
 cp = 0xE001
-files = []
 
 KERNING = 15
 
@@ -77,7 +76,6 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 			glyph.left_side_bearing = glyph.right_side_bearing = 0
 			glyph.round()
 
-			files.append(name)
 			cp += 1
 
 		f.autoWidth(0, 0, 512)
@@ -133,4 +131,4 @@ if 'eot' in args.types:
 if not 'ttf' in args.types:
 	os.remove(fontfile + '.ttf')
 
-print(json.dumps({'file': fontfile, 'names': files}))
+print(json.dumps({'file': fontfile}))

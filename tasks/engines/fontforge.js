@@ -6,22 +6,28 @@
  */
 
 /*jshint node:true, laxbreak:true, latedef:false */
-module.exports = function(grunt, o, done) {
+module.exports = function(grunt, o, allDone) {
 	'use strict';
 
 	var path = require('path');
-	var _ = require('lodash');
+	var temp = require('temp');
+	var async = require('async');
 
 	var COMMAND_NOT_FOUND = 127;
 
-	// http://en.wikipedia.org/wiki/Private_Use_(Unicode)
-	var UNICODE_PUA_START = 0xE001;
+	// @todo Codepoints option.
+
+	// Copy source files to temporary directory
+	var tempDir = temp.mkdirSync();
+	o.files.forEach(function(file) {
+		grunt.file.copy(file, path.join(tempDir, o.rename(file)));
+	});
 
 	// Run Fontforge
 	var args = [
 		'-script',
 		path.join(__dirname, 'fontforge/generate.py'),
-		o.tempDir,
+		tempDir,
 		o.dest,
 		o.fontBaseName,
 		o.types.join(',')
@@ -60,7 +66,7 @@ module.exports = function(grunt, o, done) {
 
 			if (warn.length) {
 				grunt.warn(warn.join('\n'));
-				done(false);
+				allDone(false);
 			}
 		}
 
@@ -76,15 +82,8 @@ module.exports = function(grunt, o, done) {
 			grunt.warn('Webfont did not receive a popper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
 		}
 
-		var codepointIdx = 0;
-		var codepoints = _.map(result.names, function(name) {
-			return (UNICODE_PUA_START + codepointIdx++).toString(16);
-		});
-
-		done({
-			fontName: path.basename(result.file),
-			glyphs: result.names,
-			codepoints: codepoints
+		allDone({
+			fontName: path.basename(result.file)
 		});
 	});
 

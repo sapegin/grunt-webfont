@@ -11,10 +11,12 @@ module.exports = function(grunt) {
 
 	var fs = require('fs');
 	var path = require('path');
-	var temp = require('temp');
 	var async = require('async');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
+
+	// http://en.wikipedia.org/wiki/Private_Use_(Unicode)
+	var UNICODE_PUA_START = 0xE001;
 
 	var COMMAND_NOT_FOUND = 127;
 
@@ -115,7 +117,8 @@ module.exports = function(grunt) {
 			order: optionToArray(options.order, fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
-			engine: options.engine || 'fontforge'
+			engine: options.engine || 'fontforge',
+			codepoints: options.codepoints
 		};
 
 		o = _.extend(o, {
@@ -132,7 +135,6 @@ module.exports = function(grunt) {
 		async.waterfall([
 			createOutputDirs,
 			cleanOutputDir,
-			copyFilesToTempDir,
 			generateFont,
 			generateStylesheet,
 			generateDemoHtml,
@@ -160,28 +162,42 @@ module.exports = function(grunt) {
 			}, done);
 		}
 
-		// Copy source files to temporary directory
-		function copyFilesToTempDir(done) {
-			o.tempDir = temp.mkdirSync();
-			async.forEach(o.files, function(file, next) {
-				grunt.file.copy(file, path.join(o.tempDir, o.rename(file)));
-				next();
-			}, done);
+		// “Rename” files
+		o.glyphs = o.files.map(function(file) {
+			return o.rename(file).replace(path.extname(file), '');
+		});
+
+		// Check or generate codepoints
+		if (o.codepoints) {
+			var codepointsMap = o.codepoints;
+			o.codepoints = o.glyphs.map(function(name) {
+				if (!codepointsMap[name]) {
+					grunt.fatal('Can’t find codepoint for "' + name + '" glyph. ');
+				}
+				return codepointsMap[name];
+			});
+		}
+		else {
+			var codepointIdx = 0;
+			o.codepoints = o.glyphs.map(function(name) {
+				return (UNICODE_PUA_START + codepointIdx++).toString(16);
+			});
 		}
 
 		// Generate font using selected engine
 		function generateFont(done) {
 			var engine = require('./engines/' + o.engine);
 			engine(grunt, o, function(result) {
-				if (result) {
-					// console.log(result);
-					o = _.extend(o, result);
-					done();
-				}
-				else {
+				if (result === false) {
 					// Font was not created, exit
 					allDone();
 				}
+
+				if (result) {
+					o = _.extend(o, result );
+				}
+
+				done();
 			});
 		}
 
