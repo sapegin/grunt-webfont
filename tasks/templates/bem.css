@@ -12,6 +12,7 @@
 .ligature-icons<% } %> {
 	font-family:"<%= fontBaseName %>";
 	display:inline-block;
+	vertical-align:middle;
 	font-weight:normal;
 	font-style:normal;
 	speak:none;

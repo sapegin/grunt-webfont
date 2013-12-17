@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "temp": "~0.6.0",
-    "svgicons2svgfont": "0.0.3",
+    "svgicons2svgfont": "0.0.4",
     "async": "~0.2.9",
     "lodash": "~2.4.1",
     "svg2ttf": "~1.1.2",

@@ -33,7 +33,9 @@ module.exports = function(grunt, o, allDone) {
 			var font = '';
 			var decoder = new StringDecoder('utf8');
 			var stream = svgicons2svgfont(svgFilesToStreams(o.files), {
-				fontName: o.fontName
+				fontName: o.fontName,
+				fontHeight: 512,
+				descent: 64
 			});
 			stream.on('data', function(chunk) {
 				font += decoder.write(chunk);

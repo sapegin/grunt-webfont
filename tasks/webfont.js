@@ -192,7 +192,7 @@ module.exports = function(grunt) {
 				}
 
 				if (result) {
-					o = _.extend(o, result );
+					o = _.extend(o, result);
 				}
 
 				done();
