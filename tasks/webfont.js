@@ -116,7 +116,8 @@ module.exports = function(grunt) {
 			types: optionToArray(options.types, 'eot,woff,ttf'),
 			order: optionToArray(options.order, fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
-			rename: options.rename || path.basename
+			rename: options.rename || path.basename,
+			filePrefix: typeof options.filePrefix !== 'undefined' ? options.filePrefix : cssFilePrefixes[o.stylesheet] || cssFilePrefixes._default
 		};
 
 		o = _.extend(o, {
