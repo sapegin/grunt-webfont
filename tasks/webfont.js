@@ -91,11 +91,9 @@ module.exports = function(grunt) {
 		}
 
 		// Source files
-		// @todo Check that source files are svg or eps
-		var files = this.filesSrc;
+		var files = _.filter(this.filesSrc, isSvgFile);
 		if (!files.length) {
-			grunt.log.writeln('Source SVG or EPS files not found.'.grey);
-			allDone();
+			grunt.fail.fatal('Specified empty list of source SVG files.');
 			return;
 		}
 
@@ -172,7 +170,7 @@ module.exports = function(grunt) {
 			var codepointsMap = o.codepoints;
 			o.codepoints = o.glyphs.map(function(name) {
 				if (!codepointsMap[name]) {
-					grunt.fatal('Can’t find codepoint for "' + name + '" glyph. ');
+					grunt.fail.fatal('Can’t find codepoint for "' + name + '" glyph. ');
 				}
 				return codepointsMap[name];
 			});
@@ -321,6 +319,10 @@ module.exports = function(grunt) {
 			else {
 				return map._default;
 			}
+		}
+
+		function isSvgFile(filepath) {
+			return path.extname(filepath).toLowerCase() === '.svg';
 		}
 
 		// Convert font file to data:uri and remove source file
