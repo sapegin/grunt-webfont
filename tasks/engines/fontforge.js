@@ -85,7 +85,7 @@ module.exports = function(grunt, o, allDone) {
 		});
 	});
 
-	function generatedFontFiles {
+	function generatedFontFiles() {
 		return grunt.file.expand(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
 	}
 
