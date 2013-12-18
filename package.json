@@ -25,7 +25,7 @@
   ],
   "main": "tasks/webfont.js",
   "scripts": {
-    "test": "grunt"
+    "test": "grunt --stack"
   },
   "engines": {
     "node": "*"
