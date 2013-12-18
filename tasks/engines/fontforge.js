@@ -5,15 +5,13 @@
  * @author Artem Sapegin (http://sapegin.me)
  */
 
-/*jshint node:true, laxbreak:true, latedef:false */
 module.exports = function(grunt, o, allDone) {
 	'use strict';
 
 	var path = require('path');
 	var temp = require('temp');
 	var async = require('async');
-
-	var COMMAND_NOT_FOUND = 127;
+	var wf = require('../util/util');
 
 	// @todo Codepoints option.
 
@@ -43,7 +41,7 @@ module.exports = function(grunt, o, allDone) {
 		cmd: 'fontforge',
 		args: args
 	}, function(err, fontforgeProcess, code) {
-		if (code === COMMAND_NOT_FOUND) {
+		if (code === wf.COMMAND_NOT_FOUND) {
 			grunt.log.errorlns('Please install fontforge and all other requirements.');
 			grunt.warn('fontforge not found', code);
 		}
@@ -87,10 +85,8 @@ module.exports = function(grunt, o, allDone) {
 		});
 	});
 
-	// @todo Copypasted from webfont.js
-	var fontFormats = 'eot,woff,ttf,svg';
-	var fontFileMask = '*.{' + fontFormats + '}';
-	function generatedFontFiles() {
-		return grunt.file.expand(path.join(o.dest, o.fontBaseName + fontFileMask));
+	function generatedFontFiles {
+		return grunt.file.expand(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
 	}
+
 };

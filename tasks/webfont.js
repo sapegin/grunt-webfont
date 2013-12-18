@@ -5,7 +5,6 @@
  * @author Artem Sapegin (http://sapegin.me)
  */
 
-/*jshint node:true, laxbreak:true, latedef:false */
 module.exports = function(grunt) {
 	'use strict';
 
@@ -14,66 +13,7 @@ module.exports = function(grunt) {
 	var async = require('async');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
-
-	// http://en.wikipedia.org/wiki/Private_Use_(Unicode)
-	var UNICODE_PUA_START = 0xE001;
-
-	var COMMAND_NOT_FOUND = 127;
-
-	// @font-face’s src values generation rules
-	var fontsSrcsMap = {
-		eot: [
-			{
-				ext: '.eot'
-			},
-			{
-				ext: '.eot?#iefix',
-				format: 'embedded-opentype'
-			}
-		],
-		woff: [
-			false,
-			{
-				ext: '.woff',
-				format: 'woff',
-				embeddable: true
-			},
-		],
-		ttf: [
-			false,
-			{
-				ext: '.ttf',
-				format: 'truetype',
-				embeddable: true
-			},
-		],
-		svg: [
-			false,
-			{
-				ext: '.svg?#{fontBaseName}',
-				format: 'svg'
-			},
-		]
-	};
-
-	// CSS fileaname prefixes: _icons.scss
-	var cssFilePrefixes = {
-		_default: '',
-		sass: '_',
-		scss: '_'
-	};
-
-	// @font-face’s src parts seperators
-	var fontSrcSeparators = {
-		_default: ',\n\t\t',
-		styl: ', '
-	};
-
-	// All font file formats
-	var fontFormats = 'eot,woff,ttf,svg';
-
-	// Any font file
-	var fontFileMask = '*.{' + fontFormats + '}';
+	var wf = require('./util/util');
 
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
@@ -111,8 +51,8 @@ module.exports = function(grunt) {
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			styles: optionToArray(options.styles, 'font,icon'),
-			types: optionToArray(options.types, fontFormats),
-			order: optionToArray(options.order, fontFormats),
+			types: optionToArray(options.types, wf.fontFormats),
+			order: optionToArray(options.order, wf.fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
 			engine: options.engine || 'fontforge',
@@ -178,7 +118,7 @@ module.exports = function(grunt) {
 		else {
 			var codepointIdx = 0;
 			o.codepoints = o.glyphs.map(function(name) {
-				return (UNICODE_PUA_START + codepointIdx++).toString(16);
+				return (wf.UNICODE_PUA_START + codepointIdx++).toString(16);
 			});
 		}
 
@@ -211,7 +151,7 @@ module.exports = function(grunt) {
 			var fontSrcs = [[], []];
 			o.order.forEach(function(type) {
 				if (!has(o.types, type)) return;
-				fontsSrcsMap[type].forEach(function(font, idx) {
+				wf.fontsSrcsMap[type].forEach(function(font, idx) {
 					if (font) {
 						fontSrcs[idx].push(generateFontSrc(type, font));
 					}
@@ -219,7 +159,7 @@ module.exports = function(grunt) {
 			});
 
 			// Convert them to strings that could be used in CSS
-			var fontSrcSeparator = option(fontSrcSeparators, o.stylesheet);
+			var fontSrcSeparator = option(wf.fontSrcSeparators, o.stylesheet);
 			fontSrcs.forEach(function(font, idx) {
 				// o.fontSrc1, o.fontSrc2
 				o['fontSrc'+(idx+1)] = font.join(fontSrcSeparator);
@@ -230,7 +170,7 @@ module.exports = function(grunt) {
 
 			// Generate CSS
 			o.cssTemplate = readTemplate(o.template, o.syntax, '.css');
-			var cssFilePrefix = option(cssFilePrefixes, o.stylesheet);
+			var cssFilePrefix = option(wf.cssFilePrefixes, o.stylesheet);
 			var cssFile = path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
 			var cssContext = _.extend(o, {
 				iconsStyles: true
@@ -373,7 +313,7 @@ module.exports = function(grunt) {
 		}
 
 		function generatedFontFiles() {
-			return grunt.file.expand(path.join(o.dest, o.fontBaseName + fontFileMask));
+			return grunt.file.expand(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
 		}
 
 		function template(tmpl, context) {

@@ -5,13 +5,13 @@
  * @author Artem Sapegin (http://sapegin.me)
  */
 
-/*jshint node:true, laxbreak:true, latedef:false */
 module.exports = function(grunt, o, allDone) {
 	'use strict';
 
 	var fs = require('fs');
 	var path = require('path');
 	var async = require('async');
+	var temp = require('temp');
 	var _ = require('lodash');
 	var StringDecoder = require('string_decoder').StringDecoder;
 	var svgicons2svgfont = require('svgicons2svgfont');
@@ -19,11 +19,10 @@ module.exports = function(grunt, o, allDone) {
 	var ttf2woff = require('ttf2woff');
 	var ttf2eot = require('ttf2eot');
 	var md5 = require('crypto').createHash('md5');
+	var wf = require('../util/util');
 
 	// @todo Autohint TTF
-	// @todo Fix line height, kerning, sizes, etc. (see generate.py)
-	// @todo SVGO for SVG font and for every glyph (?)
-	// @todo Tweak SVG (as in FF script)
+	// @todo Catch svgicons2svgfont log
 	// @todo Ligatures
 
 	var fonts = {};
@@ -56,6 +55,10 @@ module.exports = function(grunt, o, allDone) {
 				font = new Buffer(font.buffer);
 				fonts.ttf = font;
 				done(font);
+				/*autohintTtfFont(font, function(hintedFont) {
+					fonts.ttf = hintedFont;
+					done(hintedFont);
+				});*/
 			});
 		},
 
@@ -77,7 +80,6 @@ module.exports = function(grunt, o, allDone) {
 			});
 		}
 	};
-
 
 	var steps = [];
 
@@ -116,6 +118,43 @@ module.exports = function(grunt, o, allDone) {
 				name: o.glyphs[idx],
 				stream: fs.createReadStream(file)
 			};
+		});
+	}
+
+	function autohintTtfFont(font, done) {
+		var tempDir = temp.mkdirSync();
+		var originalFilepath = path.join(tempDir, 'font.ttf');
+		var hintedFilepath = path.join(tempDir, 'hinted.ttf');
+
+		// Save original font to temporary directory
+		fs.writeFileSync(originalFilepath, font);
+
+		// Run ttfautohint
+		var args = [
+			'--symbol',
+			// '--latin-fallback',
+			'--no-info',
+			originalFilepath,
+			hintedFilepath
+		];
+
+		grunt.util.spawn({
+			cmd: 'ttfautohint',
+			args: args
+		}, function(err, autohintProcess, code) {
+			if (code === wf.COMMAND_NOT_FOUND) {
+				grunt.fail.fatal('ttfautohint executable not found. Please install it and all other requirements.');
+				return;
+			}
+
+			if (err) {
+				grunt.fail.fatal('Can’t run ttfautohint.\n\n' + err);
+				return;
+			}
+
+			// Read hinted font back
+			var hintedFont = fs.readFileSync(hintedFilepath);
+			done(hintedFont);
 		});
 	}
 
