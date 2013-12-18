@@ -1,30 +1,33 @@
 # Based on https://github.com/FontCustom/fontcustom/blob/master/lib/fontcustom/scripts/generate.py
 
-import fontforge
 import os
-import argparse
-import hashlib
 import json
+import hashlib
+import argparse
+import fontforge
 from subprocess import call
 from distutils.spawn import find_executable
-
 
 parser = argparse.ArgumentParser(description='Convert a directory of SVG and EPS files into a unified font file.')
 parser.add_argument('input_dir', metavar='directory', type=str, help='directory of vector files')
 parser.add_argument('output_dir', metavar='directory', type=str, help='output directory')
+
 parser.add_argument('font', metavar='font', type=str, help='font name')
 parser.add_argument('types', metavar='types', type=lambda s: s.split(','), help='output types')
+
+parser.add_argument('--fontmap', metavar='fontmap', type=str, nargs='?', help='map filenames to unicode chars')
+
 parser.add_argument('--hashes', action='store_true', help='add hashes to file names')
 parser.add_argument('--ligatures', action='store_true', help='add opentype ligatures to generated font files')
 args = parser.parse_args()
 
 
 f = fontforge.font()
-f.encoding = 'UnicodeFull'
-f.design_size = 16
 f.em = 512
 f.ascent = 448
 f.descent = 64
+f.encoding = 'UnicodeFull'
+f.design_size = 16
 
 m = hashlib.md5()
 cp = 0xf100
@@ -32,16 +35,19 @@ files = []
 
 KERNING = 15
 
-
 def empty_char(f, c):
 	pen = f.createChar(ord(c), c).glyphPen()
 	pen.moveTo((0, 0))
 	pen = None
 
-
 if args.ligatures:
 	f.addLookup('liga', 'gsub_ligature', (), (('liga', (('latn', ('dflt')), )), ))
 	f.addLookupSubtable('liga', 'liga')
+
+if args.fontmap:
+	mapFile = open(args.fontmap, 'r')
+	fontmap = json.load(mapFile)
+	mapFile.close()
 
 for dirname, dirnames, filenames in os.walk(args.input_dir):
 	for filename in filenames:
@@ -66,12 +72,17 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 				svgfile.close()
 
 			m.update(filename + str(size) + ';')
+
+			char = cp
+			if fontmap and name in fontmap:
+				char = ord(fontmap[name])
+
 			if args.ligatures:
 				[empty_char(f, c) for c in name]
-				glyph = f.createChar(cp, name)
+				glyph = f.createChar(char, name)
 				glyph.addPosSub('liga', tuple(name))
 			else:
-				glyph = f.createChar(cp)
+				glyph = f.createChar(char)
 			glyph.importOutlines(filePath)
 
 			glyph.left_side_bearing = glyph.right_side_bearing = 0
