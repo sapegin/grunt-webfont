@@ -84,10 +84,22 @@ li[class*=" <%= classPrefix %>"].<%= classPrefix %>large:before {
 <% if (stylesheet === 'less') { %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %> {
 	&:before {
-		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+		content:"<% if (addLigatures) {
+			%><%= glyphs[glyphIdx] %><%
+		} else if (fontmap && fontmap[glyphs[glyphIdx]]) {
+			%>\<%= fontmap[glyphs[glyphIdx]] %><%
+		} else {
+			%>\<%= (61696+glyphIdx).toString(16) %><%
+		} %>";
 	}
 }<% } else { %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
-	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+	content:"<% if (addLigatures) {
+		%><%= glyphs[glyphIdx] %><%
+	} else if (fontmap && fontmap[glyphs[glyphIdx]]) {
+		%>\<%= fontmap[glyphs[glyphIdx]] %><%
+	} else {
+		%>\<%= (61696+glyphIdx).toString(16) %><%
+	} %>";
 }<% } %>
 <% } } %>

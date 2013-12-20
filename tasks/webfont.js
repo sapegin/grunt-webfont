@@ -101,6 +101,7 @@ module.exports = function(grunt) {
 		// Options
 		var o = {
 			fontBaseName: options.font || 'icons',
+			fontmap: options.fontmap || false,
 			destCss: params.destCss || params.dest,
 			dest: params.dest,
 			relativeFontPath: options.relativeFontPath,
@@ -180,12 +181,9 @@ module.exports = function(grunt) {
 				o.fontBaseName,
 				o.types.join(',')
 			];
-			if (o.addHashes) {
-				args.push('--hashes');
-			}
-			if (o.addLigatures) {
-				args.push('--ligatures');
-			}
+			if (o.fontmap) args.push('--fontmap='+o.fontmap);
+			if (o.addHashes) args.push('--hashes');
+			if (o.addLigatures) args.push('--ligatures');
 
 			grunt.util.spawn({
 				cmd: 'fontforge',
@@ -226,7 +224,7 @@ module.exports = function(grunt) {
 				try {
 					result = JSON.parse(json);
 				} catch (e) {
-					grunt.warn('Webfont did not receive a popper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
+					grunt.warn('Webfont did not receive a proper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
 				}
 
 				o.fontName = path.basename(result.file);
@@ -272,11 +270,20 @@ module.exports = function(grunt) {
 			// Now override values with templateOptions
 			if (o.templateOptions) o = _.extend(o, o.templateOptions);
 
+			// fontmap support
+			if (o.fontmap) {
+				var fontmap = {};
+				_.each(require(o.fontmap), function (value, name) {
+					fontmap[name] = value.charCodeAt(0).toString(16);
+				});
+			}
+
 			// Generate CSS
 			o.cssTemplate = readTemplate(o.template, o.syntax, '.css');
 			var cssFilePrefix = option(cssFilePrefixes, o.stylesheet);
 			var cssFile = path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
 			var cssContext = _.extend(o, {
+				fontmap: fontmap || false,
 				iconsStyles: true
 			});
 
