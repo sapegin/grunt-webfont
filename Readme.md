@@ -103,7 +103,7 @@ Font files types to generate.
 
 Type: `string|array` Default: `'eot,woff,ttf,svg'`
 
-Order of `@font-face`’s `src` values in CSS file.
+Order of `@font-face`’s `src` values in CSS file. (Only file types defined in `types` option will be generated.)
 
 #### syntax
 
