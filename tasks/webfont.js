@@ -106,6 +106,7 @@ module.exports = function(grunt) {
 		});
 
 		// Check or generate codepoints
+		// @todo Codepoint can be a Unicode code or character.
 		if (o.codepoints) {
 			var codepointsMap = o.codepoints;
 			o.codepoints = o.glyphs.map(function(name) {

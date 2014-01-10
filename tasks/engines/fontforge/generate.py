@@ -8,6 +8,8 @@ import json
 from subprocess import call
 from distutils.spawn import find_executable
 
+# TODO: codepoints option
+
 
 parser = argparse.ArgumentParser(description='Convert a directory of SVG and EPS files into a unified font file.')
 parser.add_argument('input_dir', metavar='directory', type=str, help='directory of vector files')
