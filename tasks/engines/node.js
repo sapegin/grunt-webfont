@@ -1,7 +1,7 @@
 /**
  * grunt-webfont: Node.js engine
  *
- * @requires ttfautohint
+ * @requires ttfautohint 0.97+ (optional)
  * @author Artem Sapegin (http://sapegin.me)
  */
 
@@ -132,7 +132,8 @@ module.exports = function(grunt, o, allDone) {
 		// Run ttfautohint
 		var args = [
 			'--symbol',
-			// '--latin-fallback',
+			'--fallback-script=latn',
+			'--windows-compatibility',
 			'--no-info',
 			originalFilepath,
 			hintedFilepath
