@@ -1,6 +1,6 @@
 # Ultimate SVG to webfont converter for Grunt [![Build Status](https://travis-ci.org/sapegin/grunt-webfont.png)](https://travis-ci.org/sapegin/grunt-webfont)
 
-Generate custom icon webfonts from SVG/EPS files via Grunt. Based on [Font Custom](http://endtwist.github.com/fontcustom/).
+Generate custom icon webfonts from SVG files via Grunt. Based on [Font Custom](http://endtwist.github.com/fontcustom/).
 
 This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/SASS/LESS/Stylus and HTML demo page.
 
@@ -19,7 +19,7 @@ This task will make all you need to use font-face icon on your website: font in 
 
 ## Installation
 
-This plugin requires Grunt 0.4.
+This plugin requires Grunt 0.4. Note that `ttfautohint` is optional, but your generated font will not be properly hinted if it’s not installed.
 
 ### OS X
 
@@ -28,7 +28,7 @@ brew install fontforge ttfautohint
 npm install grunt-webfont --save-dev
 ```
 
-You may need to use `sudo` for `brew`, depending on your setup.
+*You may need to use `sudo` for `brew`, depending on your setup. `fontforge` isn’t required for `node` engine (see below).*
 
 ### Linux
 
@@ -37,7 +37,47 @@ sudo apt-get install fontforge ttfautohint
 npm install grunt-webfont --save-dev
 ```
 
-*Note that if `ttfautohint` is not available in your distribution, your generated font will not be properly hinted.*
+*`fontforge` isn’t required for `node` engine (see below).*
+
+### Windows
+
+```
+npm install grunt-webfont --save-dev
+```
+
+Then [install `ttfautohint`](http://www.freetype.org/ttfautohint/#download) (optional).
+
+*Only `node` engine available (see below).*
+
+
+## Available Engines
+
+There are two font rendering engines available. See also `engine` option below.
+
+### fontforge
+
+#### Pros
+
+* All features supported.
+* The best results.
+
+#### Cons
+
+* Doesn’t work on Windows.
+* You have to install `fontforge`.
+* Really weird bugs sometimes.
+
+### node :skull: experimental :skull:
+
+#### Pros
+
+* No external dependencies (except optional `ttfautohint`).
+* Works on all platforms.
+
+#### Cons
+
+* Doesn’t work with some SVG files.
+* Ligatures don’t supported.
 
 
 ## Configuration
@@ -57,7 +97,7 @@ Inside your `Gruntfile.js` file add a section named `webfont`. See Parameters se
 
 Type: `string|array`
 
-Glyphs list: SVG or EPS. String or array. Wildcards are supported.
+Glyphs list: SVG. String or array. Wildcards are supported.
 
 #### dest
 
@@ -73,9 +113,24 @@ Directory for resulting CSS files (if different than font directory).
 
 #### Options
 
+All options should be inside `options` object:
+
+``` javascript
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    options: {
+      ...
+    }
+  }
+}
+```
+
 #### font
 
 Type: `string` Default: `icons`
+
 Name of font and base name of font files.
 
 #### hashes
@@ -163,13 +218,13 @@ If `true` embeds WOFF (*only WOFF*) file as data:uri.
 
 IF `ttf` or `woff` or `ttf,woff` embeds TTF or/and WOFF file.
 
-If there’re more file types in `types` option they will be included as usual `url(font.type)` CSS links.
+If there are more file types in `types` option they will be included as usual `url(font.type)` CSS links.
 
 #### ligatures
 
 Type: `boolean` Default: `false`
 
-If `true` the generated font files and stylesheets will be generated with opentype ligature features. The character sequences to be replaced by the ligatures are determined by the file name (without extension) of the original SVG or EPS.
+If `true` the generated font files and stylesheets will be generated with opentype ligature features. The character sequences to be replaced by the ligatures are determined by the file name (without extension) of the original SVG.
 
 For example, you have a heart icon in `love.svg` file. The HTML `<h1>I <span class="ligature-icons">love</span> you!</h1>` will be rendered as `I ♥ you!`.
 
@@ -199,6 +254,13 @@ If `true` task will not be ran. In example, you can skip task on Windows (becase
 ``` javascript
 skip: require('os').platform() === 'win32'
 ```
+
+#### engine :skull: experimental :skull:
+
+Type: `string` Default: `fontforge`
+
+Font rendering engine: `fontforge` or `node`. See comparison in `Available Engines` section above.
+
 
 ### Config Examples
 
