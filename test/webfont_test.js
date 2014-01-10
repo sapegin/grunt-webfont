@@ -492,6 +492,58 @@ exports.webfont = {
 		);
 
 		test.done();
-	}
+	},
+
+	node: function(test) {
+		// All out files should be created and should not be empty
+		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+			var name = type.toUpperCase();
+			test.ok(fs.existsSync('test/tmp/node/icons.' + type), name + ' file created.');
+			test.ok(grunt.file.read('test/tmp/node/icons.' + type).length, name + ' file not empty.');
+		});
+
+		'css,html'.split(',').forEach(function(type) {
+			var name = type.toUpperCase();
+			test.ok(fs.existsSync('test/tmp/node/icons.' + type), name + ' file created.');
+			test.ok(grunt.file.read('test/tmp/node/icons.' + type).length, name + ' file not empty.');
+		});
+
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/node/icons.css');
+		var html = grunt.file.read('test/tmp/node/icons.html');
+
+		// CSS links to font files are correct
+		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+			test.ok(
+				find(css, 'url("icons.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
+		});
+
+		// Double EOT (for IE9 compat mode)
+		test.ok(
+			find(css, 'src:url("icons.eot");'),
+			'First EOT declaration.'
+		);
+		test.ok(
+			find(css, 'src:url("icons.eot?#iefix") format("embedded-opentype"),'),
+			'Second EOT declaration.'
+		);
+
+		// Every SVG file should have corresponding entry in CSS and HTML files
+		svgs.forEach(function(file) {
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon_' + id + ':before'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+			test.ok(
+				find(html, '<div class="icons__item" data-name="' + id + '"><i class="icon icon_' + id + '"></i> icon_' + id + '</div>'),
+				'Icon ' + id + ' shound be in HTML file.'
+			);
+		});
+
+		test.done();
+	},
 
 };
