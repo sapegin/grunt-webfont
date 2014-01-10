@@ -8,7 +8,7 @@
 	font-style:normal;
 }
 <% } %>
-<% if (baseStyles) { %>.icon<% if (addLigatures) { %>,
+<% if (baseStyles) { %>.<%= baseClass %><% if (addLigatures) { %>,
 .ligature-icons<% } %> {
 	font-family:"<%= fontBaseName %>";
 	display:inline-block;
@@ -23,13 +23,17 @@
 	-moz-osx-font-smoothing:grayscale;
 }
 <% } %>
-<% if (iconsStyles && stylesheet === 'less') { %>/* Mixins */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
-.icon-<%= glyphs[glyphIdx] %> {
+
+<% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+<% if (stylesheet === 'less') { %>
+.<%= mixinPrefix %><%= glyphs[glyphIdx] %>() {
 	&:before {
 		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
 	}
-}<% } %><% } %>
-<% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
-.icon_<%= glyphs[glyphIdx] %>:before {
+}
+.<%= classPrefix %><%= glyphs[glyphIdx] %>{
+ 	.<%= mixinPrefix %><%= glyphs[glyphIdx] %>();
+}<% } else { %>
+.<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
 	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
-}<% } %><% } %>
+}<% } } } %>

@@ -173,6 +173,20 @@ module.exports = function(grunt) {
 					hashes: false
 				}
 			},
+			template_options: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/template_options',
+				options: {
+					hashes: false,
+					syntax: 'bem',
+					stylesheet: 'less',
+					templateOptions: {
+						baseClass: 'glyph-icon',
+						classPrefix: 'glyph_',
+						mixinPrefix: 'make-icon-'
+					}
+				}
+			},
 			node: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/node',
@@ -198,12 +212,23 @@ module.exports = function(grunt) {
 				undef: true
 			}
 		},
+        watch: {
+            scripts: {
+                files: '<%= jshint.all %>',
+                tasks: ['jshint', 'jscs'],
+                options: {
+                    debounceDelay: 100,
+                    nospawn: true
+                }
+            },
+        },
 		jscs: {
 			all: ['tasks/*.js']
 		},
 		clean: ['test/tmp']
 	});
 
+    grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit', 'clean']);

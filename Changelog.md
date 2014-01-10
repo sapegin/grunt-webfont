@@ -1,4 +1,14 @@
-## Release History
+### 2013-12-13 v0.2.2
+
+* You can use templates with any extension: `.sass` for example (by [@borodean](https://github.com/borodean)).
+* SVG fonts disabled by default.
+
+### 2013-11-17 v0.2.1
+
+* `templateOptions` option and templates refactoring (by [@tylerbeck](https://github.com/tylerbeck)).
+* Improve fontforge result parsing (by [@jantimon](https://github.com/jantimon)).
+* Tweak HTML demo page look & feel.
+* Tweak `ttfautohint` call.
 
 ### 2013-10-29 v0.2.0
 

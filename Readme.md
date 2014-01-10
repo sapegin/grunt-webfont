@@ -1,4 +1,7 @@
-# Ultimate SVG to webfont converter for Grunt [![Build Status](https://travis-ci.org/sapegin/grunt-webfont.png)](https://travis-ci.org/sapegin/grunt-webfont)
+# Ultimate SVG to webfont converter for Grunt
+
+[![Build Status](https://travis-ci.org/sapegin/grunt-webfont.png)](https://travis-ci.org/sapegin/grunt-webfont)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 Generate custom icon webfonts from SVG files via Grunt. Based on [Font Custom](http://endtwist.github.com/fontcustom/).
 
@@ -147,7 +150,7 @@ List of styles to be added to CSS files: `font` (`font-face` declaration), `icon
 
 #### types
 
-Type: `string|array` Default: `'eot,woff,ttf,svg'`
+Type: `string|array` Default: `'eot,woff,ttf'`
 
 Font files types to generate.
 
@@ -155,7 +158,7 @@ Font files types to generate.
 
 Type: `string|array` Default: `'eot,woff,ttf,svg'`
 
-Order of `@font-face`’s `src` values in CSS file.
+Order of `@font-face`’s `src` values in CSS file. (Only file types defined in `types` option will be generated.)
 
 #### syntax
 
@@ -163,22 +166,57 @@ Type: `string` Default: `bem`
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
 
+
 #### template
 
 Type: `string` Default: `null`
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
 
-You should provide CSS and JSON files. Variables from JSON files used in HTML demo page.
+Template is a pair of CSS and JSON files with the same name.
 
-```json
-{
-	"baseClass": "icon",
-	"classPrefix": "icon_"
+For example, your Gruntfile:
+
+```js
+options: {
+  template: 'my_templates/tmpl.css'
 }
 ```
 
-If you use custom HTML template (`htmlDemoTemplate` option) you can avoid JSON file.
+`my_templates/tmpl.css`:
+
+```css
+@font-face {
+  font-family:"<%= fontBaseName %>";
+  ...
+}
+...
+```
+
+`my_templates/tmpl.json`:
+
+```json
+{
+  "baseClass": "icon",
+  "classPrefix": "icon_"
+}
+```
+
+#### templateOptions
+
+Type: `object` Default: `{}`
+
+Extends/overrides CSS template or syntax’s JSON file. Allows custom class names in default css templates.
+
+``` javascript
+options: {
+	templateOptions: {
+		baseClass: 'glyph-icon',
+		classPrefix: 'glyph_',
+		mixinPrefix: 'glyph-'
+	}
+}
+```
 
 #### stylesheet
 
@@ -251,7 +289,7 @@ Type: `boolean` Default: `false`
 
 If `true` task will not be ran. In example, you can skip task on Windows (becase of difficult installation):
 
-``` javascript
+```javascript
 skip: require('os').platform() === 'win32'
 ```
 
@@ -266,7 +304,7 @@ Font rendering engine: `fontforge` or `node`. See comparison in `Available Engin
 
 #### Simple font generation
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',
@@ -277,12 +315,12 @@ webfont: {
 
 #### Custom font name, fonts and CSS in different folders
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',
     dest: 'build/fonts',
-    destCss: 'build/fonts/css'
+    destCss: 'build/fonts/css',
     options: {
       font: 'ponies'
     }
@@ -290,9 +328,26 @@ webfont: {
 }
 ```
 
+#### Custom CSS classes
+
+```js
+webfont: {
+  icons: {
+    src: 'icons/*.svg',
+    dest: 'build/fonts',
+    syntax: 'bem',
+    templateOptions: {
+        baseClass: 'glyph-icon',
+        classPrefix: 'glyph_',
+        mixinPrefix: 'glyph-'
+    }
+  }
+}
+```
+
 #### To use with CSS preprocessor
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',
@@ -308,7 +363,7 @@ webfont: {
 
 #### Embedded font file
 
-``` javascript
+```javascript
 webfont: {
   icons: {
     src: 'icons/*.svg',

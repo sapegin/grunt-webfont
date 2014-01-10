@@ -53,6 +53,7 @@ function foo(bar, fum) {
 
 - If you have commit access to repo and want to make big change or not sure about something, make a new branch and open pull request.
 - Don’t commit generated files: compiled from Stylus CSS, minified JavaScript, etc.
+- Don’t change version number and changelog.
 - Install [EditorConfig](http://editorconfig.org/) plugin for your code editor.
 - If code you change uses different style (probably it’s an old code) use file’s style instead of style described on this page.
 - Feel free to [ask me](http://sapegin.me/contacts) anything you need.

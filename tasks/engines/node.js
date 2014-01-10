@@ -21,7 +21,6 @@ module.exports = function(grunt, o, allDone) {
 	var md5 = require('crypto').createHash('md5');
 	var wf = require('../util/util');
 
-	// @todo Autohint TTF
 	// @todo Catch svgicons2svgfont log
 	// @todo Ligatures
 
