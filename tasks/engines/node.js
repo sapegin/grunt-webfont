@@ -53,12 +53,14 @@ module.exports = function(grunt, o, allDone) {
 			getFont('svg', function(svgFont) {
 				var font = svg2ttf(svgFont, {});
 				font = new Buffer(font.buffer);
-				fonts.ttf = font;
-				done(font);
-				/*autohintTtfFont(font, function(hintedFont) {
-					fonts.ttf = hintedFont;
-					done(hintedFont);
-				});*/
+				autohintTtfFont(font, function(hintedFont) {
+					// ttfautohint is optional
+					if (hintedFont) {
+						font = hintedFont;
+					}
+					fonts.ttf = font;
+					done(font);
+				});
 			});
 		},
 
@@ -144,7 +146,8 @@ module.exports = function(grunt, o, allDone) {
 			args: args
 		}, function(err, autohintProcess, code) {
 			if (code === wf.COMMAND_NOT_FOUND) {
-				grunt.fail.fatal('ttfautohint executable not found. Please install it and all other requirements.');
+				grunt.log.writeln('Hinting skipped, ttfautohint not found.');
+				done(false);
 				return;
 			}
 
