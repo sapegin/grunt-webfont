@@ -1,3 +1,8 @@
+### 2014-01-10 v0.3.0
+
+* Experimental `node` engine (should works on Windows).
+* Tweak ttfautohint options.
+
 ### 2013-12-13 v0.2.2
 
 * You can use templates with any extension: `.sass` for example (by [@borodean](https://github.com/borodean)).
