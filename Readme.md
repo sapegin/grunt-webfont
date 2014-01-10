@@ -1,4 +1,4 @@
-# Ultimate SVG to webfont converter for Grunt
+# SVG to webfont converter for Grunt
 
 [![Build Status](https://travis-ci.org/sapegin/grunt-webfont.png)](https://travis-ci.org/sapegin/grunt-webfont)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
@@ -31,7 +31,9 @@ brew install fontforge ttfautohint
 npm install grunt-webfont --save-dev
 ```
 
-*You may need to use `sudo` for `brew`, depending on your setup. `fontforge` isn’t required for `node` engine (see below).*
+*You may need to use `sudo` for `brew`, depending on your setup.
+
+`fontforge` isn’t required for `node` engine (see below).*
 
 ### Linux
 
