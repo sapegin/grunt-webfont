@@ -301,6 +301,11 @@ Type: `string` Default: `fontforge`
 
 Font rendering engine: `fontforge` or `node`. See comparison in `Available Engines` section above.
 
+#### ie7
+
+Type: `boolean` Default: `false`
+
+Adds IE7 support using a `*zoom: expression()` hack.
 
 ### Config Examples
 
