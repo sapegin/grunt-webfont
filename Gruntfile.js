@@ -194,6 +194,24 @@ module.exports = function(grunt) {
 					hashes: false,
 					engine: 'node'
 				}
+			},
+			ie7: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/ie7',
+				options: {
+					hashes: false,
+					ie7: true,
+					syntax: 'bem'
+				}
+			},
+			ie7_bootstrap: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/ie7_bootstrap',
+				options: {
+					hashes: false,
+					ie7: true,
+					syntax: 'bootstrap'
+				}
 			}
 		},
 		nodeunit: {

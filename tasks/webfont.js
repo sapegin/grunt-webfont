@@ -57,7 +57,8 @@ module.exports = function(grunt) {
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
 			engine: options.engine || 'fontforge',
-			codepoints: options.codepoints
+			codepoints: options.codepoints,
+			ie7: options.ie7 || false
 		};
 
 		o = _.extend(o, {

@@ -570,6 +570,36 @@ exports.webfont = {
 		});
 
 		test.done();
+	},
+
+	ie7: function(test){
+		var css = grunt.file.read('test/tmp/ie7/icons.css');
+		var svgs = grunt.file.expand('test/src/*.svg');
+		test.ok(find(css, '*zoom'), '*zoom property should be set');
+		test.ok(find(css, '&#x') , 'HTML char are present');
+		svgs.forEach(function(file){
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon_' + id + ' {'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+		});
+		test.done();
+	},
+	
+	ie7_bootstrap: function(test){
+		var css = grunt.file.read('test/tmp/ie7_bootstrap/icons.css');
+		var svgs = grunt.file.expand('test/src/*.svg');
+		test.ok(find(css, '*zoom'), '*zoom property should be set');
+		test.ok(find(css, '&#x') , 'HTML char are present');
+		svgs.forEach(function(file){
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon-' + id + ' {'),
+				'Icon ' + id + ' shound be in CSS file.'
+			);
+		});
+		test.done();
 	}
 
 };
