@@ -30,10 +30,17 @@
 	&:before {
 		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
 	}
+	<% if (ie7) {%>
+	*zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x<%= codepoints[glyphIdx]%>;&nbsp;');
+	<% } %>
 }
 .<%= classPrefix %><%= glyphs[glyphIdx] %>{
  	.<%= mixinPrefix %><%= glyphs[glyphIdx] %>();
 }<% } else { %>
+<% if (ie7) {%>.<%= classPrefix %><%= glyphs[glyphIdx] %> {
+	*zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x<%= codepoints[glyphIdx]%>;&nbsp;');
+}
+<% } %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
 	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
 }<% } } } %>
