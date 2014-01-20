@@ -1,3 +1,8 @@
+### 2014-01-20 v0.3.1
+
+* Fixed failing npm install (by [@bloodyowl](https://github.com/bloodyowl)).
+* Added optional IE7 support (by [@bloodyowl](https://github.com/bloodyowl)).
+
 ### 2014-01-10 v0.3.0
 
 * Experimental `node` engine (should works on Windows).
