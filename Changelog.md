@@ -1,3 +1,7 @@
+### 2014-01-22 v0.3.2
+
+* Update svgicons2svgfont.
+
 ### 2014-01-20 v0.3.1
 
 * Fixed failing npm install (by [@bloodyowl](https://github.com/bloodyowl)).
