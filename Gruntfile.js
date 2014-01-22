@@ -5,7 +5,7 @@ var path = require('path');
 module.exports = function(grunt) {
 	'use strict';
 
-	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+	require('load-grunt-tasks')(grunt);
 
 	grunt.initConfig({
 		webfont: {
