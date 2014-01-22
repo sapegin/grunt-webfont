@@ -246,7 +246,6 @@ module.exports = function(grunt) {
 		clean: ['test/tmp']
 	});
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit', 'clean']);
