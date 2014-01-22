@@ -9,6 +9,7 @@ This task will make all you need to use font-face icon on your website: font in 
 
 ## Features
 
+* Works on Mac, Windows and Linux.
 * Very flexible.
 * Semantic: uses [Unicode private use area](http://bit.ly/ZnkwaT).
 * [Cross-browser](http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax/): IE8+.
@@ -31,9 +32,9 @@ brew install fontforge ttfautohint
 npm install grunt-webfont --save-dev
 ```
 
-*You may need to use `sudo` for `brew`, depending on your setup.
+*You may need to use `sudo` for `brew`, depending on your setup.*
 
-`fontforge` isn’t required for `node` engine (see below).*
+*`fontforge` isn’t required for `node` engine (see below).*
 
 ### Linux
 
