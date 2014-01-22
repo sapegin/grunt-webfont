@@ -77,7 +77,7 @@ module.exports = function(grunt, o, allDone) {
 			result = JSON.parse(json);
 		}
 		catch (e) {
-			grunt.warn('Webfont did not receive a popper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
+			grunt.warn('Webfont did not receive a proper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
 		}
 
 		allDone({
