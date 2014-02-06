@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "temp": "~0.6.0",
-    "svgicons2svgfont": "0.0.6",
-    "async": "~0.2.9",
+    "svgicons2svgfont": "0.0.7",
+    "async": "~0.2.10",
     "lodash": "~2.4.1",
     "svg2ttf": "~1.1.2",
     "ttf2woff": "~1.2.0",
@@ -43,12 +43,12 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-nodeunit": "~0.2.2",
+    "grunt-contrib-nodeunit": "~0.3.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-jscs-checker": "~0.3.2",
     "grunt-contrib-watch": "~0.5.3",
-    "stylus": "~0.42.1",
-    "load-grunt-tasks": "~0.2.1"
+    "stylus": "~0.42.2",
+    "load-grunt-tasks": "~0.3.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"
