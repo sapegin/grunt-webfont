@@ -258,7 +258,7 @@ module.exports = function(grunt) {
 
 	grunt.loadTasks('tasks');
 
-	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit']);
+	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit', 'clean']);
 	grunt.registerTask('build', ['default']);
 
 };
