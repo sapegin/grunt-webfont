@@ -26,6 +26,16 @@ module.exports = function(grunt) {
 					syntax: 'bootstrap'
 				}
 			},
+			test_codepoints: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/test_codepoints/fonts',
+				destCss: 'test/tmp/test_codepoints',
+				options: {
+					font: 'myfont',
+					types: 'svg',
+					startCodepoint: '0x41'
+				}
+			},
 			embed: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/embed',
@@ -248,7 +258,7 @@ module.exports = function(grunt) {
 
 	grunt.loadTasks('tasks');
 
-	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit', 'clean']);
+	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'nodeunit']);
 	grunt.registerTask('build', ['default']);
 
 };

@@ -18,6 +18,7 @@ parser.add_argument('font', metavar='font', type=str, help='font name')
 parser.add_argument('types', metavar='types', type=lambda s: s.split(','), help='output types')
 parser.add_argument('--hashes', action='store_true', help='add hashes to file names')
 parser.add_argument('--ligatures', action='store_true', help='add opentype ligatures to generated font files')
+parser.add_argument('--start_codepoint', metavar='start_codepoint', type=str, help='Unicode codepoint to start from', default='0xE001')
 args = parser.parse_args()
 
 
@@ -29,7 +30,7 @@ f.ascent = 448
 f.descent = 64
 
 m = hashlib.md5()
-cp = 0xE001
+cp = int(args.start_codepoint, 16)
 
 KERNING = 15
 

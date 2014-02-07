@@ -58,6 +58,7 @@ module.exports = function(grunt) {
 			rename: options.rename || path.basename,
 			engine: options.engine || 'fontforge',
 			codepoints: options.codepoints,
+			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
 			ie7: options.ie7 || false
 		};
 
@@ -119,9 +120,9 @@ module.exports = function(grunt) {
 			});
 		}
 		else {
-			var codepointIdx = 0;
+			var codepointIdx = o.startCodepoint;
 			o.codepoints = o.glyphs.map(function(name) {
-				return (wf.UNICODE_PUA_START + codepointIdx++).toString(16);
+				return (codepointIdx++).toString(16);
 			});
 		}
 

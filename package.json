@@ -48,7 +48,8 @@
     "grunt-jscs-checker": "~0.3.2",
     "grunt-contrib-watch": "~0.5.3",
     "stylus": "~0.42.2",
-    "load-grunt-tasks": "~0.3.0"
+    "load-grunt-tasks": "~0.3.0",
+    "xml2js" : "~0.4.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"
