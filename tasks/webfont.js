@@ -56,6 +56,7 @@ module.exports = function(grunt) {
 			order: optionToArray(options.order, wf.fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
+			glyphRename: options.glyphRename,
 			engine: options.engine || 'fontforge',
 			codepoints: options.codepoints,
 			ie7: options.ie7 || false
@@ -116,6 +117,11 @@ module.exports = function(grunt) {
 					grunt.fail.fatal('Can’t find codepoint for "' + name + '" glyph. ');
 				}
 				return codepointsMap[name];
+			});
+		}
+		else if (o.glyphRename) {
+			o.codepoints = o.files.map(function(file) {
+				return o.glyphRename(file).replace(path.extname(file), '');
 			});
 		}
 		else {
