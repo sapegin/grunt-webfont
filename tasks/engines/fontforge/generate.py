@@ -82,7 +82,7 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 
 		f.autoWidth(0, 0, 512)
 
-fontfile = args.output_dir + '/' + args.font
+fontfile = args.output_dir + os.path.sep + args.font
 if args.hashes:
 	fontfile += '-' + m.hexdigest()
 
