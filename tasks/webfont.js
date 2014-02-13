@@ -170,7 +170,7 @@ module.exports = function(grunt) {
 			});
 
 			// Prepage glyph names to use as CSS classes
-			o.glyphs = _.map(o.glyphs, _s.dasherize);
+			o.glyphs = _.map(o.glyphs, _s.slugify);
 
 			// Read JSON file corresponding to CSS template
 			var templateJson = readTemplate(o.template, o.syntax, '.json');
