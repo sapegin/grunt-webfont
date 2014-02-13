@@ -1,3 +1,12 @@
+### 2014-02-13 v0.3.3
+
+* `startCodepoint` option (by [@DanForys](https://github.com/DanForys)).
+* Fix slash for Windows (should fix #109 , by [@MoOx](https://github.com/MoOx)).
+* Sort files in fontforge script (should fix #91).
+* Add `line-height` to icons (#112).
+* Preserve CamelCased class names (#116).
+* Template’s JSON file could be omitted (#81).
+
 ### 2014-01-22 v0.3.2
 
 * Update svgicons2svgfont.
