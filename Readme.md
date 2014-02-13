@@ -308,6 +308,12 @@ Type: `boolean` Default: `false`
 
 Adds IE7 support using a `*zoom: expression()` hack.
 
+#### startCodepoint
+
+Type: `string` Default: `0xE001`
+
+Determine the starting codepoint used for the generated glyphs. Defaults to the start of the unicode private use area.
+
 ### Config Examples
 
 #### Simple font generation

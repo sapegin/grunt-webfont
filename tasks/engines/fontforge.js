@@ -36,6 +36,10 @@ module.exports = function(grunt, o, allDone) {
 	if (o.addLigatures) {
 		args.push('--ligatures');
 	}
+	if (o.startCodepoint) {
+		args.push('--start_codepoint');
+		args.push(o.startCodepoint);
+	}
 
 	grunt.util.spawn({
 		cmd: 'fontforge',
