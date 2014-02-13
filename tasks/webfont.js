@@ -312,12 +312,15 @@ module.exports = function(grunt) {
 		}
 
 		function readTemplate(template, syntax, ext) {
-			if (template) {
-				var filename = template.replace(/\.[^\\\/.]+$/, '') + ext;
-				return grunt.file.read(filename);
+			var filename = template
+				? template.replace(/\.[^\\\/.]+$/, '') + ext
+				: filename = path.join(__dirname, 'templates/' + syntax + ext)
+			;
+			if (fs.existsSync(filename)) {
+				return fs.readFileSync(filename, 'utf8');
 			}
 			else {
-				return fs.readFileSync(path.join(__dirname, 'templates/' + syntax + ext), 'utf8');
+				return false;
 			}
 		}
 

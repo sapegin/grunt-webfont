@@ -237,7 +237,8 @@ module.exports = function(grunt) {
 				immed: true,
 				latedef: false,
 				newcap: true,
-				undef: true
+				undef: true,
+				laxbreak: true
 			}
 		},
         watch: {
