@@ -5,7 +5,7 @@
 
 Generate custom icon webfonts from SVG files via Grunt. Based on [Font Custom](http://endtwist.github.com/fontcustom/).
 
-This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/SASS/LESS/Stylus and HTML demo page.
+This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/Sass/LESS/Stylus and HTML demo page.
 
 ## Features
 
