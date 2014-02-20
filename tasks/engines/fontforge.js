@@ -38,7 +38,7 @@ module.exports = function(grunt, o, allDone) {
 	}
 	if (o.startCodepoint) {
 		args.push('--start_codepoint');
-		args.push(o.startCodepoint);
+		args.push('0x' + o.startCodepoint.toString(16));
 	}
 
 	grunt.util.spawn({
