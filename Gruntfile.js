@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 				options: {
 					font: 'myfont',
 					types: 'svg',
-					startCodepoint: '0x41'
+					startCodepoint: 0x41
 				}
 			},
 			embed: {
