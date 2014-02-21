@@ -286,6 +286,24 @@ options: {
 }
 ```
 
+#### codepointFunction
+
+Type: `function` Default: `undefined`
+
+You can use this function to change the unicode-codepoints based on the filenames of the icons. By default the codepoints are generated as an autoincremented number.
+
+For example you can use the a trailing number in the svg-filename as unicode-codepoint so the existing codepoints dont change with added files.
+
+```js
+options: {
+  codepointFunction: function(name) {
+    var number = name.replace(/(.*)\/([0-9]+)(.*)(.svg)/g, "$2");
+    var codepoint = 0xE001 + parseInt(number);
+    return codepoint.toString(16);
+  }
+}
+```
+
 #### skip
 
 Type: `boolean` Default: `false`
