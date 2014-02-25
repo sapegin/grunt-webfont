@@ -59,7 +59,8 @@ module.exports = function(grunt) {
 			engine: options.engine || 'fontforge',
 			codepoints: options.codepoints,
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
-			ie7: options.ie7 || false
+			ie7: options.ie7 || false,
+			addOptimizeLegibility: options.addOptimizeLegibility !== false
 		};
 
 		o = _.extend(o, {
