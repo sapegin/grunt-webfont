@@ -314,6 +314,12 @@ Type: `string` Default: `0xE001`
 
 Determine the starting codepoint used for the generated glyphs. Defaults to the start of the unicode private use area.
 
+#### addOptimizeLegibility
+
+Type: `boolean` Default: `true`
+
+Adds `text-rendering:optimizeLegibility`. Set it to `false` if you want support for Android 4.2.x
+
 ### Config Examples
 
 #### Simple font generation
