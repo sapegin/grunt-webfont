@@ -206,7 +206,7 @@ module.exports = function(grunt) {
 
 			// HTML should not contain relative paths
 			// If some styles was not included in CSS we should include them in HTML to properly render icons
-			var relativeRe = new RegExp(o.relativeFontPath, 'g');
+			var relativeRe = new RegExp(escapeRegExp(o.relativeFontPath), 'g');
 			var htmlRelativeFontPath = appendSlash(path.relative(o.destHtml, o.dest));
 			var context = _.extend(o, {
 				fontSrc1: o.fontSrc1.replace(relativeRe, htmlRelativeFontPath),
@@ -271,6 +271,11 @@ module.exports = function(grunt) {
 
 		function isSvgFile(filepath) {
 			return path.extname(filepath).toLowerCase() === '.svg';
+		}
+
+		// Excape Windows paths for regexp
+		function escapeRegExp(str) {
+			return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 		}
 
 		// Convert font file to data:uri and remove source file
