@@ -257,6 +257,9 @@ module.exports = function(grunt) {
             },
         },
 		jscs: {
+			options: {
+				config: ".jscs.json",
+			},
 			all: ['tasks/*.js']
 		},
 		clean: ['test/tmp']
