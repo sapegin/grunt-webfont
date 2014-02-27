@@ -222,7 +222,7 @@ module.exports = function(grunt) {
 
 			// HTML should not contain relative paths
 			// If some styles was not included in CSS we should include them in HTML to properly render icons
-			var relativeRe = new RegExp(o.relativeFontPath, 'g');
+			var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
 			var htmlRelativeFontPath = appendSlash(path.relative(o.destHtml, o.dest));
 			var context = _.extend(o, {
 				fontSrc1: o.fontSrc1.replace(relativeRe, htmlRelativeFontPath),
