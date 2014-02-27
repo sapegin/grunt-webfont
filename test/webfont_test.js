@@ -125,22 +125,21 @@ exports.webfont = {
 		test.done();
 	},
 
-	test_codepoints: function(test) {
+	codepoints: function(test) {
 		// Default codepoint of 0xE001 can be overidden
-		var resultSVG = grunt.file.expand('test/tmp/test_codepoints/fonts/*.svg'),
-			srcSVG = grunt.file.expand('test/src/**.*'),
-			glyphs,
-			css = grunt.file.read('test/tmp/test_codepoints/myfont.css'),
-			html = grunt.file.read('test/tmp/test_codepoints/myfont.html');
+		var resultSVG = grunt.file.expand('test/tmp/codepoints/icons.svg');
+		var srcSVG = grunt.file.expand('test/src/*.svg');
+		var css = grunt.file.read('test/tmp/codepoints/icons.css');
+		var html = grunt.file.read('test/tmp/codepoints/icons.html');
+		var startCodepoint = 0x41;
 
 		// Generated SVG font should have glyphs at the overidden codepoints
 		resultSVG.forEach(function(file) {
-			var svgSource = grunt.file.read(file),
-				glyphs = [],
-				startCodepoint = 0x41;
+			var svgSource = grunt.file.read(file);
+			var glyphs = [];
 
 			parseXMLString(svgSource, function(err, result) {
-				// Normalise glyphs into JS objects				
+				// Normalise glyphs into JS objects
 				result.svg.defs[0].font[0].glyph.forEach(function(glyph) {
 					glyphs.push(glyph.$);
 				});
@@ -623,7 +622,7 @@ exports.webfont = {
 		});
 		test.done();
 	},
-	
+
 	ie7_bootstrap: function(test){
 		var css = grunt.file.read('test/tmp/ie7_bootstrap/icons.css');
 		var svgs = grunt.file.expand('test/src/*.svg');

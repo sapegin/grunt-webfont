@@ -26,16 +26,6 @@ module.exports = function(grunt) {
 					syntax: 'bootstrap'
 				}
 			},
-			test_codepoints: {
-				src: 'test/src/*.svg',
-				dest: 'test/tmp/test_codepoints/fonts',
-				destCss: 'test/tmp/test_codepoints',
-				options: {
-					font: 'myfont',
-					types: 'svg',
-					startCodepoint: 0x41
-				}
-			},
 			embed: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/embed',
@@ -222,7 +212,15 @@ module.exports = function(grunt) {
 					ie7: true,
 					syntax: 'bootstrap'
 				}
-			}
+			},
+			codepoints: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/codepoints',
+				options: {
+					hashes: false,
+					startCodepoint: 0x41
+				}
+			},
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']
