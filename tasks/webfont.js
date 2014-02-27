@@ -352,12 +352,12 @@ module.exports = function(grunt) {
 		}
 
 		/**
- 		 * Generate URL for @font-face
- 		 *
- 		 * @param {String} type Type of font
- 		 * @param {Object} font URL or Base64 string
- 		 * @return {String}
- 		 */
+		 * Generate URL for @font-face
+		 *
+		 * @param {String} type Type of font
+		 * @param {Object} font URL or Base64 string
+		 * @return {String}
+		 */
 		function generateFontSrc(type, font) {
 			var filename = template(o.fontName + font.ext, o);
 
