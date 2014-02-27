@@ -125,41 +125,6 @@ exports.webfont = {
 		test.done();
 	},
 
-	codepoints: function(test) {
-		// Default codepoint of 0xE001 can be overidden
-		var resultSVG = grunt.file.expand('test/tmp/codepoints/icons.svg');
-		var srcSVG = grunt.file.expand('test/src/*.svg');
-		var css = grunt.file.read('test/tmp/codepoints/icons.css');
-		var html = grunt.file.read('test/tmp/codepoints/icons.html');
-		var startCodepoint = 0x41;
-
-		// Generated SVG font should have glyphs at the overidden codepoints
-		resultSVG.forEach(function(file) {
-			var svgSource = grunt.file.read(file);
-			var glyphs = [];
-
-			parseXMLString(svgSource, function(err, result) {
-				// Normalise glyphs into JS objects
-				result.svg.defs[0].font[0].glyph.forEach(function(glyph) {
-					glyphs.push(glyph.$);
-				});
-
-				// Two assertions for each glyph:
-				// - each glyph's unicode character is consecutively incremented starting from the startCodepoint above
-				// - the correct glyph character code is present in the generated CSS
-				for (var index = 0; index < glyphs.length; index ++) {
-					test.equals(glyphs[index].unicode, String.fromCharCode(startCodepoint + index), 'Character at index ' + index + ' is at the correct code point');
-					test.ok(
-						find(css, 'content:"\\' + (startCodepoint + index).toString(16) + '"'),
-						'Character at index ' + index + ' has its codepoint in the CSS'
-					);
-				}
-			});
-		});
-
-		test.done();
-	},
-
 	embed: function(test) {
 		// All out files should be created and should not be empty
 		'ttf,eot'.split(',').forEach(function(type) {
@@ -635,6 +600,41 @@ exports.webfont = {
 				'Icon ' + id + ' shound be in CSS file.'
 			);
 		});
+		test.done();
+	},
+
+	codepoints: function(test) {
+		// Default codepoint of 0xE001 can be overidden
+		var resultSVG = grunt.file.expand('test/tmp/codepoints/icons.svg');
+		var srcSVG = grunt.file.expand('test/src/*.svg');
+		var css = grunt.file.read('test/tmp/codepoints/icons.css');
+		var html = grunt.file.read('test/tmp/codepoints/icons.html');
+		var startCodepoint = 0x41;
+
+		// Generated SVG font should have glyphs at the overidden codepoints
+		resultSVG.forEach(function(file) {
+			var svgSource = grunt.file.read(file);
+			var glyphs = [];
+
+			parseXMLString(svgSource, function(err, result) {
+				// Normalise glyphs into JS objects
+				result.svg.defs[0].font[0].glyph.forEach(function(glyph) {
+					glyphs.push(glyph.$);
+				});
+
+				// Two assertions for each glyph:
+				// - each glyph's unicode character is consecutively incremented starting from the startCodepoint above
+				// - the correct glyph character code is present in the generated CSS
+				for (var index = 0; index < glyphs.length; index ++) {
+					test.equals(glyphs[index].unicode, String.fromCharCode(startCodepoint + index), 'Character at index ' + index + ' is at the correct code point');
+					test.ok(
+						find(css, 'content:"\\' + (startCodepoint + index).toString(16) + '"'),
+						'Character at index ' + index + ' has its codepoint in the CSS'
+					);
+				}
+			});
+		});
+
 		test.done();
 	}
 
