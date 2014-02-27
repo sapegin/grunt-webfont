@@ -636,6 +636,22 @@ exports.webfont = {
 		});
 
 		test.done();
+	},
+
+	camel: function(test) {
+		var svgs = grunt.file.expand('test/camel/*.svg');
+		var css = grunt.file.read('test/tmp/camel/icons.css');
+
+		// Every SVG file should have corresponding entries in CSS file in the same case
+		svgs.forEach(function(file) {
+			var id = path.basename(file, '.svg');
+			test.ok(
+				find(css, '.icon_' + id + ':before'),
+				'Icon ' + id + ' should be in CSS file.'
+			);
+		});
+
+		test.done();
 	}
 
 };

@@ -221,6 +221,13 @@ module.exports = function(grunt) {
 					startCodepoint: 0x41
 				}
 			},
+			camel: {
+				src: 'test/camel/*.svg',
+				dest: 'test/tmp/camel',
+				options: {
+					hashes: false
+				}
+			}
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']

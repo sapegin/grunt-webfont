@@ -182,7 +182,7 @@ module.exports = function(grunt) {
 			});
 
 			// Prepage glyph names to use as CSS classes
-			o.glyphs = _.map(o.glyphs, _s.slugify);
+			o.glyphs = _.map(o.glyphs, classnameize);
 
 			// Read JSON file corresponding to CSS template
 			var templateJson = readTemplate(o.template, o.syntax, '.json');
@@ -416,6 +416,16 @@ module.exports = function(grunt) {
 			return tmpl.replace(/\{([^\}]+)\}/g, function(m, key) {
 				return context[key];
 			});
+		}
+
+		/**
+		 * Prepare string to use as CSS class name
+		 *
+		 * @param {String} str
+		 * @return {String}
+		 */
+		function classnameize(str) {
+			return _s.trim(str).replace(/\s+/g, '-');
 		}
 	});
 };
