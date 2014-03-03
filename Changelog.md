@@ -1,3 +1,9 @@
+### 2014-03-03 v0.3.4
+
+* Fix codepoints format bug (by [@reklis](https://github.com/reklis)).
+* Fix CamelCase files handling (#116).
+* Escape regexp to work with Windows paths (#127).
+
 ### 2014-02-13 v0.3.3
 
 * `startCodepoint` option (by [@DanForys](https://github.com/DanForys)).
