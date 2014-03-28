@@ -22,7 +22,6 @@ module.exports = function(grunt, o, allDone) {
 	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
 
-	// @todo Catch svgicons2svgfont log
 	// @todo Ligatures
 
 	var fonts = {};
@@ -34,7 +33,9 @@ module.exports = function(grunt, o, allDone) {
 			var stream = svgicons2svgfont(svgFilesToStreams(o.files), {
 				fontName: o.fontName,
 				fontHeight: 512,
-				descent: 64
+				descent: 64,
+				log: logger.verbose.bind(logger),
+				error: logger.error.bind(logger)
 			});
 			stream.on('data', function(chunk) {
 				font += decoder.write(chunk);
