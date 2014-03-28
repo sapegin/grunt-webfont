@@ -11,6 +11,7 @@ module.exports = function(grunt, o, allDone) {
 	var path = require('path');
 	var temp = require('temp');
 	var async = require('async');
+	var _ = require('lodash');
 	var wf = require('../util/util');
 
 	// @todo Codepoints option.
@@ -24,24 +25,10 @@ module.exports = function(grunt, o, allDone) {
 	// Run Fontforge
 	var args = [
 		'-script',
-		path.join(__dirname, 'fontforge/generate.py'),
-		tempDir,
-		o.dest,
-		o.fontBaseName,
-		o.types.join(',')
+		path.join(__dirname, 'fontforge/generate.py')
 	];
-	if (o.addHashes) {
-		args.push('--hashes');
-	}
-	if (o.addLigatures) {
-		args.push('--ligatures');
-	}
-	if (o.startCodepoint) {
-		args.push('--start_codepoint');
-		args.push('0x' + o.startCodepoint.toString(16));
-	}
 
-	grunt.util.spawn({
+	var proc = grunt.util.spawn({
 		cmd: 'fontforge',
 		args: args
 	}, function(err, fontforgeProcess, code) {
@@ -88,6 +75,13 @@ module.exports = function(grunt, o, allDone) {
 			fontName: path.basename(result.file)
 		});
 	});
+
+	// Send JSON with params
+	var params = _.extend(o, {
+		inputDir: tempDir
+	});
+	proc.stdin.write(JSON.stringify(params));
+	proc.stdin.end();
 
 	function generatedFontFiles() {
 		return grunt.file.expand(path.join(o.dest, o.fontBaseName + wf.fontFileMask));

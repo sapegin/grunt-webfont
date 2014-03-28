@@ -2,7 +2,7 @@
 
 import fontforge
 import os
-import argparse
+import sys
 import hashlib
 import json
 from subprocess import call
@@ -10,17 +10,7 @@ from distutils.spawn import find_executable
 
 # TODO: codepoints option
 
-
-parser = argparse.ArgumentParser(description='Convert a directory of SVG and EPS files into a unified font file.')
-parser.add_argument('input_dir', metavar='directory', type=str, help='directory of vector files')
-parser.add_argument('output_dir', metavar='directory', type=str, help='output directory')
-parser.add_argument('font', metavar='font', type=str, help='font name')
-parser.add_argument('types', metavar='types', type=lambda s: s.split(','), help='output types')
-parser.add_argument('--hashes', action='store_true', help='add hashes to file names')
-parser.add_argument('--ligatures', action='store_true', help='add opentype ligatures to generated font files')
-parser.add_argument('--start_codepoint', metavar='start_codepoint', type=str, help='Unicode codepoint to start from', default='0xE001')
-args = parser.parse_args()
-
+args = json.load(sys.stdin)
 
 f = fontforge.font()
 f.encoding = 'UnicodeFull'
@@ -30,7 +20,7 @@ f.ascent = 448
 f.descent = 64
 
 m = hashlib.md5()
-cp = int(args.start_codepoint, 16)
+cp = args['startCodepoint']
 
 KERNING = 15
 
@@ -41,11 +31,11 @@ def empty_char(f, c):
 	pen = None
 
 
-if args.ligatures:
+if args['addLigatures']:
 	f.addLookup('liga', 'gsub_ligature', (), (('liga', (('latn', ('dflt')), )), ))
 	f.addLookupSubtable('liga', 'liga')
 
-for dirname, dirnames, filenames in os.walk(args.input_dir):
+for dirname, dirnames, filenames in os.walk(args['inputDir']):
 	for filename in sorted(filenames):
 		name, ext = os.path.splitext(filename)
 		filePath = os.path.join(dirname, filename)
@@ -68,7 +58,7 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 				svgfile.close()
 
 			m.update(filename + str(size) + ';')
-			if args.ligatures:
+			if args['addLigatures']:
 				[empty_char(f, c) for c in name]
 				glyph = f.createChar(cp, name)
 				glyph.addPosSub('liga', tuple(name))
@@ -83,15 +73,15 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 
 		f.autoWidth(0, 0, 512)
 
-fontfile = args.output_dir + os.path.sep + args.font
-if args.hashes:
+fontfile = args['dest'] + os.path.sep + args['fontBaseName']
+if args['addHashes']:
 	fontfile += '-' + m.hexdigest()
 
-f.fontname = args.font
-f.familyname = args.font
-f.fullname = args.font
+f.fontname = args['fontBaseName']
+f.familyname = args['fontBaseName']
+f.fullname = args['fontBaseName']
 
-if args.ligatures:
+if args['addLigatures']:
 	def generate(filename):
 		f.generate(filename, flags=('opentype'))
 else:
@@ -109,7 +99,7 @@ if find_executable('ttfautohint'):
 	f = fontforge.open(fontfile + '.ttf')
 
 # SVG
-if 'svg' in args.types:
+if 'svg' in args['types']:
 	generate(fontfile + '.svg')
 
 	# Fix SVG header for webkit (from: https://github.com/fontello/font-builder/blob/master/bin/fontconvert.py)
@@ -122,16 +112,16 @@ if 'svg' in args.types:
 scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 # WOFF
-if 'woff' in args.types:
+if 'woff' in args['types']:
 	generate(fontfile + '.woff')
 
 # EOT
-if 'eot' in args.types:
+if 'eot' in args['types']:
 	# eotlitetool.py script to generate IE7-compatible .eot fonts
 	call("python '" + scriptPath + "/../../bin/eotlitetool.py' '" + fontfile + ".ttf' --output '" + fontfile + ".eot'", shell=True)
 
 # Delete TTF if not needed
-if not 'ttf' in args.types:
+if not 'ttf' in args['types']:
 	os.remove(fontfile + '.ttf')
 
 print(json.dumps({'file': fontfile}))
