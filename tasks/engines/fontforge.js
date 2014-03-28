@@ -12,6 +12,7 @@ module.exports = function(grunt, o, allDone) {
 	var temp = require('temp');
 	var async = require('async');
 	var _ = require('lodash');
+	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
 
 	// @todo Codepoints option.
@@ -33,8 +34,7 @@ module.exports = function(grunt, o, allDone) {
 		args: args
 	}, function(err, fontforgeProcess, code) {
 		if (code === wf.COMMAND_NOT_FOUND) {
-			grunt.log.errorlns('Please install fontforge and all other requirements.');
-			grunt.warn('fontforge not found', code);
+			return error('fontforge not found. Please install fontforge and all other requirements.');
 		}
 		else if (err || fontforgeProcess.stderr) {
 			// Skip some fontforge output such as copyrights. Show warnings only when no font files was created
@@ -49,13 +49,12 @@ module.exports = function(grunt, o, allDone) {
 					warn.push(line);
 				}
 				else {
-					grunt.verbose.writeln("fontforge: ".grey + line);
+					logger.verbose("fontforge: ".grey + line);
 				}
 			});
 
 			if (warn.length) {
-				grunt.warn(warn.join('\n'));
-				allDone(false);
+				return error(warn.join('\n'));
 			}
 		}
 
@@ -68,7 +67,7 @@ module.exports = function(grunt, o, allDone) {
 			result = JSON.parse(json);
 		}
 		catch (e) {
-			grunt.warn('Webfont did not receive a proper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
+			return error('Webfont did not receive a proper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
 		}
 
 		allDone({
@@ -77,6 +76,7 @@ module.exports = function(grunt, o, allDone) {
 	});
 
 	// Send JSON with params
+	if (!proc) return;
 	var params = _.extend(o, {
 		inputDir: tempDir
 	});
@@ -85,6 +85,12 @@ module.exports = function(grunt, o, allDone) {
 
 	function generatedFontFiles() {
 		return grunt.file.expand(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
+	}
+
+	function error() {
+		logger.error.apply(null, arguments);
+		allDone(false);
+		return false;
 	}
 
 };

@@ -25,6 +25,21 @@ module.exports = function(grunt) {
 		var params = this.data;
 		var options = params.options || {};
 
+		/**
+		 * Winston to Grunt logger adapter.
+		 */
+		var logger = {
+			error: function() {
+				grunt.warn.apply(null, arguments);
+			},
+			log: function() {
+				grunt.log.writeln.apply(null, arguments);
+			},
+			verbose: function() {
+				grunt.verbose.writeln.apply(null, arguments);
+			}
+		};
+
 		if (options.skip) {
 			allDone();
 			return;
@@ -59,7 +74,8 @@ module.exports = function(grunt) {
 			engine: options.engine || 'fontforge',
 			codepoints: options.codepoints,
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
-			ie7: options.ie7 || false
+			ie7: options.ie7 || false,
+			logger: logger
 		};
 
 		o = _.extend(o, {
@@ -255,7 +271,7 @@ module.exports = function(grunt) {
 		 * @param {Function} done
 		 */
 		function printDone(done) {
-			grunt.log.writeln('Font ' + o.fontName.cyan + ' with ' + o.glyphs.length + ' glyphs created.');
+			logger.log('Font ' + o.fontName.cyan + ' with ' + o.glyphs.length + ' glyphs created.');
 			done();
 		}
 

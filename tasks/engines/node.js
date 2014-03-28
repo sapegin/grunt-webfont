@@ -19,6 +19,7 @@ module.exports = function(grunt, o, allDone) {
 	var ttf2woff = require('ttf2woff');
 	var ttf2eot = require('ttf2eot');
 	var md5 = require('crypto').createHash('md5');
+	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
 
 	// @todo Catch svgicons2svgfont log
@@ -145,13 +146,14 @@ module.exports = function(grunt, o, allDone) {
 			args: args
 		}, function(err, autohintProcess, code) {
 			if (code === wf.COMMAND_NOT_FOUND) {
-				grunt.log.writeln('Hinting skipped, ttfautohint not found.');
+				logger.verbose('Hinting skipped, ttfautohint not found.');
 				done(false);
 				return;
 			}
 
 			if (err) {
-				grunt.fail.fatal('Can’t run ttfautohint.\n\n' + err);
+				logger.error('Can’t run ttfautohint.\n\n' + err);
+				done(false);
 				return;
 			}
 
