@@ -178,7 +178,7 @@ module.exports = function(grunt) {
 			if (!o.relativeFontPath) {
 				o.relativeFontPath = path.relative(o.destCss, o.dest);
 			}
-			o.relativeFontPath = appendSlash(o.relativeFontPath);
+			o.relativeFontPath = normalizePath(o.relativeFontPath);
 
 			// Generate font URLs to use in @font-face
 			var fontSrcs = [[], []];
@@ -240,7 +240,7 @@ module.exports = function(grunt) {
 			// HTML should not contain relative paths
 			// If some styles was not included in CSS we should include them in HTML to properly render icons
 			var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
-			var htmlRelativeFontPath = appendSlash(path.relative(o.destHtml, o.dest));
+			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.dest));
 			var context = _.extend(o, {
 				fontSrc1: o.fontSrc1.replace(relativeRe, htmlRelativeFontPath),
 				fontSrc2: o.fontSrc2.replace(relativeRe, htmlRelativeFontPath),
@@ -356,15 +356,22 @@ module.exports = function(grunt) {
 		}
 
 		/**
-		 * Append a slash to end of a filepath if it not exists
+		 * Append a slash to end of a filepath if it not exists and make all slashes forward
 		 *
 		 * @param {String} filepath File path
 		 * @return {String}
 		 */
-		function appendSlash(filepath) {
-			if (filepath.length && !_s.endsWith(filepath, path.sep)) {
-				filepath += path.sep;
+		function normalizePath(filepath) {
+			if (!filepath.length) return filepath;
+
+			// Make all slashes forward
+			filepath = filepath.replace(/\\/g, '/');
+
+			// Make sure path ends with a slash
+			if (!_s.endsWith(filepath, '/')) {
+				filepath += '/';
 			}
+
 			return filepath;
 		}
 
