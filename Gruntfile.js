@@ -246,16 +246,16 @@ module.exports = function(grunt) {
 				laxbreak: true
 			}
 		},
-        watch: {
-            scripts: {
-                files: '<%= jshint.all %>',
-                tasks: ['jshint', 'jscs'],
-                options: {
-                    debounceDelay: 100,
-                    nospawn: true
-                }
-            },
-        },
+		watch: {
+			scripts: {
+				files: '<%= jshint.all %>',
+				tasks: ['jshint', 'jscs'],
+				options: {
+					debounceDelay: 100,
+					nospawn: true
+				}
+			},
+		},
 		jscs: {
 			options: {
 				config: ".jscs.json",
