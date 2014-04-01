@@ -74,7 +74,8 @@ module.exports = function(grunt) {
 			engine: options.engine || 'fontforge',
 			codepoints: options.codepoints,
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
-			ie7: options.ie7 || false,
+			ie7: options.ie7 === true,
+			normalize: options.normalize !== false,
 			logger: logger
 		};
 

@@ -34,6 +34,7 @@ module.exports = function(grunt, o, allDone) {
 				fontName: o.fontName,
 				fontHeight: 512,
 				descent: 64,
+				normalize: o.normalize,
 				log: logger.verbose.bind(logger),
 				error: logger.error.bind(logger)
 			});

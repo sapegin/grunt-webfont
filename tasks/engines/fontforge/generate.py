@@ -18,6 +18,8 @@ f.design_size = 16
 f.em = 512
 f.ascent = 448
 f.descent = 64
+if args['normalize']:
+	f.autoWidth(0, 0, 512)
 
 m = hashlib.md5()
 cp = args['startCodepoint']
@@ -66,12 +68,14 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 				glyph = f.createChar(cp)
 			glyph.importOutlines(filePath)
 
-			glyph.left_side_bearing = glyph.right_side_bearing = 0
-			glyph.round()
+			if args['normalize']:
+				glyph.left_side_bearing = glyph.right_side_bearing = 0
+				glyph.round()
+			else:
+				glyph.width = 512
 
 			cp += 1
 
-		f.autoWidth(0, 0, 512)
 
 fontfile = args['dest'] + os.path.sep + args['fontBaseName']
 if args['addHashes']:
