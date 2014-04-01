@@ -619,7 +619,9 @@ exports.webfont = {
 			parseXMLString(svgSource, function(err, result) {
 				// Normalise glyphs into JS objects
 				result.svg.defs[0].font[0].glyph.forEach(function(glyph) {
-					glyphs.push(glyph.$);
+					if (glyph.$['glyph-name'].length === 1) {  // Skip non-characters (.notdef, .null, etc.)
+						glyphs.push(glyph.$);
+					}
 				});
 
 				// Two assertions for each glyph:
