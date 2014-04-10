@@ -32,7 +32,7 @@ module.exports = function(o, allDone) {
 	];
 
 	var proc = exec(args, function(err, out, code) {
-		if (code === wf.COMMAND_NOT_FOUND) {
+		if (err instanceof Error && err.code === 'ENOENT') {
 			return error('fontforge not found. Please install fontforge and all other requirements.');
 		}
 		else if (err) {

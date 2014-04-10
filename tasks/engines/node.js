@@ -147,16 +147,15 @@ module.exports = function(o, allDone) {
 		];
 
 		exec(args, function(err, out, code) {
-			if (code === wf.COMMAND_NOT_FOUND) {
-				logger.verbose('Hinting skipped, ttfautohint not found.');
-				done(false);
-				return;
-			}
-
 			if (err) {
 				if (err instanceof Error) {
+					if (err.code === 'ENOENT') {
+						logger.verbose('Hinting skipped, ttfautohint not found.');
+						done(false);
+						return;
+					}
 					err = err.message;
-				}				
+				}
 				logger.error('Can’t run ttfautohint.\n\n' + err);
 				done(false);
 				return;

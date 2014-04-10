@@ -14,12 +14,6 @@ var exports = {};
 exports.UNICODE_PUA_START = 0xE001;
 
 /**
- * Executable file not found.
- * @type {Number}
- */
-exports.COMMAND_NOT_FOUND = 127;
-
-/**
  * @font-face’s src values generation rules.
  * @type {Object}
  */
