@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 	var path = require('path');
 	var async = require('async');
 	var glob = require('glob');
+	var chalk = require('chalk');
 	var mkdirp = require('mkdirp');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
@@ -279,7 +280,7 @@ module.exports = function(grunt) {
 		 * @param {Function} done
 		 */
 		function printDone(done) {
-			logger.log('Font ' + o.fontName.cyan + ' with ' + o.glyphs.length + ' glyphs created.');
+			logger.log('Font ' + chalk.cyan(o.fontName) + ' with ' + o.glyphs.length + ' glyphs created.');
 			done();
 		}
 

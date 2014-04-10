@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "async": "~0.2.10",
+    "chalk": "~0.4.0",
     "exec": "~0.1.0",
     "glob": "~3.2.9",
     "lodash": "~2.4.1",

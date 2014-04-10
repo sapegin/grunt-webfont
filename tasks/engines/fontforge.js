@@ -14,6 +14,7 @@ module.exports = function(o, allDone) {
 	var async = require('async');
 	var glob = require('glob');
 	var exec = require('exec');
+	var chalk = require('chalk');
 	var _ = require('lodash');
 	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
@@ -52,7 +53,7 @@ module.exports = function(o, allDone) {
 					warn.push(line);
 				}
 				else {
-					logger.verbose("fontforge: ".grey + line);
+					logger.verbose(chalk.grey('fontforge: ') + line);
 				}
 			});
 
