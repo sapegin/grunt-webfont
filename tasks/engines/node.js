@@ -117,9 +117,10 @@ module.exports = function(grunt, o, allDone) {
 
 	function svgFilesToStreams(files) {
 		return files.map(function(file, idx) {
+			var name = o.glyphs[idx];
 			return {
-				codepoint: parseInt(o.codepoints[idx], 16),
-				name: o.glyphs[idx],
+				codepoint: o.codepoints[name],
+				name: name,
 				stream: fs.createReadStream(file)
 			};
 		});

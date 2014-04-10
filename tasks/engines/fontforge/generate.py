@@ -8,8 +8,6 @@ import json
 from subprocess import call
 from distutils.spawn import find_executable
 
-# TODO: codepoints option
-
 args = json.load(sys.stdin)
 
 f = fontforge.font()
@@ -22,7 +20,6 @@ if args['normalize']:
 	f.autoWidth(0, 0, 512)
 
 m = hashlib.md5()
-cp = args['startCodepoint']
 
 KERNING = 15
 
@@ -59,6 +56,8 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 				svgfile.write(svgtext)
 				svgfile.close()
 
+			cp = args['codepoints'][name]
+
 			m.update(filename + str(size) + ';')
 			if args['addLigatures']:
 				[empty_char(f, c) for c in name]
@@ -73,8 +72,6 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 				glyph.round()
 			else:
 				glyph.width = 512
-
-			cp += 1
 
 
 fontfile = args['dest'] + os.path.sep + args['fontBaseName']

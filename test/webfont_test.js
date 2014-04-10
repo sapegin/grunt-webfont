@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var grunt = require('grunt');
 var parseXMLString = require('xml2js').parseString;
+var wf = require('../tasks/util/util');
 
 function find(haystack, needle) {
 	return haystack.indexOf(needle) !== -1;
@@ -48,11 +49,15 @@ exports.webfont = {
 		);
 
 		// Every SVG file should have corresponding entry in CSS and HTML files
-		svgs.forEach(function(file) {
+		svgs.forEach(function(file, index) {
 			var id = path.basename(file, '.svg');
 			test.ok(
 				find(css, '.icon_' + id + ':before'),
 				'Icon ' + id + ' should be in CSS file.'
+			);
+			test.ok(
+				find(css, 'content:"\\' + (wf.UNICODE_PUA_START + index).toString(16) + '"'),
+				'Character at index ' + index + ' has its codepoint in the CSS'
 			);
 			test.ok(
 				find(html, '<div class="icons__item" data-name="' + id + '"><i class="icon icon_' + id + '"></i> icon_' + id + '</div>'),
@@ -379,6 +384,10 @@ exports.webfont = {
 		test.ok(
 			find(css, '.icon_ma-il-ru:before'),
 			'Spaces in class name should be replaced by hyphens.'
+		);
+		test.ok(
+			find(css, 'content:"\\' + wf.UNICODE_PUA_START.toString(16) + '";'),
+			'Right codepoint should exists.'
 		);
 
 		test.done();

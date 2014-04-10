@@ -97,18 +97,16 @@ module.exports = function(grunt) {
 		// Check or generate codepoints
 		// @todo Codepoint can be a Unicode code or character.
 		if (o.codepoints) {
-			var codepointsMap = o.codepoints;
-			o.codepoints = o.glyphs.map(function(name) {
-				if (!codepointsMap[name]) {
+			o.glyphs.forEach(function(name) {
+				if (!o.codepoints[name]) {
 					grunt.fail.fatal('Can’t find codepoint for "' + name + '" glyph. ');
 				}
-				return codepointsMap[name];
 			});
 		}
 		else {
-			var codepointIdx = o.startCodepoint;
-			o.codepoints = o.glyphs.map(function(name) {
-				return (codepointIdx++).toString(16);
+			o.codepoints = {};
+			o.glyphs.forEach(function(name, index) {
+				o.codepoints[name] = o.startCodepoint + index;
 			});
 		}
 
@@ -197,6 +195,13 @@ module.exports = function(grunt) {
 				// o.fontSrc1, o.fontSrc2
 				o['fontSrc'+(idx+1)] = font.join(fontSrcSeparator);
 			});
+
+			// Convert codepoints to array of strings
+			var codepoints = [];
+			_.each(o.glyphs, function(name) {
+				codepoints.push(o.codepoints[name].toString(16));
+			});
+			o.codepoints = codepoints;
 
 			// Prepage glyph names to use as CSS classes
 			o.glyphs = _.map(o.glyphs, classnameize);
