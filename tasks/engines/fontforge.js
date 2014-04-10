@@ -12,6 +12,7 @@ module.exports = function(grunt, o, allDone) {
 	var temp = require('temp');
 	var async = require('async');
 	var glob = require('glob');
+	var exec = require('exec');
 	var _ = require('lodash');
 	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
@@ -26,23 +27,25 @@ module.exports = function(grunt, o, allDone) {
 
 	// Run Fontforge
 	var args = [
+		'fontforge',
 		'-script',
 		path.join(__dirname, 'fontforge/generate.py')
 	];
 
-	var proc = grunt.util.spawn({
-		cmd: 'fontforge',
-		args: args
-	}, function(err, fontforgeProcess, code) {
+	var proc = exec(args, function(err, out, code) {
 		if (code === wf.COMMAND_NOT_FOUND) {
 			return error('fontforge not found. Please install fontforge and all other requirements.');
 		}
-		else if (err || fontforgeProcess.stderr) {
+		else if (err) {
+			if (err instanceof Error) {
+				return error(err.message);
+			}
+
 			// Skip some fontforge output such as copyrights. Show warnings only when no font files was created
 			// or in verbose mode.
 			var success = !!generatedFontFiles();
 			var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git)/;
-			var lines = (err && err.stderr || fontforgeProcess.stderr).split('\n');
+			var lines = err.split('\n');
 
 			var warn = [];
 			lines.forEach(function(line) {
@@ -60,7 +63,7 @@ module.exports = function(grunt, o, allDone) {
 		}
 
 		// Trim fontforge result
-		var json = fontforgeProcess.stdout.replace(/^[^{]+/, '').replace(/[^}]+$/, '');
+		var json = out.replace(/^[^{]+/, '').replace(/[^}]+$/, '');
 
 		// Parse json
 		var result;
@@ -68,7 +71,7 @@ module.exports = function(grunt, o, allDone) {
 			result = JSON.parse(json);
 		}
 		catch (e) {
-			return error('Webfont did not receive a proper JSON result.\n' + e + '\n' + fontforgeProcess.stdout);
+			return error('Webfont did not receive a proper JSON result.\n' + e + '\n' + out);
 		}
 
 		allDone({
