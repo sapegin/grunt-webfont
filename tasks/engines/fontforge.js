@@ -8,6 +8,7 @@
 module.exports = function(grunt, o, allDone) {
 	'use strict';
 
+	var fs = require('fs');
 	var path = require('path');
 	var temp = require('temp');
 	var async = require('async');
@@ -17,12 +18,10 @@ module.exports = function(grunt, o, allDone) {
 	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
 
-	// @todo Codepoints option.
-
 	// Copy source files to temporary directory
 	var tempDir = temp.mkdirSync();
 	o.files.forEach(function(file) {
-		grunt.file.copy(file, path.join(tempDir, o.rename(file)));
+		fs.writeFileSync(path.join(tempDir, o.rename(file)), fs.readFileSync(file));
 	});
 
 	// Run Fontforge

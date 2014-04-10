@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 	var path = require('path');
 	var async = require('async');
 	var glob = require('glob');
+	var mkdirp = require('mkdirp');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
 	var wf = require('./util/util');
@@ -128,8 +129,8 @@ module.exports = function(grunt) {
 		 * @param {Function} done
 		 */
 		function createOutputDirs(done) {
-			grunt.file.mkdir(o.destCss);
-			grunt.file.mkdir(o.dest);
+			mkdirp.sync(o.destCss);
+			mkdirp.sync(o.dest);
 			done();
 		}
 
@@ -230,7 +231,7 @@ module.exports = function(grunt) {
 			}
 
 			// Save file
-			grunt.file.write(cssFile, css);
+			fs.writeFileSync(cssFile, css);
 
 			done();
 		}
@@ -267,7 +268,7 @@ module.exports = function(grunt) {
 			var demo = _.template(demoTemplate, htmlContext);
 
 			// Save file
-			grunt.file.write(demoFile, demo);
+			fs.writeFileSync(demoFile, demo);
 
 			done();
 		}
