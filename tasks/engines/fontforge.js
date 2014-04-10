@@ -5,7 +5,7 @@
  * @author Artem Sapegin (http://sapegin.me)
  */
 
-module.exports = function(grunt, o, allDone) {
+module.exports = function(o, allDone) {
 	'use strict';
 
 	var fs = require('fs');

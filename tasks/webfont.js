@@ -154,7 +154,7 @@ module.exports = function(grunt) {
 		 */
 		function generateFont(done) {
 			var engine = require('./engines/' + o.engine);
-			engine(grunt, o, function(result) {
+			engine(o, function(result) {
 				if (result === false) {
 					// Font was not created, exit
 					allDone();

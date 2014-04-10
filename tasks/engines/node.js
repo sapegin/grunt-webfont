@@ -5,13 +5,14 @@
  * @author Artem Sapegin (http://sapegin.me)
  */
 
-module.exports = function(grunt, o, allDone) {
+module.exports = function(o, allDone) {
 	'use strict';
 
 	var fs = require('fs');
 	var path = require('path');
 	var async = require('async');
 	var temp = require('temp');
+	var exec = require('exec');
 	var _ = require('lodash');
 	var StringDecoder = require('string_decoder').StringDecoder;
 	var svgicons2svgfont = require('svgicons2svgfont');
@@ -136,6 +137,7 @@ module.exports = function(grunt, o, allDone) {
 
 		// Run ttfautohint
 		var args = [
+			'ttfautohint',
 			'--symbol',
 			'--fallback-script=latn',
 			'--windows-compatibility',
@@ -144,10 +146,7 @@ module.exports = function(grunt, o, allDone) {
 			hintedFilepath
 		];
 
-		grunt.util.spawn({
-			cmd: 'ttfautohint',
-			args: args
-		}, function(err, autohintProcess, code) {
+		exec(args, function(err, out, code) {
 			if (code === wf.COMMAND_NOT_FOUND) {
 				logger.verbose('Hinting skipped, ttfautohint not found.');
 				done(false);
@@ -155,6 +154,9 @@ module.exports = function(grunt, o, allDone) {
 			}
 
 			if (err) {
+				if (err instanceof Error) {
+					err = err.message;
+				}				
 				logger.error('Can’t run ttfautohint.\n\n' + err);
 				done(false);
 				return;
