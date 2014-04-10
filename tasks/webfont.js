@@ -221,7 +221,7 @@ module.exports = function(grunt) {
 				iconsStyles: true
 			});
 
-			var css = grunt.template.process(o.cssTemplate, {data: cssContext});
+			var css = _.template(o.cssTemplate, cssContext);
 
 			// Fix CSS preprocessors comments: single line comments will be removed after compilation
 			if (has(['sass', 'scss', 'less', 'styl'], o.stylesheet)) {
@@ -255,7 +255,7 @@ module.exports = function(grunt) {
 				iconsStyles: true,
 				stylesheet: 'css'
 			});
-			var htmlStyles = grunt.template.process(o.cssTemplate, {data: context});
+			var htmlStyles = _.template(o.cssTemplate, context);
 			var htmlContext = _.extend(context, {
 				styles: htmlStyles
 			});
@@ -263,7 +263,7 @@ module.exports = function(grunt) {
 			// Generate HTML
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
 			var demoFile = path.join(o.destHtml, o.fontBaseName + '.html');
-			var demo = grunt.template.process(demoTemplate, {data: htmlContext});
+			var demo = _.template(demoTemplate, htmlContext);
 
 			// Save file
 			grunt.file.write(demoFile, demo);
