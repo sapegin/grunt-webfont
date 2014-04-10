@@ -48,7 +48,7 @@ module.exports = function(grunt) {
 		// Source files
 		var files = _.filter(this.filesSrc, isSvgFile);
 		if (!files.length) {
-			grunt.fail.fatal('Specified empty list of source SVG files.');
+			logger.error('Specified empty list of source SVG files.');
 			return;
 		}
 
@@ -99,7 +99,7 @@ module.exports = function(grunt) {
 		if (o.codepoints) {
 			o.glyphs.forEach(function(name) {
 				if (!o.codepoints[name]) {
-					grunt.fail.fatal('Can’t find codepoint for "' + name + '" glyph. ');
+					logger.error('Can’t find codepoint for "' + name + '" glyph. ');
 				}
 			});
 		}
