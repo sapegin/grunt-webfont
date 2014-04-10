@@ -11,6 +11,7 @@ module.exports = function(grunt, o, allDone) {
 	var path = require('path');
 	var temp = require('temp');
 	var async = require('async');
+	var glob = require('glob');
 	var _ = require('lodash');
 	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
@@ -84,7 +85,7 @@ module.exports = function(grunt, o, allDone) {
 	proc.stdin.end();
 
 	function generatedFontFiles() {
-		return grunt.file.expand(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
+		return glob.sync(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
 	}
 
 	function error() {

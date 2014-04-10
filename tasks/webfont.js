@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 	var fs = require('fs');
 	var path = require('path');
 	var async = require('async');
+	var glob = require('glob');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
 	var wf = require('./util/util');
@@ -139,7 +140,7 @@ module.exports = function(grunt) {
 		 */
 		function cleanOutputDir(done) {
 			var htmlDemoFileMask = path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}');
-			var files = grunt.file.expand(htmlDemoFileMask).concat(generatedFontFiles());
+			var files = glob.sync(htmlDemoFileMask).concat(generatedFontFiles());
 			async.forEach(files, function(file, next) {
 				fs.unlink(file, next);
 			}, done);
@@ -431,7 +432,7 @@ module.exports = function(grunt) {
 		 * @return {Array}
 		 */
 		function generatedFontFiles() {
-			return grunt.file.expand(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
+			return glob.sync(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
 		}
 
 		/**
