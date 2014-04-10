@@ -227,6 +227,13 @@ module.exports = function(grunt) {
 				options: {
 					hashes: false
 				}
+			},
+			folders: {
+				src: 'test/src_folders/**/*.svg',
+				dest: 'test/tmp/folders',
+				options: {
+					hashes: false
+				}
 			}
 		},
 		nodeunit: {

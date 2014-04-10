@@ -615,7 +615,6 @@ exports.webfont = {
 	codepoints: function(test) {
 		// Default codepoint of 0xE001 can be overidden
 		var resultSVG = grunt.file.expand('test/tmp/codepoints/icons.svg');
-		var srcSVG = grunt.file.expand('test/src/*.svg');
 		var css = grunt.file.read('test/tmp/codepoints/icons.css');
 		var html = grunt.file.read('test/tmp/codepoints/icons.html');
 		var startCodepoint = 0x41;
@@ -663,6 +662,27 @@ exports.webfont = {
 		});
 
 		test.done();
-	}
+	},
+
+	folders: function(test) {
+		var svgFont = grunt.file.read('test/tmp/folders/icons.svg');
+		var paths = JSON.parse(grunt.file.read('test/src_folders/paths.json'));
+		var glyphs = [];
+		parseXMLString(svgFont, function(err, result) {
+			// Normalise glyphs into JS objects
+			result.svg.defs[0].font[0].glyph.forEach(function(glyph) {
+				if (/^uni/.test(glyph.$['glyph-name'])) {  // Skip non-characters (.notdef, .null, etc.)
+					glyphs.push(glyph.$);
+				}
+			});
+
+			glyphs.forEach(function(glyph) {
+				test.equals(glyph.d, paths[glyph['glyph-name']], 'Glyph with codepoint ' + glyph.unicode + ' has correct path.');
+			});
+		});
+
+		test.done();
+	},
+
 
 };
