@@ -1,7 +1,7 @@
 /**
  * grunt-webfont: fontforge engine
  *
- * @requires fontforge, ttfautohint 0.97+ (optional), eotlitetool.py
+ * @requires fontforge, ttfautohint 1.00+ (optional), eotlitetool.py
  * @author Artem Sapegin (http://sapegin.me)
  */
 

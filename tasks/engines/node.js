@@ -1,7 +1,7 @@
 /**
  * grunt-webfont: Node.js engine
  *
- * @requires ttfautohint 0.97+ (optional)
+ * @requires ttfautohint 1.00+ (optional)
  * @author Artem Sapegin (http://sapegin.me)
  */
 
