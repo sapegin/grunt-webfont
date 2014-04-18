@@ -68,6 +68,7 @@ exports.cssFilePrefixes = {
  */
 exports.fontSrcSeparators = {
 	_default: ',\n\t\t',
+	sass: ', ',
 	styl: ', '
 };
 
