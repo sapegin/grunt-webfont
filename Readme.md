@@ -139,6 +139,18 @@ Type: `string` Default: `icons`
 
 Name of font and base name of font files.
 
+#### fontHeight
+
+Type: `number` Default: `512`
+
+Needed for nodejs Engine
+
+#### descent
+
+Type: `number` Default: `64`
+
+Needed for nodejs Engine
+
 #### hashes
 
 Type: `boolean` Default: `true`
