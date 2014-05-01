@@ -15,7 +15,7 @@ f.encoding = 'UnicodeFull'
 f.design_size = 16
 f.em = 512
 f.ascent = 448
-f.descent = 64
+f.descent = args['descent']
 if args['normalize']:
 	f.autoWidth(0, 0, 512)
 
