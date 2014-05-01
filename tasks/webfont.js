@@ -79,7 +79,9 @@ module.exports = function(grunt) {
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
 			ie7: options.ie7 === true,
 			normalize: options.normalize !== false,
-			logger: logger
+			logger: logger,
+			fontHeight: o.fontHeight || 512,
+			descent: o.descent || 64
 		};
 
 		o = _.extend(o, {
