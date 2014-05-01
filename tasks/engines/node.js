@@ -33,8 +33,6 @@ module.exports = function(o, allDone) {
 			var decoder = new StringDecoder('utf8');
 			var stream = svgicons2svgfont(svgFilesToStreams(o.files), {
 				fontName: o.fontName,
-				fontHeight: o.fontHeight || 512,
-				descent: o.descent || 64,
 				normalize: o.normalize,
 				log: logger.verbose.bind(logger),
 				error: logger.error.bind(logger)
