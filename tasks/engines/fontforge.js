@@ -82,7 +82,8 @@ module.exports = function(o, allDone) {
 	// Send JSON with params
 	if (!proc) return;
 	var params = _.extend(o, {
-		inputDir: tempDir
+		inputDir: tempDir,
+		descent: o.descent
 	});
 	proc.stdin.write(JSON.stringify(params));
 	proc.stdin.end();
