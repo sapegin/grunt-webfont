@@ -80,8 +80,8 @@ module.exports = function(grunt) {
 			ie7: options.ie7 === true,
 			normalize: options.normalize !== false,
 			logger: logger,
-			fontHeight: o.fontHeight || 512,
-			descent: o.descent || 64
+			fontHeight: options.fontHeight || 512,
+			descent: options.descent || 64
 		};
 
 		o = _.extend(o, {
