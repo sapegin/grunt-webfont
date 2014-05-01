@@ -143,7 +143,7 @@ Name of font and base name of font files.
 
 Type: `number` Default: `512`
 
-Needed for nodejs Engine
+Not available for fontforge engine
 
 #### descent
 
