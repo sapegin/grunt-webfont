@@ -40,21 +40,20 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 		filePath = os.path.join(dirname, filename)
 		size = os.path.getsize(filePath)
 
-		if ext in ['.svg', '.eps']:
-			if ext in ['.svg']:
-				# HACK: Remove <switch> </switch> tags
-				svgfile = open(filePath, 'r+')
-				svgtext = svgfile.read()
-				svgfile.seek(0)
+		if ext in ['.svg']:
+			# HACK: Remove <switch> </switch> tags
+			svgfile = open(filePath, 'r+')
+			svgtext = svgfile.read()
+			svgfile.seek(0)
 
-				# Replace the <switch> </switch> tags with nothing
-				svgtext = svgtext.replace('<switch>', '')
-				svgtext = svgtext.replace('</switch>', '')
+			# Replace the <switch> </switch> tags with nothing
+			svgtext = svgtext.replace('<switch>', '')
+			svgtext = svgtext.replace('</switch>', '')
 
-				# Remove all contents of file so that we can write out the new contents
-				svgfile.truncate()
-				svgfile.write(svgtext)
-				svgfile.close()
+			# Remove all contents of file so that we can write out the new contents
+			svgfile.truncate()
+			svgfile.write(svgtext)
+			svgfile.close()
 
 			cp = args['codepoints'][name]
 
