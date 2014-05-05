@@ -71,7 +71,12 @@ module.exports = function(o, allDone) {
 			result = JSON.parse(json);
 		}
 		catch (e) {
-			return error('Webfont did not receive a proper JSON result.\n' + e + '\n' + out);
+			logger.verbose('Webfont did not receive a proper JSON result from Python script: ' + e);
+			return error(
+				'Something went wrong when running fontforge. Probably one of your SVGs is too complicated for fontforge.\n\n' +
+				'1. Try to use “node” engine instead of “fontforge”. (See “engine” option in the Readme.)\n\n' +
+				'2. To find “bad” icon try to remove SVGs one by one until error disappears. Then try to simplify this SVG in Sketch, Illustrator, etc.\n\n'
+			);
 		}
 
 		allDone({
