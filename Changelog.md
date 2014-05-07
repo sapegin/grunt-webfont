@@ -1,3 +1,10 @@
+### 2014-05-07 v0.4.0
+
+* Normalize fonts by default (#108).
+* Try to fix slashes on Windows again (#109, #126).
+* Improve error message when fontforge fails (#10, #135).
+* Show svgicons2svgfont “warnings” only in verbose mode (#107).
+
 ### 2014-03-03 v0.3.4
 
 * Fix codepoints format bug (by [@reklis](https://github.com/reklis)).
