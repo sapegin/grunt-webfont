@@ -2,12 +2,14 @@
 /* Based on https://github.com/endtwist/fontcustom/blob/master/lib/fontcustom/templates/fontcustom.css */
 
 /*set ie7 + ie8 default as embedded woff isn't understood*/
+<% if (fontSrc1) { %>
 @font-face {
     font-family:"<%= fontBaseName %>";
     src:<%= fontSrc1 %>;
     font-weight:normal;
     font-style:normal;
 }
+<% } %>
 
 <% if (fontfaceStyles) { %>@font-face {
 	font-family:"<%= fontBaseName %>";<% if (fontSrc1) { %>
