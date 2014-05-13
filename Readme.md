@@ -143,13 +143,15 @@ Name of font and base name of font files.
 
 Type: `number` Default: `512`
 
-Not available for fontforge engine
-
 #### descent
 
 Type: `number` Default: `64`
 
-Needed for nodejs Engine
+#### ascent
+
+Type: `number` Default: `448`
+
+Needed for the fontforge engine
 
 #### hashes
 
