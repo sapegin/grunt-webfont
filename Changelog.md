@@ -1,3 +1,7 @@
+### 2014-05-13 v0.4.2
+
+* Fix deps.
+
 ### 2014-05-13 v0.4.1
 
 * Remove --windows-compatibility switch because it causes problems on Windows.
