@@ -1,3 +1,8 @@
+### 2014-05-13 v0.4.1
+
+* Remove --windows-compatibility switch because it causes problems on Windows.
+* Fix IE7 option (by [@peter-mouland](https://github.com/peter-mouland)).
+
 ### 2014-05-07 v0.4.0
 
 * Normalize fonts by default (#108).
