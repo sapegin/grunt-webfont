@@ -11,7 +11,7 @@ var exports = {};
  * http://en.wikipedia.org/wiki/Private_Use_(Unicode)
  * @type {Number}
  */
-exports.UNICODE_PUA_START = 0xE001;
+exports.UNICODE_PUA_START = 0xF101;
 
 /**
  * @font-face’s src values generation rules.
