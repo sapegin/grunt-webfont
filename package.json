@@ -32,11 +32,11 @@
   },
   "dependencies": {
     "async": "~0.8.0",
-    "chalk": "~0.4.1",
+    "chalk": "~0.4.0",
     "exec": "~0.1.1",
     "glob": "~3.2.9",
     "lodash": "~2.4.1",
-    "mkdirp": "~0.4.1",
+    "mkdirp": "~0.4.0",
     "svg2ttf": "~1.1.2",
     "svgicons2svgfont": "=0.0.11",
     "temp": "~0.7.0",
@@ -53,11 +53,11 @@
     "grunt-jscs-checker": "~0.4.2",
     "grunt-contrib-watch": "~0.6.1",
     "stylus": "~0.44.0",
-    "load-grunt-tasks": "~0.4.1",
+    "load-grunt-tasks": "~0.4.0",
     "xml2js": "~0.4.2"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.0"
   },
   "keywords": [
     "gruntplugin",
