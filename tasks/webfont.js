@@ -81,7 +81,8 @@ module.exports = function(grunt) {
 			normalize: options.normalize !== false,
 			logger: logger,
 			fontHeight: options.fontHeight || 512,
-			descent: options.descent || 64
+			descent: options.descent || 64,
+			ascent: options.ascent || 448
 		};
 
 		o = _.extend(o, {
