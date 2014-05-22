@@ -1,7 +1,7 @@
 The MIT License
 ===============
 
-Copyright © 2012 Artem Sapegin, http://sapegin.me
+Copyright © 2014 Artem Sapegin, http://sapegin.me
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
