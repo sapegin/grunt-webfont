@@ -139,6 +139,20 @@ Type: `string` Default: `icons`
 
 Name of font and base name of font files.
 
+#### fontHeight
+
+Type: `number` Default: `512`
+
+#### descent
+
+Type: `number` Default: `64`
+
+#### ascent
+
+Type: `number` Default: `448`
+
+Needed for the fontforge engine
+
 #### hashes
 
 Type: `boolean` Default: `true`

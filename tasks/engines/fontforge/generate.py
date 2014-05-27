@@ -13,11 +13,11 @@ args = json.load(sys.stdin)
 f = fontforge.font()
 f.encoding = 'UnicodeFull'
 f.design_size = 16
-f.em = 512
-f.ascent = 448
-f.descent = 64
+f.em = args['fontHeight']
+f.ascent = args['ascent']
+f.descent = args['descent']
 if args['normalize']:
-	f.autoWidth(0, 0, 512)
+	f.autoWidth(0, 0, args['fontHeight'])
 
 m = hashlib.md5()
 
@@ -70,7 +70,7 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 				glyph.left_side_bearing = glyph.right_side_bearing = 0
 				glyph.round()
 			else:
-				glyph.width = 512
+				glyph.width = args['fontHeight']
 
 
 fontfile = args['dest'] + os.path.sep + args['fontBaseName']
