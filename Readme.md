@@ -139,20 +139,6 @@ Type: `string` Default: `icons`
 
 Name of font and base name of font files.
 
-#### fontHeight
-
-Type: `number` Default: `512`
-
-#### descent
-
-Type: `number` Default: `64`
-
-#### ascent
-
-Type: `number` Default: `448`
-
-Needed for the fontforge engine
-
 #### hashes
 
 Type: `boolean` Default: `true`
@@ -327,6 +313,18 @@ Adds IE7 support using a `*zoom: expression()` hack.
 Type: `integer` Default: `0xE001`
 
 Starting codepoint used for the generated glyphs. Defaults to the start of the Unicode private use area.
+
+#### fontHeight
+
+Type: `number` Default: `512`
+
+#### descent
+
+Type: `number` Default: `64`
+
+#### ascent
+
+Type: `number` Default: `448`
 
 ### Config Examples
 
