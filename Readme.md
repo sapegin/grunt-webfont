@@ -28,7 +28,7 @@ This plugin requires Grunt 0.4. Note that `ttfautohint` is optional, but your ge
 ### OS X
 
 ```
-brew install fontforge ttfautohint
+brew install ttfautohint fontforge --with-python
 npm install grunt-webfont --save-dev
 ```
 
