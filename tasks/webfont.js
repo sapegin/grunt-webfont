@@ -102,10 +102,21 @@ module.exports = function(grunt) {
 
 		// Check or generate codepoints
 		// @todo Codepoint can be a Unicode code or character.
+		var findUnusedCodepoint = function(start, index) {
+			var codepoint = start + index;
+			if (_.contains(o.codepoints, codepoint)) {
+				return findUnusedCodepoint(start, index + 1);
+			}
+
+			return codepoint;
+		};
 		if (o.codepoints) {
-			o.glyphs.forEach(function(name) {
+			o.glyphs.forEach(function(name, index) {
 				if (!o.codepoints[name]) {
-					logger.error('Can’t find codepoint for "' + name + '" glyph. ');
+					var autoCodepoint = o.startCodepoint + index;
+					var codepointUsed = findUnusedCodepoint(o.startCodepoint, index);
+
+					o.codepoints[name] = codepointUsed;
 				}
 			});
 		}
