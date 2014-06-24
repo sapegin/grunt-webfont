@@ -113,7 +113,6 @@ module.exports = function(grunt) {
 		if (o.codepoints) {
 			o.glyphs.forEach(function(name, index) {
 				if (!o.codepoints[name]) {
-					var autoCodepoint = o.startCodepoint + index;
 					var codepointUsed = findUnusedCodepoint(o.startCodepoint, index);
 
 					o.codepoints[name] = codepointUsed;
