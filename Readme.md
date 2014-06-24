@@ -317,7 +317,7 @@ Starting codepoint used for the generated glyphs. Defaults to the start of the U
 
 Type: `object` Default: `null`
 
-Specific codepoints to use for certain glyphs. Any glyphs not specified in the codepoints block will be given incremented as usual from the `startCodepoint`, with duplicates skipped.
+Specific codepoints to use for certain glyphs. Any glyphs not specified in the codepoints block will be given incremented as usual from the `startCodepoint`, skipping duplicates.
 
 ```javascript
 codepoints: {
