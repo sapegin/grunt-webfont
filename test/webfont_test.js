@@ -11,6 +11,19 @@ function find(haystack, needle) {
 	return haystack.indexOf(needle) !== -1;
 }
 
+function findDuplicates(haystack, needles) {
+	var sorted_arr = haystack.sort();
+
+	var results = [];
+	for (var i = 0; i < haystack.length - 1; i++) {
+		if (sorted_arr[i + 1] === sorted_arr[i]) {
+			results.push(sorted_arr[i]);
+		}
+	}
+
+	return results;
+}
+
 exports.webfont = {
 	test1: function(test) {
 		// All out files should be created and should not be empty
@@ -633,10 +646,11 @@ exports.webfont = {
 				});
 
 				// Two assertions for each glyph:
-				// - each glyph's unicode character is consecutively incremented starting from the startCodepoint above
+				// - each glyph has a unique unicode character
 				// - the correct glyph character code is present in the generated CSS
+				var unicodeCharArr = glyphs.map(function(g) { return g.unicode; });
 				for (var index = 0; index < glyphs.length; index ++) {
-					test.equals(glyphs[index].unicode, String.fromCharCode(startCodepoint + index), 'Character at index ' + index + ' is at the correct code point');
+					test.equals(0, findDuplicates(unicodeCharArr).length);
 					test.ok(
 						find(css, 'content:"\\' + (startCodepoint + index).toString(16) + '"'),
 						'Character at index ' + index + ' has its codepoint in the CSS'
@@ -686,7 +700,7 @@ exports.webfont = {
 		});
 
 		test.done();
-	},
+	}
 
 
 };

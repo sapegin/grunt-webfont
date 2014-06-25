@@ -169,7 +169,6 @@ Type: `string` Default: `bem`
 
 Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `bootstrap` for single class names: `icon-awesome`.
 
-
 #### template
 
 Type: `string` Default: `null`
@@ -313,6 +312,18 @@ Adds IE7 support using a `*zoom: expression()` hack.
 Type: `integer` Default: `0xE001`
 
 Starting codepoint used for the generated glyphs. Defaults to the start of the Unicode private use area.
+
+#### codepoints
+
+Type: `object` Default: `null`
+
+Specific codepoints to use for certain glyphs. Any glyphs not specified in the codepoints block will be given incremented as usual from the `startCodepoint`, skipping duplicates.
+
+```javascript
+codepoints: {
+  single: 0xE001
+}
+```
 
 #### fontHeight
 

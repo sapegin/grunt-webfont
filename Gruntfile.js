@@ -218,7 +218,10 @@ module.exports = function(grunt) {
 				dest: 'test/tmp/codepoints',
 				options: {
 					hashes: false,
-					startCodepoint: 0x41
+					startCodepoint: 0x41,
+					codepoints: {
+						single: 0x43
+					}
 				}
 			},
 			camel: {
