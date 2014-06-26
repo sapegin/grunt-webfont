@@ -1,3 +1,9 @@
+### 2014-06-26 v0.4.3
+
+* `codepoints` option (by [@mmcc](https://github.com/mmcc)).
+* `fontHeight`, `descent` and `ascent` options (by [@mrzmyr](https://github.com/mrzmyr)).
+* Change start codepoint to more safe.
+
 ### 2014-05-13 v0.4.2
 
 * Fix deps.
