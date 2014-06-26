@@ -292,7 +292,9 @@ Type: `boolean` Default: `false`
 If `true` task will not be ran. In example, you can skip task on Windows (becase of difficult installation):
 
 ```javascript
-skip: require('os').platform() === 'win32'
+options: {
+	skip: require('os').platform() === 'win32'
+}
 ```
 
 #### engine :skull: experimental :skull:
@@ -320,8 +322,10 @@ Type: `object` Default: `null`
 Specific codepoints to use for certain glyphs. Any glyphs not specified in the codepoints block will be given incremented as usual from the `startCodepoint`, skipping duplicates.
 
 ```javascript
-codepoints: {
-  single: 0xE001
+options: {
+	codepoints: {
+	  single: 0xE001
+	}
 }
 ```
 

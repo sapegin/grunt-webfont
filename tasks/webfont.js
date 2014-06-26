@@ -102,29 +102,13 @@ module.exports = function(grunt) {
 
 		// Check or generate codepoints
 		// @todo Codepoint can be a Unicode code or character.
-		var findUnusedCodepoint = function(start, index) {
-			var codepoint = start + index;
-			if (_.contains(o.codepoints, codepoint)) {
-				return findUnusedCodepoint(start, index + 1);
+		var currentCodepoint = o.startCodepoint;
+		if (!o.codepoints) o.codepoints = {};
+		o.glyphs.forEach(function(name) {
+			if (!o.codepoints[name]) {
+				o.codepoints[name] = getNextCodepoint();
 			}
-
-			return codepoint;
-		};
-		if (o.codepoints) {
-			o.glyphs.forEach(function(name, index) {
-				if (!o.codepoints[name]) {
-					var codepointUsed = findUnusedCodepoint(o.startCodepoint, index);
-
-					o.codepoints[name] = codepointUsed;
-				}
-			});
-		}
-		else {
-			o.codepoints = {};
-			o.glyphs.forEach(function(name, index) {
-				o.codepoints[name] = o.startCodepoint + index;
-			});
-		}
+		});
 
 		// Run!
 		async.waterfall([
@@ -346,6 +330,18 @@ module.exports = function(grunt) {
 			else {
 				return map._default;
 			}
+		}
+
+		/**
+		 * Find next unused codepoint.
+		 *
+		 * @return {Integer}
+		 */
+		function getNextCodepoint() {
+			while (_.contains(o.codepoints, currentCodepoint)) {
+				currentCodepoint++;
+			}
+			return currentCodepoint;
 		}
 
 		/**
