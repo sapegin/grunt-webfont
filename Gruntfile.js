@@ -9,6 +9,15 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		webfont: {
+
+      templateError: {
+        src: 'test/src/*.svg',
+        dest: 'test/tmp/template',
+        options: {
+          template: 'test/templates/template-adsf.css'
+        }
+      },
+
 			test1: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/test1',
