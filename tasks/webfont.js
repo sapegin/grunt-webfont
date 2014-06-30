@@ -433,7 +433,7 @@ module.exports = function(grunt) {
 				return fs.readFileSync(filename, 'utf8');
 			}
 			else {
-				return false;
+				return grunt.fail.fatal('Cannot find template at path: ' + template);
 			}
 		}
 
