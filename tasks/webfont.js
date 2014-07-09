@@ -208,7 +208,7 @@ module.exports = function(grunt) {
 
 			// Read JSON file corresponding to CSS template
 			var templateJson = readTemplate(o.template, o.syntax, '.json', true);
-			if (templateJson) o = _.extend(o, JSON.parse(templateJson));
+			if (templateJson) o = _.extend(o, JSON.parse(templateJson.template));
 
 			// Now override values with templateOptions
 			if (o.templateOptions) o = _.extend(o, o.templateOptions);
@@ -221,7 +221,7 @@ module.exports = function(grunt) {
 				iconsStyles: true
 			});
 
-			var css = _.template(o.cssTemplate, cssContext);
+			var css = renderTemplate(o.cssTemplate, cssContext);
 
 			// Fix CSS preprocessors comments: single line comments will be removed after compilation
 			if (has(['sass', 'scss', 'less', 'styl'], o.stylesheet)) {
@@ -255,7 +255,7 @@ module.exports = function(grunt) {
 				iconsStyles: true,
 				stylesheet: 'css'
 			});
-			var htmlStyles = _.template(o.cssTemplate, context);
+			var htmlStyles = renderTemplate(o.cssTemplate, context);
 			var htmlContext = _.extend(context, {
 				styles: htmlStyles
 			});
@@ -263,7 +263,7 @@ module.exports = function(grunt) {
 			// Generate HTML
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
 			var demoFile = path.join(o.destHtml, o.fontBaseName + '.html');
-			var demo = _.template(demoTemplate, htmlContext);
+			var demo = renderTemplate(demoTemplate, htmlContext);
 
 			// Save file
 			fs.writeFileSync(demoFile, demo);
@@ -422,18 +422,37 @@ module.exports = function(grunt) {
 		 * @param {String} template Template file path
 		 * @param {String} syntax Syntax (bem, bootstrap, etc.)
 		 * @param {String} ext Extention of the template
-		 * @return {String}
+		 * @return {Object} {filename: 'Template filename', template: 'Template code'}
 		 */
 		function readTemplate(template, syntax, ext, optional) {
 			var filename = template
-				? template.replace(/\.[^\\\/.]+$/, '') + ext
-				: filename = path.join(__dirname, 'templates/' + syntax + ext)
+				? path.resolve(template.replace(/\.[^\\\/.]+$/, '') + ext)
+				: path.join(__dirname, 'templates/' + syntax + ext)
 			;
 			if (fs.existsSync(filename)) {
-				return fs.readFileSync(filename, 'utf8');
+				return {
+					filename: filename,
+					template: fs.readFileSync(filename, 'utf8')
+				};
 			}
 			else if (!optional) {
-				return grunt.fail.fatal('Cannot find template at path: ' + template);
+				return grunt.fail.fatal('Cannot find template at path: ' + filename);
+			}
+		}
+
+		/**
+		 * Render template with error reporting
+		 *
+		 * @param {Object} template {filename: 'Template filename', template: 'Template code'}
+		 * @param {Object} context Template context
+		 * @return {String}
+		 */
+		function renderTemplate(template, context) {
+			try {
+				return _.template(template.template, context);
+			}
+			catch (e) {
+				grunt.fail.fatal('Error while rendering template ' + template.filename + ': ' + e.message);
 			}
 		}
 
