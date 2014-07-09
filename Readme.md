@@ -175,7 +175,7 @@ Type: `string` Default: `null`
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
 
-Template is a pair of CSS and JSON files with the same name.
+Template is a pair of CSS and JSON (optional) files with the same name.
 
 For example, your Gruntfile:
 
