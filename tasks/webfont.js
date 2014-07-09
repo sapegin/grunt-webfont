@@ -207,7 +207,7 @@ module.exports = function(grunt) {
 			o.glyphs = _.map(o.glyphs, classnameize);
 
 			// Read JSON file corresponding to CSS template
-			var templateJson = readTemplate(o.template, o.syntax, '.json');
+			var templateJson = readTemplate(o.template, o.syntax, '.json', true);
 			if (templateJson) o = _.extend(o, JSON.parse(templateJson));
 
 			// Now override values with templateOptions
@@ -424,7 +424,7 @@ module.exports = function(grunt) {
 		 * @param {String} ext Extention of the template
 		 * @return {String}
 		 */
-		function readTemplate(template, syntax, ext) {
+		function readTemplate(template, syntax, ext, optional) {
 			var filename = template
 				? template.replace(/\.[^\\\/.]+$/, '') + ext
 				: filename = path.join(__dirname, 'templates/' + syntax + ext)
@@ -432,7 +432,7 @@ module.exports = function(grunt) {
 			if (fs.existsSync(filename)) {
 				return fs.readFileSync(filename, 'utf8');
 			}
-			else {
+			else if (!optional) {
 				return grunt.fail.fatal('Cannot find template at path: ' + template);
 			}
 		}
