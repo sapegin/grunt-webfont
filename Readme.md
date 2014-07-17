@@ -301,7 +301,7 @@ options: {
 
 Type: `string` Default: `fontforge`
 
-Font rendering engine: `fontforge` or `node`. See comparison in `Available Engines` section above.
+Font rendering engine: `fontforge` or `node`. See comparison in [Available Engines](#available-engines) section above.
 
 #### ie7
 
