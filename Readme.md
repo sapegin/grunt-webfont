@@ -311,7 +311,7 @@ Adds IE7 support using a `*zoom: expression()` hack.
 
 #### startCodepoint
 
-Type: `integer` Default: `0xE001`
+Type: `integer` Default: `0xF101`
 
 Starting codepoint used for the generated glyphs. Defaults to the start of the Unicode private use area.
 
