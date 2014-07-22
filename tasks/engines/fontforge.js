@@ -34,7 +34,7 @@ module.exports = function(o, allDone) {
 
 	var proc = exec(args, function(err, out, code) {
 		if (err instanceof Error && err.code === 'ENOENT') {
-			return error('fontforge not found. Please install fontforge and all other requirements.');
+			return fontforgeNotFound();
 		}
 		else if (err) {
 			if (err instanceof Error) {
@@ -86,6 +86,11 @@ module.exports = function(o, allDone) {
 
 	// Send JSON with params
 	if (!proc) return;
+	proc.stdin.on('error', function(err) {
+		if (err.code === 'EPIPE') {
+			fontforgeNotFound();
+		}
+	});
 	var params = _.extend(o, {
 		inputDir: tempDir
 	});
@@ -100,6 +105,10 @@ module.exports = function(o, allDone) {
 		logger.error.apply(null, arguments);
 		allDone(false);
 		return false;
+	}
+
+	function fontforgeNotFound() {
+		error('fontforge not found. Please install fontforge and all other requirements.');
 	}
 
 };
