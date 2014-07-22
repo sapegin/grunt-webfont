@@ -1,3 +1,10 @@
+### 2014-07-22 v0.4.4
+
+* JSON templates are now optional.
+* Task now fails if template file is missing (by [@eschwartz](https://github.com/eschwartz)).
+* Better error reporting when rendering templates (now shows template path).
+* Show clear erorr message when fontforge isn’t istalled (instead of that weird “Write EPIPE” error).
+
 ### 2014-06-26 v0.4.3
 
 * `codepoints` option (by [@mmcc](https://github.com/mmcc)).
