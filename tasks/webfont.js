@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 		 */
 		var logger = {
 			warn: function() {
-				grunt.logger.warn.apply(null, arguments);
+				grunt.log.warn.apply(null, arguments);
 			},
 			error: function() {
 				grunt.warn.apply(null, arguments);
