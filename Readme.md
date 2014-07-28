@@ -341,6 +341,10 @@ Type: `number` Default: `64`
 
 Type: `number` Default: `448`
 
+#### ttfautohint
+
+Type: `boolean` Default: `true`
+
 ### Config Examples
 
 #### Simple font generation
