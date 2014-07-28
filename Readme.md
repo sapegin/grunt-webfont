@@ -341,7 +341,7 @@ Type: `number` Default: `64`
 
 Type: `number` Default: `448`
 
-#### ttfautohint
+#### autoHint
 
 Type: `boolean` Default: `true`
 

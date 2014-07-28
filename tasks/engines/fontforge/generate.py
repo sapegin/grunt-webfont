@@ -94,7 +94,7 @@ generate(fontfile + '.ttf')
 
 # Hint the TTF file
 # ttfautohint is optional
-if (find_executable('ttfautohint') and args['fontBaseName']):
+if (find_executable('ttfautohint') and args['autoHint']):
 	call('ttfautohint --symbol --fallback-script=latn --no-info "%(font)s.ttf" "%(font)s-hinted.ttf" && mv "%(font)s-hinted.ttf" "%(font)s.ttf"' % {'font': fontfile}, shell=True)
 	f = fontforge.open(fontfile + '.ttf')
 

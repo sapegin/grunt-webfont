@@ -132,7 +132,7 @@ module.exports = function(o, allDone) {
 		var originalFilepath = path.join(tempDir, 'font.ttf');
 		var hintedFilepath = path.join(tempDir, 'hinted.ttf');
 
-		if(o.ttfautohint === false){
+		if (!o.autoHint){
 			done(false);
 			return;
 		}
