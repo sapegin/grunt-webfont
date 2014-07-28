@@ -32,6 +32,9 @@ module.exports = function(grunt) {
 		 * Winston to Grunt logger adapter.
 		 */
 		var logger = {
+			warn: function() {
+				grunt.logger.warn.apply(null, arguments);
+			},
 			error: function() {
 				grunt.warn.apply(null, arguments);
 			},
@@ -51,8 +54,7 @@ module.exports = function(grunt) {
 		// Source files
 		var files = _.filter(this.filesSrc, isSvgFile);
 		if (!files.length) {
-			logger.error('Specified empty list of source SVG files.');
-			return;
+			logger.warn('Specified empty list of source SVG files.');
 		}
 
 		// Options
