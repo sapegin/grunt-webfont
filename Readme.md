@@ -329,6 +329,12 @@ options: {
 }
 ```
 
+#### autoHint
+
+Type: `boolean` Default: `true`
+
+Enables font auto hinting using `ttfautohint`.
+
 #### fontHeight
 
 Type: `number` Default: `512`
@@ -340,10 +346,6 @@ Type: `number` Default: `64`
 #### ascent
 
 Type: `number` Default: `448`
-
-#### autoHint
-
-Type: `boolean` Default: `true`
 
 ### Config Examples
 
