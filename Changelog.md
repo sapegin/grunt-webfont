@@ -1,8 +1,4 @@
-### 2014-07-30 v0.4.6
-
-* Fix dependencies.
-
-### 2014-07-30 v0.4.5
+### 2014-07-30 v0.4.7
 
 * Do not exit when there are not source SVGs, just show warning (by [@duncanbeevers](https://github.com/duncanbeevers)).
 * `autoHint` option (by [@kayoub5](https://github.com/kayoub5)).
