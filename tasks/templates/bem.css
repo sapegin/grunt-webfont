@@ -40,7 +40,7 @@
 		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
 	}
 	<% if (ie7) {%>
-	*zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x<%= codepoints[glyphIdx] %>;');
+	*zoom: ~"expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x<%= codepoints[glyphIdx] %>;')"
 	<% } %>
 }
 .<%= classPrefix %><%= glyphs[glyphIdx] %>{
