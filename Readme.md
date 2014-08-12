@@ -383,12 +383,12 @@ webfont: {
     src: 'icons/*.svg',
     dest: 'build/fonts',
     options: {
-        syntax: 'bem',
-        templateOptions: {
-            baseClass: 'glyph-icon',
-            classPrefix: 'glyph_',
-            mixinPrefix: 'glyph-'
-        }
+      syntax: 'bem',
+      templateOptions: {
+        baseClass: 'glyph-icon',
+        classPrefix: 'glyph_',
+        mixinPrefix: 'glyph-'
+      }
     }
   }
 }
