@@ -382,11 +382,13 @@ webfont: {
   icons: {
     src: 'icons/*.svg',
     dest: 'build/fonts',
-    syntax: 'bem',
-    templateOptions: {
-        baseClass: 'glyph-icon',
-        classPrefix: 'glyph_',
-        mixinPrefix: 'glyph-'
+    options: {
+        syntax: 'bem',
+        templateOptions: {
+            baseClass: 'glyph-icon',
+            classPrefix: 'glyph_',
+            mixinPrefix: 'glyph-'
+        }
     }
   }
 }
