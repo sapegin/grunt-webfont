@@ -1,3 +1,7 @@
+### 2014-08-27 v0.4.8
+
+* Bug fix.
+
 ### 2014-07-30 v0.4.7
 
 * Do not exit when there are not source SVGs, just show warning (by [@duncanbeevers](https://github.com/duncanbeevers)).
