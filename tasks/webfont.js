@@ -55,6 +55,8 @@ module.exports = function(grunt) {
 		var files = _.filter(this.filesSrc, isSvgFile);
 		if (!files.length) {
 			logger.warn('Specified empty list of source SVG files.');
+			allDone();
+			return;
 		}
 
 		// Options
