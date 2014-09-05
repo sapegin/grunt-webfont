@@ -18,6 +18,8 @@ module.exports = function(grunt) {
 	var _s = require('underscore.string');
 	var wf = require('./util/util');
 
+	var rFileExtension = /\.[^\\\/.]+$/;
+
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
 		['src', 'dest'].forEach(function(name) {
@@ -219,7 +221,16 @@ module.exports = function(grunt) {
 			if (o.templateOptions) o = _.extend(o, o.templateOptions);
 
 			// Generate CSS
-			o.cssTemplate = readTemplate(o.template, o.syntax, '.css');
+			// Use extension of o.template file if given, or default to .css
+			var ext = '.css';
+			var extMatches;
+			if (o.template) {
+				extMatches = o.template.match(rFileExtension);
+				if (extMatches && extMatches[0]) {
+					ext = extMatches[0];
+				}
+			}
+			o.cssTemplate = readTemplate(o.template, o.syntax, ext);
 			var cssFilePrefix = option(wf.cssFilePrefixes, o.stylesheet);
 			var cssFile = path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
 			var cssContext = _.extend(o, {
@@ -431,7 +442,7 @@ module.exports = function(grunt) {
 		 */
 		function readTemplate(template, syntax, ext, optional) {
 			var filename = template
-				? path.resolve(template.replace(/\.[^\\\/.]+$/, '') + ext)
+				? path.resolve(template.replace(rFileExtension, ext))
 				: path.join(__dirname, 'templates/' + syntax + ext)
 			;
 			if (fs.existsSync(filename)) {

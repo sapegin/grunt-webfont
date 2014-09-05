@@ -1,0 +1,20 @@
+/* Custom template */
+
+<% if (fontfaceStyles) { %>@font-face {
+	font-family:"<%= fontBaseName %>";<% if (fontSrc1) { %>
+	src: <%= fontSrc1 %>;<% }%>
+	src: <%= fontSrc2 %>;
+	font-weight:normal;
+	font-style:normal;
+	}
+<% } %>
+<% if (baseStyles) { %>.icon {
+	font-family:"<%= fontBaseName %>";
+	display:inline-block;
+	font-style:normal;
+	speak:none;
+	-webkit-font-smoothing:antialiased;
+	}
+<% } %>
+<% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+.icon_<%= glyphs[glyphIdx] %>:before { content:"\<%= codepoints[glyphIdx] %>"; }<% } %><% } %>

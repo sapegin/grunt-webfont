@@ -75,6 +75,22 @@ module.exports = function(grunt) {
 					template: 'test/templates/template.css'
 				}
 			},
+			template_scss: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/template',
+				options: {
+					stylesheet: 'scss',
+					template: 'test/templates/template.scss'
+				}
+			},
+			template_sass: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/template',
+				options: {
+					stylesheet: 'sass',
+					template: 'test/templates/template.sass'
+				}
+			},
 			html_template: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/html_template',
