@@ -49,7 +49,7 @@ module.exports = function(grunt) {
 		};
 
 		if (options.skip) {
-			allDone();
+			completeTask();
 			return;
 		}
 
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 		var files = _.filter(this.filesSrc, isSvgFile);
 		if (!files.length) {
 			logger.warn('Specified empty list of source SVG files.');
-			allDone();
+			completeTask();
 			return;
 		}
 
@@ -89,7 +89,8 @@ module.exports = function(grunt) {
 			logger: logger,
 			fontHeight: options.fontHeight || 512,
 			descent: options.descent || 64,
-			ascent: options.ascent || 448
+			ascent: options.ascent || 448,
+			callback: options.callback
 		};
 
 		o = _.extend(o, {
@@ -125,7 +126,19 @@ module.exports = function(grunt) {
 			generateStylesheet,
 			generateDemoHtml,
 			printDone
-		], allDone);
+		], completeTask);
+
+
+		/**
+		* Call callback specified in the options
+		*
+		*/
+		function completeTask() {
+			if (_.isFunction(o.callback)) {
+				o.callback(o.fontName, o.types, o.glyphs);
+			}
+			allDone();
+		}
 
 
 		/**
@@ -162,7 +175,7 @@ module.exports = function(grunt) {
 			engine(o, function(result) {
 				if (result === false) {
 					// Font was not created, exit
-					allDone();
+					completeTask();
 				}
 
 				if (result) {
