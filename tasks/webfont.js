@@ -130,8 +130,8 @@ module.exports = function(grunt) {
 
 
 		/**
-		* Call callback function if it was specified in the options.
-		*/
+		 * Call callback function if it was specified in the options.
+		 */
 		function completeTask() {
 			if (_.isFunction(o.callback)) {
 				o.callback(o.fontName, o.types, o.glyphs);
