@@ -347,6 +347,20 @@ Type: `number` Default: `64`
 
 Type: `number` Default: `448`
 
+#### callback
+
+Type: `function` Default: `null`
+
+Allows for a callback to be called when the task has completed and passes in the filename of the generated font, an array of the various font types created and an array of all the glyphs created.
+
+```javascript
+options: {
+    callback: function(filename, types, glyphs) {
+    	// ...
+    }
+}
+````
+
 ### Config Examples
 
 #### Simple font generation
