@@ -98,7 +98,9 @@ module.exports = function(o, allDone) {
 	proc.stdin.end();
 
 	function generatedFontFiles() {
-		return glob.sync(path.join(o.dest, o.fontBaseName + wf.fontFileMask));
+		var types = _.intersection(wf.fontFormats.split(','), o.types);
+		var mask = wf.fontFileMask(types);
+		return glob.sync(path.join(o.dest, o.fontBaseName + mask));
 	}
 
 	function error() {
