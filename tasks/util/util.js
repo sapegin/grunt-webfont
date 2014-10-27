@@ -46,7 +46,7 @@ exports.fontsSrcsMap = {
 	svg: [
 		false,
 		{
-			ext: '.svg?#{fontBaseName}',
+			ext: '.svg#{fontBaseName}',
 			format: 'svg'
 		},
 	]
