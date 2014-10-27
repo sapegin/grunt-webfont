@@ -3,7 +3,6 @@
 import fontforge
 import os
 import sys
-import hashlib
 import json
 from subprocess import call
 from distutils.spawn import find_executable
@@ -18,8 +17,6 @@ f.ascent = args['ascent']
 f.descent = args['descent']
 if args['normalize']:
 	f.autoWidth(0, 0, args['fontHeight'])
-
-m = hashlib.md5()
 
 KERNING = 15
 
@@ -57,7 +54,6 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 
 			cp = args['codepoints'][name]
 
-			m.update(filename + str(size) + ';')
 			if args['addLigatures']:
 				[empty_char(f, c) for c in name]
 				glyph = f.createChar(cp, name)
@@ -74,8 +70,6 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 
 
 fontfile = args['dest'] + os.path.sep + args['fontBaseName']
-if args['addHashes']:
-	fontfile += '-' + m.hexdigest()
 
 f.fontname = args['fontBaseName']
 f.familyname = args['fontBaseName']

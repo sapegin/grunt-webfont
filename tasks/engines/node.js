@@ -19,7 +19,6 @@ module.exports = function(o, allDone) {
 	var svg2ttf = require('svg2ttf');
 	var ttf2woff = require('ttf2woff');
 	var ttf2eot = require('ttf2eot');
-	var md5 = require('crypto').createHash('md5');
 	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
 
@@ -44,10 +43,6 @@ module.exports = function(o, allDone) {
 			});
 			stream.on('end', function() {
 				fonts.svg = font;
-				if (o.addHashes) {
-					md5.update(font);
-					o.fontName += '-' + md5.digest('hex');
-				}
 				done(font);
 			});
 		},

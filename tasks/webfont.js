@@ -14,6 +14,7 @@ module.exports = function(grunt) {
 	var glob = require('glob');
 	var chalk = require('chalk');
 	var mkdirp = require('mkdirp');
+	var md5 = require('crypto').createHash('md5');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
 	var wf = require('./util/util');
@@ -123,6 +124,7 @@ module.exports = function(grunt) {
 			createOutputDirs,
 			cleanOutputDir,
 			generateFont,
+			generateHash,
 			generateStylesheet,
 			generateDemoHtml,
 			printDone
@@ -183,6 +185,26 @@ module.exports = function(grunt) {
 
 				done();
 			});
+		}
+
+		function generateHash(done) {
+			if (o.addHashes) {
+				// Source SVG files contents
+				o.files.forEach(function(file) {
+					md5.update(fs.readFileSync(file, 'utf8'));
+				});
+
+				// Options
+				md5.update(JSON.stringify(o));
+
+				// grunt-webfont version
+				var packageJson = require('../package.json');
+				md5.update(packageJson.version);
+
+				o.hash = md5.digest('hex');
+			}
+
+			done();
 		}
 
 		/**
@@ -436,6 +458,11 @@ module.exports = function(grunt) {
 			}
 			else {
 				url = o.relativeFontPath + filename;
+				if (o.hash) {
+					if (url.indexOf('#iefix') === -1) {  // Do not add hashes for OldIE
+						url = url.replace(/(\.\w+)/, '$1?' + o.hash);
+					}
+				}
 			}
 
 			var src = 'url("' + url + '")';

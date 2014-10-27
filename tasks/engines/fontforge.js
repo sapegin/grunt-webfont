@@ -45,7 +45,11 @@ module.exports = function(o, allDone) {
 			// or in verbose mode.
 			var success = !!generatedFontFiles();
 			var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git)/;
+			var version = /(Executable based on sources from|Library based on sources from)/;
 			var lines = err.split('\n');
+
+			// Add fontforge version to options object. It will be used for generating hash
+			o.fontforgeVersion = [];
 
 			var warn = [];
 			lines.forEach(function(line) {
@@ -54,6 +58,9 @@ module.exports = function(o, allDone) {
 				}
 				else {
 					logger.verbose(chalk.grey('fontforge: ') + line);
+				}
+				if (line.match(version) && success) {
+					o.fontforgeVersion.push(line);
 				}
 			});
 
