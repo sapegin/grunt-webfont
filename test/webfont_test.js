@@ -82,14 +82,17 @@ exports.webfont = {
 	},
 
 	test2: function(test) {
+		var css = grunt.file.read('test/tmp/test2/myfont.css');
+
 		// Read hash
-		var hash = grunt.file.expand('test/tmp/test2/fonts/myfont-*.woff');
-		hash = path.basename(hash, '.woff').replace('myfont-', '');
+		var hash = css.match(/url\("fonts\/myfont\.woff\?([0-9a-f]{32})"\)/);
+		hash = hash && hash[1];
+		test.ok(hash, 'Hash calculated.');
 
 		// All out files should be created and should not be empty
 		'woff,svg'.split(',').forEach(function(type) {
 			var name = type.toUpperCase(),
-				prefix = 'test/tmp/test2/fonts/myfont-' + hash + '.';
+				prefix = 'test/tmp/test2/fonts/myfont.';
 			test.ok(fs.existsSync(prefix + type), name + ' file created.');
 			test.ok(grunt.file.read(prefix + type).length, name + ' file not empty.');
 		});
@@ -102,18 +105,17 @@ exports.webfont = {
 		// Excluded file types should not be created
 		'eot,ttf'.split(',').forEach(function(type) {
 			var name = type.toUpperCase(),
-				prefix = 'test/tmp/test2/fonts/myfont-' + hash + '.';
+				prefix = 'test/tmp/test2/fonts/myfont.';
 			test.ok(!fs.existsSync(prefix + type), name + ' file NOT created.');
 		});
 
 		var svgs = grunt.file.expand('test/src/**.*');
-		var css = grunt.file.read('test/tmp/test2/myfont.css');
 		var html = grunt.file.read('test/tmp/test2/myfont.html');
 
 		// CSS links to font files are correct
 		'woff,svg'.split(',').forEach(function(type) {
 			test.ok(
-				find(css, 'url("fonts/myfont-' + hash + '.' + type),
+				find(css, 'url("fonts/myfont.' + type + '?' + hash),
 				'File path ' + type + ' should be in CSS file.'
 			);
 		});
@@ -121,7 +123,7 @@ exports.webfont = {
 		// CSS links to excluded formats should not be included
 		'ttf,eot'.split(',').forEach(function(type) {
 			test.ok(
-				!find(css, 'fonts/myfont-' + hash + '.' + type),
+				!find(css, 'fonts/myfont.' + type),
 				'File path ' + type + ' should be in CSS file.'
 			);
 		});
@@ -506,7 +508,7 @@ exports.webfont = {
 
 		// Font-face src rules should be in right order
 		test.ok(
-			find(css, 'src:url("icons.svg?#icons") format("svg"),\n\t\turl("icons.woff") format("woff");'),
+			find(css, 'src:url("icons.svg#icons") format("svg"),\n\t\turl("icons.woff") format("woff");'),
 			'Font-face src rules should be in right order.'
 		);
 
