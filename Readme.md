@@ -73,7 +73,7 @@ There are two font rendering engines available. See also `engine` option below.
 * You have to install `fontforge`.
 * Really weird bugs sometimes.
 
-### node :skull: experimental :skull:
+### node
 
 #### Pros
 
@@ -123,13 +123,13 @@ All options should be inside `options` object:
 
 ``` javascript
 webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts',
-    options: {
-      ...
-    }
-  }
+	icons: {
+		src: 'icons/*.svg',
+		dest: 'build/fonts',
+		options: {
+			...
+		}
+	}
 }
 ```
 
@@ -181,7 +181,7 @@ For example, your Gruntfile:
 
 ```js
 options: {
-  template: 'my_templates/tmpl.css'
+	template: 'my_templates/tmpl.css'
 }
 ```
 
@@ -189,8 +189,8 @@ options: {
 
 ```css
 @font-face {
-  font-family:"<%= fontBaseName %>";
-  ...
+	font-family:"<%= fontBaseName %>";
+	...
 }
 ...
 ```
@@ -199,8 +199,8 @@ options: {
 
 ```json
 {
-  "baseClass": "icon",
-  "classPrefix": "icon_"
+	"baseClass": "icon",
+	"classPrefix": "icon_"
 }
 ```
 
@@ -278,10 +278,10 @@ For example you can group your icons into several folders and add folder name to
 
 ```js
 options: {
-  rename: function(name) {
-    // .icon_entypo-add, .icon_fontawesome-add, etc.
-    return [path.basename(path.dirname(name)), path.basename(name)].join('-');
-  }
+	rename: function(name) {
+		// .icon_entypo-add, .icon_fontawesome-add, etc.
+		return [path.basename(path.dirname(name)), path.basename(name)].join('-');
+	}
 }
 ```
 
@@ -297,7 +297,7 @@ options: {
 }
 ```
 
-#### engine :skull: experimental :skull:
+#### engine
 
 Type: `string` Default: `fontforge`
 
@@ -324,7 +324,7 @@ Specific codepoints to use for certain glyphs. Any glyphs not specified in the c
 ```javascript
 options: {
 	codepoints: {
-	  single: 0xE001
+		single: 0xE001
 	}
 }
 ```
@@ -355,9 +355,9 @@ Allows for a callback to be called when the task has completed and passes in the
 
 ```javascript
 options: {
-    callback: function(filename, types, glyphs) {
-    	// ...
-    }
+		callback: function(filename, types, glyphs) {
+			// ...
+		}
 }
 ````
 
@@ -367,10 +367,10 @@ options: {
 
 ```javascript
 webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts'
-  }
+	icons: {
+		src: 'icons/*.svg',
+		dest: 'build/fonts'
+	}
 }
 ```
 
@@ -378,14 +378,14 @@ webfont: {
 
 ```javascript
 webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts',
-    destCss: 'build/fonts/css',
-    options: {
-      font: 'ponies'
-    }
-  }
+	icons: {
+		src: 'icons/*.svg',
+		dest: 'build/fonts',
+		destCss: 'build/fonts/css',
+		options: {
+			font: 'ponies'
+		}
+	}
 }
 ```
 
@@ -393,18 +393,18 @@ webfont: {
 
 ```js
 webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts',
-    options: {
-      syntax: 'bem',
-      templateOptions: {
-        baseClass: 'glyph-icon',
-        classPrefix: 'glyph_',
-        mixinPrefix: 'glyph-'
-      }
-    }
-  }
+	icons: {
+		src: 'icons/*.svg',
+		dest: 'build/fonts',
+		options: {
+			syntax: 'bem',
+			templateOptions: {
+				baseClass: 'glyph-icon',
+				classPrefix: 'glyph_',
+				mixinPrefix: 'glyph-'
+			}
+		}
+	}
 }
 ```
 
@@ -412,15 +412,15 @@ webfont: {
 
 ```javascript
 webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts',
-    destCss: 'build/styles',
-    options: {
-      stylesheet: 'styl',
-      relativeFontPath: '/build/fonts'
-    }
-  }
+	icons: {
+		src: 'icons/*.svg',
+		dest: 'build/fonts',
+		destCss: 'build/styles',
+		options: {
+			stylesheet: 'styl',
+			relativeFontPath: '/build/fonts'
+		}
+	}
 }
 ```
 
@@ -428,14 +428,14 @@ webfont: {
 
 ```javascript
 webfont: {
-  icons: {
-    src: 'icons/*.svg',
-    dest: 'build/fonts',
-    options: {
-      types: 'woff',
-      embed: true
-    }
-  }
+	icons: {
+		src: 'icons/*.svg',
+		dest: 'build/fonts',
+		options: {
+			types: 'woff',
+			embed: true
+		}
+	}
 }
 ```
 
@@ -455,7 +455,7 @@ The LESS mixins then may be used like so:
 
 ```css
 .profile-button {
-  .icon-profile;
+	.icon-profile;
 }
 ```
 
