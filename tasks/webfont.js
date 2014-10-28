@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 	var glob = require('glob');
 	var chalk = require('chalk');
 	var mkdirp = require('mkdirp');
-	var md5 = require('crypto').createHash('md5');
+	var crypto = require('crypto');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
 	var wf = require('./util/util');
@@ -30,6 +30,7 @@ module.exports = function(grunt) {
 		var allDone = this.async();
 		var params = this.data;
 		var options = params.options || {};
+		var md5 = crypto.createHash('md5');
 
 		/**
 		 * Winston to Grunt logger adapter.
