@@ -185,6 +185,12 @@ module.exports = function(grunt) {
 			});
 		}
 
+		/**
+		 * Generate hash to flush browser cache.
+		 * Hash is based on source SVG files contents, task options, fontforge version and grunt-webfont version.
+		 *
+		 * @param {Function} done
+		 */
 		function generateHash(done) {
 			if (o.addHashes) {
 				// Source SVG files contents
