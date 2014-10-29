@@ -19,6 +19,8 @@ module.exports = function(o, allDone) {
 	var svg2ttf = require('svg2ttf');
 	var ttf2woff = require('ttf2woff');
 	var ttf2eot = require('ttf2eot');
+	var SVGO = require('svgo');
+	var MemoryStream = require('memorystream');
 	var logger = o.logger || require('winston');
 	var wf = require('../util/util');
 
@@ -30,20 +32,22 @@ module.exports = function(o, allDone) {
 		svg: function(done) {
 			var font = '';
 			var decoder = new StringDecoder('utf8');
-			var stream = svgicons2svgfont(svgFilesToStreams(o.files), {
-				fontName: o.fontName,
-				fontHeight: o.fontHeight,
-				descent: o.descent,
-				normalize: o.normalize,
-				log: logger.verbose.bind(logger),
-				error: logger.error.bind(logger)
-			});
-			stream.on('data', function(chunk) {
-				font += decoder.write(chunk);
-			});
-			stream.on('end', function() {
-				fonts.svg = font;
-				done(font);
+			svgFilesToStreams(o.files, function(streams) {
+				var stream = svgicons2svgfont(streams, {
+					fontName: o.fontName,
+					fontHeight: o.fontHeight,
+					descent: o.descent,
+					normalize: o.normalize,
+					log: logger.verbose.bind(logger),
+					error: logger.error.bind(logger)
+				});
+				stream.on('data', function(chunk) {
+					font += decoder.write(chunk);
+				});
+				stream.on('end', function() {
+					fonts.svg = font;
+					done(font);
+				});
 			});
 		},
 
@@ -111,14 +115,35 @@ module.exports = function(o, allDone) {
 		};
 	}
 
-	function svgFilesToStreams(files) {
-		return files.map(function(file, idx) {
-			var name = o.glyphs[idx];
-			return {
-				codepoint: o.codepoints[name],
-				name: name,
-				stream: fs.createReadStream(file)
-			};
+	function svgFilesToStreams(files, done) {
+		async.map(files, function(file, fileDone) {
+			var svg = fs.readFileSync(file, 'utf8');
+			var svgo = new SVGO();
+			try {
+				svgo.optimize(svg, function(res) {
+					var idx = files.indexOf(file);
+					var name = o.glyphs[idx];
+					var stream = new MemoryStream(res.data, {
+						writable: false
+					});
+					fileDone(null, {
+						codepoint: o.codepoints[name],
+						name: name,
+						stream: stream
+					});
+				});
+			}
+			catch(err) {
+				fileDone(err);
+			}
+		}, function(err, streams) {
+			if (err) {
+				logger.error('Can’t simplify SVG file with SVGO.\n\n' + err);
+				allDone(false);
+			}
+			else {
+				done(streams);
+			}
 		});
 	}
 
