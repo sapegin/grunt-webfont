@@ -2,7 +2,7 @@
 /* Based on https://github.com/endtwist/fontcustom/blob/master/lib/fontcustom/templates/fontcustom.css */
 
 <% if (fontfaceStyles) { %>
-<% if (fontSrc1) { %>
+<% if (fontSrc1 && embed.length) { %>
 @font-face {
     font-family:"<%= fontBaseName %>";
     src:<%= fontSrc1 %>;
