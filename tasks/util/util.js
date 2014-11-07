@@ -81,7 +81,10 @@ exports.fontFormats = 'eot,woff,ttf,svg';
  * Glob mask for all available font formats.
  * @type {String}
  */
-exports.fontFileMask = '*.{' + exports.fontFormats + '}';
+exports.fontFileMask = function (fontFormats) {
+	fontFormats = fontFormats || exports.fontFormats;
+	return '*.{' + fontFormats + '}';
+}
 
 
 // Expose
