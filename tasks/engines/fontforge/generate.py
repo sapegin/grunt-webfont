@@ -64,10 +64,11 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 
 			if args['normalize']:
 				glyph.left_side_bearing = glyph.right_side_bearing = 0
-				glyph.round()
 			else:
 				glyph.width = args['fontHeight']
 
+			if args['round']:
+				glyph.round(int(args['round']))
 
 fontfile = args['dest'] + os.path.sep + args['fontBaseName']
 
