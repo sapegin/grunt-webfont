@@ -4,6 +4,9 @@
  * @author Artem Sapegin (http://sapegin.me)
  */
 
+var path = require('path');
+var glob = require('glob');
+
 var exports = {};
 
 /**
@@ -78,13 +81,14 @@ exports.fontSrcSeparators = {
 exports.fontFormats = 'eot,woff,ttf,svg';
 
 /**
- * Glob mask for all available font formats.
- * @type {String}
+ * Returns list of all generated font files.
+ *
+ * @return {Array}
  */
-exports.fontFileMask = function (fontFormats) {
-	fontFormats = fontFormats || exports.fontFormats;
-	return '*.{' + fontFormats + '}';
-}
+ exports.generatedFontFiles = function(o) {
+ 	var mask = '*.{' + o.types + '}';
+	return glob.sync(path.join(o.dest, o.fontBaseName + mask));
+};
 
 
 // Expose

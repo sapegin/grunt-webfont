@@ -158,7 +158,7 @@ module.exports = function(grunt) {
 		 */
 		function cleanOutputDir(done) {
 			var htmlDemoFileMask = path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}');
-			var files = glob.sync(htmlDemoFileMask).concat(generatedFontFiles());
+			var files = glob.sync(htmlDemoFileMask).concat(wf.generatedFontFiles(o));
 			async.forEach(files, function(file, next) {
 				fs.unlink(file, next);
 			}, done);
@@ -505,17 +505,6 @@ module.exports = function(grunt) {
 			catch (e) {
 				grunt.fail.fatal('Error while rendering template ' + template.filename + ': ' + e.message);
 			}
-		}
-
-		/**
-		 * Return list of generated font files
-		 *
-		 * @return {Array}
-		 */
-		function generatedFontFiles() {
-			var types = _.intersection(wf.fontFormats.split(','), o.types);
-			var mask = wf.fontFileMask(types);
-			return glob.sync(path.join(o.dest, o.fontBaseName + mask));
 		}
 
 		/**

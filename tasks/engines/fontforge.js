@@ -12,7 +12,6 @@ module.exports = function(o, allDone) {
 	var path = require('path');
 	var temp = require('temp');
 	var async = require('async');
-	var glob = require('glob');
 	var exec = require('exec');
 	var chalk = require('chalk');
 	var _ = require('lodash');
@@ -43,7 +42,7 @@ module.exports = function(o, allDone) {
 
 			// Skip some fontforge output such as copyrights. Show warnings only when no font files was created
 			// or in verbose mode.
-			var success = !!generatedFontFiles();
+			var success = !!wf.generatedFontFiles(o);
 			var notError = /(Copyright|License |with many parts BSD |Executable based on sources from|Library based on sources from|Based on source from git)/;
 			var version = /(Executable based on sources from|Library based on sources from)/;
 			var lines = err.split('\n');
@@ -103,12 +102,6 @@ module.exports = function(o, allDone) {
 	});
 	proc.stdin.write(JSON.stringify(params));
 	proc.stdin.end();
-
-	function generatedFontFiles() {
-		var types = _.intersection(wf.fontFormats.split(','), o.types);
-		var mask = wf.fontFileMask(types);
-		return glob.sync(path.join(o.dest, o.fontBaseName + mask));
-	}
 
 	function error() {
 		logger.error.apply(null, arguments);
