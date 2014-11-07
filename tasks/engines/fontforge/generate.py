@@ -13,8 +13,8 @@ f = fontforge.font()
 f.encoding = 'UnicodeFull'
 f.design_size = 16
 f.em = args['fontHeight']
-f.ascent = args['ascent']
 f.descent = args['descent']
+f.ascent = args['fontHeight'] - args['descent']
 if args['normalize']:
 	f.autoWidth(0, 0, args['fontHeight'])
 

@@ -335,17 +335,23 @@ Type: `boolean` Default: `true`
 
 Enables font auto hinting using `ttfautohint`.
 
+#### round
+
+Type: `number` Default: `10e12`
+
+Setup SVG path rounding.
+
 #### fontHeight
 
 Type: `number` Default: `512`
+
+The output font height.
 
 #### descent
 
 Type: `number` Default: `64`
 
-#### ascent
-
-Type: `number` Default: `448`
+The font descent. The descent should be a positive value. The ascent formula is: `ascent = fontHeight - descent`.
 
 #### callback
 

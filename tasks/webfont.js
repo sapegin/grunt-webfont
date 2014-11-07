@@ -62,6 +62,7 @@ module.exports = function(grunt) {
 
 		// Options
 		var o = {
+			logger: logger,
 			fontBaseName: options.font || 'icons',
 			destCss: params.destCss || params.dest,
 			dest: params.dest,
@@ -84,12 +85,10 @@ module.exports = function(grunt) {
 			codepoints: options.codepoints,
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
 			ie7: options.ie7 === true,
-			normalize: options.normalize !== false,
-			round: options.round || false,
-			logger: logger,
+			normalize: options.normalize === true,
+			round: options.round !== undefined ? options.round : 10e12,
 			fontHeight: options.fontHeight !== undefined ? options.fontHeight : 512,
 			descent: options.descent !== undefined ? options.descent : 64,
-			ascent: options.ascent !== undefined ? options.ascent : 448,
 			callback: options.callback
 		};
 

@@ -38,6 +38,7 @@ module.exports = function(o, allDone) {
 					fontHeight: o.fontHeight,
 					descent: o.descent,
 					normalize: o.normalize,
+					round: o.round,
 					log: logger.verbose.bind(logger),
 					error: logger.error.bind(logger)
 				});
