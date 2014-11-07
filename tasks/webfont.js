@@ -86,9 +86,9 @@ module.exports = function(grunt) {
 			ie7: options.ie7 === true,
 			normalize: options.normalize !== false,
 			logger: logger,
-			fontHeight: options.fontHeight || 512,
-			descent: options.descent || 64,
-			ascent: options.ascent || 448,
+			fontHeight: options.fontHeight !== undefined ? options.fontHeight : 512,
+			descent: options.descent !== undefined ? options.descent : 64,
+			ascent: options.ascent !== undefined ? options.ascent : 448,
 			callback: options.callback
 		};
 
