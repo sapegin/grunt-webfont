@@ -55,6 +55,7 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 			cp = args['codepoints'][name]
 
 			if args['addLigatures']:
+				name = str(name)  # Convert Unicode to a regular string because addPosSub doesn’t work with Unicode
 				[empty_char(f, c) for c in name]
 				glyph = f.createChar(cp, name)
 				glyph.addPosSub('liga', tuple(name))
