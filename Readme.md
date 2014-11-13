@@ -222,7 +222,7 @@ options: {
 
 #### stylesheet
 
-Type: `string` Default: `'css'`
+Type: `string` Default: `'css'` or extension of `template`
 
 Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
 

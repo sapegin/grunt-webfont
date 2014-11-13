@@ -275,6 +275,38 @@ exports.webfont = {
 		test.done();
 	},
 
+	template_scss: function(test) {
+		var cssFilename = 'test/tmp/template_scss/_icons.scss';
+
+		test.ok(fs.existsSync(cssFilename), 'SCSS template: .scss file created.');
+
+		var css = grunt.file.read(cssFilename);
+
+		// There should be comment from custom template
+		test.ok(
+			find(css, 'Custom template'),
+			'SCSS template: comment from custom template.'
+		);
+
+		test.done();
+	},
+
+	template_sass: function(test) {
+		var cssFilename = 'test/tmp/template_sass/_icons.sass';
+
+		test.ok(fs.existsSync(cssFilename), 'SASS template: .sass file created (stylesheet extension derived from template name).');
+
+		var css = grunt.file.read(cssFilename);
+
+		// There should be comment from custom template
+		test.ok(
+			find(css, 'Custom template'),
+			'SASS template: comment from custom template.'
+		);
+
+		test.done();
+	},
+
 	html_template: function(test) {
 		var demo = grunt.file.read('test/tmp/html_template/icons.html');
 

@@ -72,7 +72,7 @@ module.exports = function(grunt) {
 			template: options.template,
 			syntax: options.syntax || 'bem',
 			templateOptions: options.templateOptions || {},
-			stylesheet: options.stylesheet || 'css',
+			stylesheet: options.stylesheet || path.extname(options.template).replace(/^\./, '') || 'css',
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			styles: optionToArray(options.styles, 'font,icon'),
