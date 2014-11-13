@@ -21,7 +21,7 @@ if args['normalize']:
 KERNING = 15
 
 
-def empty_char(f, c):
+def create_empty_char(f, c):
 	pen = f.createChar(ord(c), c).glyphPen()
 	pen.moveTo((0, 0))
 	pen = None
@@ -56,7 +56,8 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 
 			if args['addLigatures']:
 				name = str(name)  # Convert Unicode to a regular string because addPosSub doesn’t work with Unicode
-				[empty_char(f, c) for c in name]
+				for char in name:
+					create_empty_char(f, char)
 				glyph = f.createChar(cp, name)
 				glyph.addPosSub('liga', tuple(name))
 			else:
