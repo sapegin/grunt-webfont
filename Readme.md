@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/sapegin/grunt-webfont.png)](https://travis-ci.org/sapegin/grunt-webfont)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-Generate custom icon webfonts from SVG files via Grunt. Based on [Font Custom](http://endtwist.github.com/fontcustom/).
+Generate custom icon webfonts from SVG files via Grunt. Based on [Font Custom](http://fontcustom.com/).
 
 This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/Sass/LESS/Stylus and HTML demo page.
 
