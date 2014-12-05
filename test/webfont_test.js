@@ -503,7 +503,7 @@ exports.webfont = {
 	},
 
 	ligatures: function(test) {
-		var svgs = grunt.file.expand('test/src/**.*');
+		var svgs = grunt.file.expand('test/ligatures_src/**.*');
 		var css = grunt.file.read('test/tmp/ligatures/icons.css');
 
 		// Every SVG file should have corresponding entry in CSS file

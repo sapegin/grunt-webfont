@@ -161,8 +161,9 @@ module.exports = function(grunt) {
 					hashes: false
 				}
 			},
+			// #167: Ligatures with hypen don’t work
 			ligatures: {
-				src: 'test/src/*.svg',
+				src: 'test/src_ligatures/*.svg',
 				dest: 'test/tmp/ligatures',
 				options: {
 					hashes: false,
