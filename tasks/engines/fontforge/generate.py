@@ -11,6 +11,7 @@ args = json.load(sys.stdin)
 
 f = fontforge.font()
 f.encoding = 'UnicodeFull'
+f.copyright = ''
 f.design_size = 16
 f.em = args['fontHeight']
 f.descent = args['descent']
