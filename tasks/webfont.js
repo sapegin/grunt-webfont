@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 
 		var allDone = this.async();
 		var params = this.data;
-		var options = params.options || {};
+		var options = this.options();
 		var md5 = crypto.createHash('md5');
 
 		/**
