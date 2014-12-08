@@ -11,6 +11,7 @@ This task will make all you need to use font-face icon on your website: font in 
 
 * Works on Mac, Windows and Linux.
 * Very flexible.
+* Supports all web font formats: WOFF, [WOFF2](https://github.com/sapegin/grunt-webfont/wiki/WOFF2-support), EOT, TTF and SVG.
 * Semantic: uses [Unicode private use area](http://bit.ly/ZnkwaT).
 * [Cross-browser](http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax/): IE8+.
 * BEM or Bootstrap output CSS style.
@@ -36,6 +37,8 @@ npm install grunt-webfont --save-dev
 
 *`fontforge` isn’t required for `node` engine (see below).*
 
+:skull: [Notes on experimental WOFF2 support](https://github.com/sapegin/grunt-webfont/wiki/WOFF2-support).
+
 ### Linux
 
 ```
@@ -44,6 +47,8 @@ npm install grunt-webfont --save-dev
 ```
 
 *`fontforge` isn’t required for `node` engine (see below).*
+
+:skull: [Notes on experimental WOFF2 support](https://github.com/sapegin/grunt-webfont/wiki/WOFF2-support).
 
 ### Windows
 
@@ -153,9 +158,11 @@ List of styles to be added to CSS files: `font` (`font-face` declaration), `icon
 
 #### types
 
-Type: `string|array` Default: `'eot,woff,ttf'`
+Type: `string|array` Default: `'eot,woff,ttf'`, available: `'eot,woff2,woff,ttf,svg'`
 
 Font files types to generate.
+
+:skull: [Notes on experimental WOFF2 support](https://github.com/sapegin/grunt-webfont/wiki/WOFF2-support).
 
 #### order
 
