@@ -47,9 +47,6 @@ module.exports = function(o, allDone) {
 			var version = /(Executable based on sources from|Library based on sources from)/;
 			var lines = err.split('\n');
 
-			// Add fontforge version to options object. It will be used for generating hash
-			o.fontforgeVersion = [];
-
 			var warn = [];
 			lines.forEach(function(line) {
 				if (!line.match(notError) && !success) {

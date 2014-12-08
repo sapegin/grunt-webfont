@@ -89,6 +89,7 @@ module.exports = function(grunt) {
 			round: options.round !== undefined ? options.round : 10e12,
 			fontHeight: options.fontHeight !== undefined ? options.fontHeight : 512,
 			descent: options.descent !== undefined ? options.descent : 64,
+			cache: options.cache || path.join(__dirname, '..', '.cache'),
 			callback: options.callback
 		};
 
@@ -117,17 +118,39 @@ module.exports = function(grunt) {
 			}
 		});
 
-		// Run!
+		// Check if we need to generate font
+		o.hash = getHash();
+		var previousHash = readHash(this.name, this.target);
+		logger.verbose('New hash:', o.hash, '- previous hash:', previousHash);
+		if (o.hash === previousHash) {
+			logger.verbose('Config and source files weren’t changed since last run, checking resulting files...');
+			var generatedFiles = wf.generatedFontFiles(o);
+			generatedFiles.push(getDemoFilePath());
+			generatedFiles.push(getCssFilePath());
+			var regenerationNeeded = _.some(generatedFiles, function(filename) {
+				if (!filename) return false;
+				if (!fs.existsSync(filename)) {
+					logger.verbose('File', filename, ' is missed.');
+					return true;
+				}
+				return false;
+			});
+			if (!regenerationNeeded) {
+				logger.log('Font ' + chalk.cyan(o.fontName) + ' wasn’t changed since last run.');
+				completeTask();
+			}
+		}
+
+		// Save new hash and run
+		saveHash(this.name, this.target, o.hash);
 		async.waterfall([
 			createOutputDirs,
 			cleanOutputDir,
 			generateFont,
-			generateHash,
 			generateStylesheet,
 			generateDemoHtml,
 			printDone
 		], completeTask);
-
 
 		/**
 		 * Call callback function if it was specified in the options.
@@ -139,6 +162,27 @@ module.exports = function(grunt) {
 			allDone();
 		}
 
+		/**
+		 * Calculate hash to flush browser cache.
+		 * Hash is based on source SVG files contents, task options and grunt-webfont version.
+		 *
+		 * @return {String}
+		 */
+		function getHash() {
+			// Source SVG files contents
+			o.files.forEach(function(file) {
+				md5.update(fs.readFileSync(file, 'utf8'));
+			});
+
+			// Options
+			md5.update(JSON.stringify(o));
+
+			// grunt-webfont version
+			var packageJson = require('../package.json');
+			md5.update(packageJson.version);
+
+			return md5.digest('hex');
+		}
 
 		/**
 		 * Create output directory
@@ -183,32 +227,6 @@ module.exports = function(grunt) {
 
 				done();
 			});
-		}
-
-		/**
-		 * Generate hash to flush browser cache.
-		 * Hash is based on source SVG files contents, task options, fontforge version and grunt-webfont version.
-		 *
-		 * @param {Function} done
-		 */
-		function generateHash(done) {
-			if (o.addHashes) {
-				// Source SVG files contents
-				o.files.forEach(function(file) {
-					md5.update(fs.readFileSync(file, 'utf8'));
-				});
-
-				// Options
-				md5.update(JSON.stringify(o));
-
-				// grunt-webfont version
-				var packageJson = require('../package.json');
-				md5.update(packageJson.version);
-
-				o.hash = md5.digest('hex');
-			}
-
-			done();
 		}
 
 		/**
@@ -261,8 +279,6 @@ module.exports = function(grunt) {
 			// Generate CSS
 			var ext = path.extname(o.template) || '.css';  // Use extension of o.template file if given, or default to .css
 			o.cssTemplate = readTemplate(o.template, o.syntax, ext);
-			var cssFilePrefix = option(wf.cssFilePrefixes, o.stylesheet);
-			var cssFile = path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
 			var cssContext = _.extend(o, {
 				iconsStyles: true
 			});
@@ -275,7 +291,7 @@ module.exports = function(grunt) {
 			}
 
 			// Save file
-			fs.writeFileSync(cssFile, css);
+			fs.writeFileSync(getCssFilePath(), css);
 
 			done();
 		}
@@ -308,11 +324,10 @@ module.exports = function(grunt) {
 
 			// Generate HTML
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
-			var demoFile = path.join(o.destHtml, o.fontBaseName + '.html');
 			var demo = renderTemplate(demoTemplate, htmlContext);
 
 			// Save file
-			fs.writeFileSync(demoFile, demo);
+			fs.writeFileSync(getDemoFilePath(), demo);
 
 			done();
 		}
@@ -454,7 +469,7 @@ module.exports = function(grunt) {
 			}
 			else {
 				url = o.relativeFontPath + filename;
-				if (o.hash) {
+				if (o.addHashes) {
 					if (url.indexOf('#iefix') === -1) {  // Do not add hashes for OldIE
 						url = url.replace(/(\.\w+)/, '$1?' + o.hash);
 					}
@@ -528,6 +543,65 @@ module.exports = function(grunt) {
 		 */
 		function classnameize(str) {
 			return _s.trim(str).replace(/\s+/g, '-');
+		}
+
+		/**
+		 * Return path of CSS file.
+		 *
+		 * @return {String}
+		 */
+		function getCssFilePath() {
+			var cssFilePrefix = option(wf.cssFilePrefixes, o.stylesheet);
+			return path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
+		}
+
+		/**
+		 * Return path of HTML demo file or `null` if its generation was disabled.
+		 *
+		 * @return {String}
+		 */
+		function getDemoFilePath() {
+			if (!o.htmlDemo) return null;
+			return path.join(o.destHtml, o.fontBaseName + '.html');
+		}
+
+		/**
+		 * Save hash to cache file.
+		 *
+		 * @param {String} name Task name (webfont).
+		 * @param {String} target Task target name.
+		 * @param {String} hash Hash.
+		 */
+		function saveHash(name, target, hash) {
+			var filepath = getHashPath(name, target);
+			mkdirp.sync(path.dirname(filepath));
+			fs.writeFileSync(filepath, hash);
+		}
+
+		/**
+		 * Read hash from cache file or `null` if file don’t exist.
+		 *
+		 * @param {String} name Task name (webfont).
+		 * @param {String} target Task target name.
+		 * @return {String}
+		 */
+		function readHash(name, target) {
+			var filepath = getHashPath(name, target);
+			if (fs.existsSync(filepath)) {
+				return fs.readFileSync(filepath, 'utf8');
+			}
+			return null;
+		}
+
+		/**
+		 * Return path to cache file.
+		 *
+		 * @param {String} name Task name (webfont).
+		 * @param {String} target Task target name.
+		 * @return {String}
+		 */
+		function getHashPath(name, target) {
+			return path.join(o.cache, name, target, 'hash');
 		}
 	});
 };
