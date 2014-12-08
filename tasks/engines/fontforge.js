@@ -55,9 +55,6 @@ module.exports = function(o, allDone) {
 				else {
 					logger.verbose(chalk.grey('fontforge: ') + line);
 				}
-				if (line.match(version) && success) {
-					o.fontforgeVersion.push(line);
-				}
 			});
 
 			if (warn.length) {
