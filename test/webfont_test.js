@@ -579,7 +579,7 @@ exports.webfont = {
 
 	node: function(test) {
 		// All out files should be created and should not be empty
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			var name = type.toUpperCase();
 			test.ok(fs.existsSync('test/tmp/node/icons.' + type), name + ' file created.');
 			test.ok(grunt.file.read('test/tmp/node/icons.' + type).length, name + ' file not empty.');
@@ -596,7 +596,7 @@ exports.webfont = {
 		var html = grunt.file.read('test/tmp/node/icons.html');
 
 		// CSS links to font files are correct
-		'woff,ttf,eot,svg'.split(',').forEach(function(type) {
+		'woff,ttf,eot'.split(',').forEach(function(type) {
 			test.ok(
 				find(css, 'url("icons.' + type),
 				'File path ' + type + ' shound be in CSS file.'
