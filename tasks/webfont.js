@@ -10,6 +10,7 @@ module.exports = function(grunt) {
 
 	var fs = require('fs');
 	var path = require('path');
+	var exec = require('exec');
 	var async = require('async');
 	var glob = require('glob');
 	var chalk = require('chalk');
@@ -147,6 +148,7 @@ module.exports = function(grunt) {
 			createOutputDirs,
 			cleanOutputDir,
 			generateFont,
+			generateWoff2Font,
 			generateStylesheet,
 			generateDemoHtml,
 			printDone
@@ -223,6 +225,48 @@ module.exports = function(grunt) {
 
 				if (result) {
 					o = _.extend(o, result);
+				}
+
+				done();
+			});
+		}
+
+		/**
+		 * Converts TTF font to WOFF2.
+		 *
+		 * @param {Function} done
+		 */
+		function generateWoff2Font(done) {
+			if (!has(o.types, 'woff2')) {
+				done();
+				return;
+			}
+
+			// Run woff2_compress
+			var ttfFont = wf.getFontPath(o, 'ttf');
+			var args = [
+				'woff2_compress',
+				ttfFont
+			];
+
+			exec(args, function(err, out, code) {
+				if (err) {
+					if (err instanceof Error) {
+						if (err.code === 'ENOENT') {
+							logger.error('woff2_compress not found. It is required for creating WOFF2 fonts.');
+							done();
+							return;
+						}
+						err = err.message;
+					}
+					logger.error('Can’t run woff2_compress.\n\n' + err);
+					done();
+					return;
+				}
+
+				// Remove TTF font if not needed
+				if (!has(o.types, 'ttf')) {
+					fs.unlinkSync(ttfFont);
 				}
 
 				done();

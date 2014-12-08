@@ -38,6 +38,14 @@ exports.fontsSrcsMap = {
 			embeddable: true
 		},
 	],
+	woff2: [
+		false,
+		{
+			ext: '.woff2',
+			format: 'woff2',
+			embeddable: true
+		},
+	],
 	ttf: [
 		false,
 		{
@@ -78,18 +86,29 @@ exports.fontSrcSeparators = {
  * List of available font formats.
  * @type {String}
  */
-exports.fontFormats = 'eot,woff,ttf,svg';
+exports.fontFormats = 'eot,woff2,woff,ttf,svg';
 
 /**
  * Returns list of all generated font files.
  *
+ * @param {Object} o Options.
  * @return {Array}
  */
- exports.generatedFontFiles = function(o) {
+exports.generatedFontFiles = function(o) {
  	var mask = '*.{' + o.types + '}';
 	return glob.sync(path.join(o.dest, o.fontBaseName + mask));
 };
 
+/**
+ * Returns path to font of specified format.
+ *
+ * @param {Object} o Options.
+ * @param {String} type Font type (see `wf.fontFormats`).
+ * @return {String}
+ */
+exports.getFontPath = function(o, type) {
+	return path.join(o.dest, o.fontName + '.' + type);
+};
 
 // Expose
 module.exports = exports;

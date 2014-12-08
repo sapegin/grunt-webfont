@@ -119,7 +119,7 @@ if 'eot' in args['types']:
 	call('python "%(path)s/../../bin/eotlitetool.py" "%(font)s.ttf" --output "%(font)s.eot"' % {'path': scriptPath, 'font': fontfile}, shell=True)
 
 # Delete TTF if not needed
-if not 'ttf' in args['types']:
+if (not 'ttf' in args['types']) and (not 'woff2' in args['types']):
 	os.remove(fontfile + '.ttf')
 
 print(json.dumps({'file': fontfile}))

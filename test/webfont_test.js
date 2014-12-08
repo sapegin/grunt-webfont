@@ -734,7 +734,90 @@ exports.webfont = {
 		});
 
 		test.done();
-	}
+	},
 
+	woff2: function(test) {
+		// All out files should be created and should not be empty
+		'woff,woff2'.split(',').forEach(function(type) {
+			var name = type.toUpperCase();
+			test.ok(fs.existsSync('test/tmp/woff2/icons.' + type), name + ' file created.');
+			test.ok(grunt.file.read('test/tmp/woff2/icons.' + type).length, name + ' file not empty.');
+		});
+
+		// TTF file should be deleted
+		'ttf'.split(',').forEach(function(type) {
+			test.ok(!fs.existsSync('test/tmp/woff2/icons.' + type), type.toUpperCase() + ' file NOT created.');
+		});
+
+		'css,html'.split(',').forEach(function(type) {
+			var name = type.toUpperCase();
+			test.ok(fs.existsSync('test/tmp/woff2/icons.' + type), name + ' file created.');
+			test.ok(grunt.file.read('test/tmp/woff2/icons.' + type).length, name + ' file not empty.');
+		});
+
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/woff2/icons.css');
+		var html = grunt.file.read('test/tmp/woff2/icons.html');
+
+		// CSS links to font files are correct
+		'woff2,woff'.split(',').forEach(function(type) {
+			test.ok(
+				find(css, 'url("icons.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
+		});
+
+		// CSS links to TTF should not be created
+		'ttf'.split(',').forEach(function(type) {
+			test.ok(
+				!find(css, 'url("icons.' + type),
+				'File path ' + type + ' shound NOT be in CSS file.'
+			);
+		});
+
+		test.done();
+	},
+
+	woff2_node: function(test) {
+		// All out files should be created and should not be empty
+		'woff,woff2'.split(',').forEach(function(type) {
+			var name = type.toUpperCase();
+			test.ok(fs.existsSync('test/tmp/woff2_node/icons.' + type), name + ' file created.');
+			test.ok(grunt.file.read('test/tmp/woff2_node/icons.' + type).length, name + ' file not empty.');
+		});
+
+		// TTF file should be deleted
+		'ttf'.split(',').forEach(function(type) {
+			test.ok(!fs.existsSync('test/tmp/woff2_node/icons.' + type), type.toUpperCase() + ' file NOT created.');
+		});
+
+		'css,html'.split(',').forEach(function(type) {
+			var name = type.toUpperCase();
+			test.ok(fs.existsSync('test/tmp/woff2_node/icons.' + type), name + ' file created.');
+			test.ok(grunt.file.read('test/tmp/woff2_node/icons.' + type).length, name + ' file not empty.');
+		});
+
+		var svgs = grunt.file.expand('test/src/**.*');
+		var css = grunt.file.read('test/tmp/woff2_node/icons.css');
+		var html = grunt.file.read('test/tmp/woff2_node/icons.html');
+
+		// CSS links to font files are correct
+		'woff2,woff'.split(',').forEach(function(type) {
+			test.ok(
+				find(css, 'url("icons.' + type),
+				'File path ' + type + ' shound be in CSS file.'
+			);
+		});
+
+		// CSS links to TTF should not be created
+		'ttf'.split(',').forEach(function(type) {
+			test.ok(
+				!find(css, 'url("icons.' + type),
+				'File path ' + type + ' shound NOT be in CSS file.'
+			);
+		});
+
+		test.done();
+	},
 
 };

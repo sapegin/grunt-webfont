@@ -253,7 +253,22 @@ module.exports = function(grunt) {
 				options: {
 					hashes: false
 				}
-			}
+			},
+			woff2: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/woff2',
+				options: {
+					types: 'woff2,woff'
+				}
+			},
+			woff2_node: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/woff2_node',
+				options: {
+					types: 'woff2,woff',
+					engine: 'node'
+				}
+			},
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']

@@ -76,6 +76,11 @@ module.exports = function(o, allDone) {
 			});
 		},
 
+		woff2: function(done) {
+			// Will be converted from TTF later
+			done();
+		},
+
 		eot: function(done) {
 			getFont('ttf', function(ttfFont) {
 				var font = ttf2eot(new Uint8Array(ttfFont));
@@ -89,7 +94,9 @@ module.exports = function(o, allDone) {
 	var steps = [];
 
 	// Font types
-	o.types.forEach(function(type) {
+	var typesToGenerate = o.types.slice();
+	if (o.types.indexOf('woff2') !== -1 && o.types.indexOf('ttf'  === -1)) typesToGenerate.push('ttf');
+	typesToGenerate.forEach(function(type) {
 		steps.push(createFontWriter(type));
 	});
 
@@ -110,7 +117,7 @@ module.exports = function(o, allDone) {
 	function createFontWriter(type) {
 		return function(done) {
 			getFont(type, function(font) {
-				fs.writeFileSync(getFontPath(type), font);
+				fs.writeFileSync(wf.getFontPath(o, type), font);
 				done();
 			});
 		};
@@ -190,10 +197,6 @@ module.exports = function(o, allDone) {
 			var hintedFont = fs.readFileSync(hintedFilepath);
 			done(hintedFont);
 		});
-	}
-
-	function getFontPath(type) {
-		return path.join(o.dest, o.fontName + '.' + type);
 	}
 
 };
