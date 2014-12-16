@@ -368,9 +368,9 @@ Allows for a callback to be called when the task has completed and passes in the
 
 ```javascript
 options: {
-		callback: function(filename, types, glyphs) {
-			// ...
-		}
+	callback: function(filename, types, glyphs) {
+		// ...
+	}
 }
 ````
 
@@ -474,14 +474,14 @@ The LESS mixins then may be used like so:
 
 ## Changelog
 
-The changelog can be found in the `Changelog.md` file.
+The changelog can be found in the [Changelog.md](Changelog.md) file.
 
 ## Troubleshooting
 
-##### I have problems displaying the font in Firefox
+### I have problems displaying the font in Firefox
 
 Firefox doesn’t allow cross-domain fonts: [Specifications](http://www.w3.org/TR/css3-fonts/#font-fetching-requirements), [Bugzilla Ticket](https://bugzilla.mozilla.org/show_bug.cgi?id=604421), [How to fix it](https://coderwall.com/p/v4uwyq).
 
 ## License
 
-The MIT License, see the included `License.md` file.
+The MIT License, see the included [License.md](License.md) file.
