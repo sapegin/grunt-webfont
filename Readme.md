@@ -336,7 +336,7 @@ Type: `boolean` Default: `false`
 
 Adds IE7 support using a `*zoom: expression()` hack.
 
-#### startCodepoint
+#### startCodepoint
 
 Type: `integer` Default: `0xF101`
 
