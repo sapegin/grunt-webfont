@@ -211,6 +211,26 @@ options: {
 }
 ```
 
+Some extra data is available for you in templates:
+
+* `hash`: a unique string to flush browser cache. Available even if `hashes` option is `false`.
+
+* `fontRawSrcs`: array of font-face’s src values not merged to a single line:
+
+```
+[
+	[
+		'url("icons.eot")'
+	],
+	[
+		'url("icons.eot?#iefix") format("embedded-opentype")',
+		'url("icons.woff") format("woff")',
+		'url("icons.ttf") format("truetype")'
+	]
+]
+```
+
+
 #### templateOptions
 
 Type: `object` Default: `{}`
