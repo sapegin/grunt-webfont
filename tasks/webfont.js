@@ -302,6 +302,7 @@ module.exports = function(grunt) {
 				// o.fontSrc1, o.fontSrc2
 				o['fontSrc'+(idx+1)] = font.join(fontSrcSeparator);
 			});
+			o.fontRawSrcs = fontSrcs;
 
 			// Convert codepoints to array of strings
 			var codepoints = [];
