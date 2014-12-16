@@ -1,3 +1,17 @@
+### 2014-12-16 v0.5.0
+
+* Experimental WOFF2 support ([see wiki](https://github.com/sapegin/grunt-webfont/wiki/WOFF2-support) for details).
+* Caching: do not generate fonts again if they weren’t changed.
+* Hashes are now appended as query string params: `icons.woff?6c6f…` (instead of `icons-6c6f….woff`).
+* [round option](https://github.com/sapegin/grunt-webfont#round) (by [@mstorus](https://github.com/mstorus)).
+* [callback option](https://github.com/sapegin/grunt-webfont#callback) (by [@nicdaCosta](https://github.com/nicdaCosta)).
+* [Extra data](https://github.com/sapegin/grunt-webfont#template) to use in templates.
+* Simplify source SVG files with SVGO (node engine only).
+* Do not generate SVG font by default.
+* Get stylesheet extension from template file if present.
+* Bug fixes.
+* Thanks to [@roadmanfong](https://github.com/roadmanfong), [@dunckr](https://github.com/dunckr), [@mstorus](https://github.com/mstorus), [@henrahmagix](https://github.com/henrahmagix), [@duncanbeevers](https://github.com/duncanbeevers).
+
 ### 2014-08-27 v0.4.8
 
 * Bug fix.
@@ -6,7 +20,7 @@
 
 * Do not exit when there are not source SVGs, just show warning (by [@duncanbeevers](https://github.com/duncanbeevers)).
 * `autoHint` option (by [@kayoub5](https://github.com/kayoub5)).
-* Fix mixed whitespace in CSS template  (by [@tauren](https://github.com/tauren)).
+* Fix mixed whitespace in CSS template (by [@tauren](https://github.com/tauren)).
 
 ### 2014-07-22 v0.4.4
 
