@@ -1,3 +1,8 @@
+### 2015-01-07 v0.5.1
+
+* Bug fixes.
+* Thanks to [@Januznl](https://github.com/Januznl)
+
 ### 2014-12-16 v0.5.0
 
 * Experimental WOFF2 support ([see wiki](https://github.com/sapegin/grunt-webfont/wiki/WOFF2-support) for details).
