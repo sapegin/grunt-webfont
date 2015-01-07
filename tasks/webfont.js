@@ -139,6 +139,7 @@ module.exports = function(grunt) {
 			if (!regenerationNeeded) {
 				logger.log('Font ' + chalk.cyan(o.fontName) + ' wasn’t changed since last run.');
 				completeTask();
+				return false;
 			}
 		}
 
