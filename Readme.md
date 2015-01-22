@@ -88,7 +88,7 @@ There are two font rendering engines available. See also `engine` option below.
 #### Cons
 
 * Doesn’t work with some SVG files.
-* Ligatures don’t supported.
+* Ligatures aren’t supported.
 
 
 ## Configuration
