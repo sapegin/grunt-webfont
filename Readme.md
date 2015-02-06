@@ -24,7 +24,7 @@ This task will make all you need to use font-face icon on your website: font in 
 
 ## Installation
 
-This plugin requires Grunt 0.4. Note that `ttfautohint` is optional, but your generated font will not be properly hinted if it’s not installed.
+This plugin requires Grunt 0.4. Note that `ttfautohint` is optional, but your generated font will not be properly hinted if it’s not installed. And make sure you don’t use `ttfautohint` 0.97 because that version won’t work.
 
 ### OS X
 
