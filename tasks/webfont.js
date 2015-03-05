@@ -126,14 +126,15 @@ module.exports = function(grunt) {
 		if (o.hash === previousHash) {
 			logger.verbose('Config and source files weren’t changed since last run, checking resulting files...');
 			var regenerationNeeded = false;
-			
+
 			var generatedFiles = wf.generatedFontFiles(o);
 			if (!generatedFiles.length){
 				regenerationNeeded = true;
-			} else{
+			}
+			else {
 				generatedFiles.push(getDemoFilePath());
 				generatedFiles.push(getCssFilePath());
-				
+
 				regenerationNeeded = _.some(generatedFiles, function(filename) {
 					if (!filename) return false;
 					if (!fs.existsSync(filename)) {
