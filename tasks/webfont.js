@@ -125,17 +125,25 @@ module.exports = function(grunt) {
 		logger.verbose('New hash:', o.hash, '- previous hash:', previousHash);
 		if (o.hash === previousHash) {
 			logger.verbose('Config and source files weren’t changed since last run, checking resulting files...');
+			var regenerationNeeded = false;
+
 			var generatedFiles = wf.generatedFontFiles(o);
-			generatedFiles.push(getDemoFilePath());
-			generatedFiles.push(getCssFilePath());
-			var regenerationNeeded = _.some(generatedFiles, function(filename) {
-				if (!filename) return false;
-				if (!fs.existsSync(filename)) {
-					logger.verbose('File', filename, ' is missed.');
-					return true;
-				}
-				return false;
-			});
+			if (!generatedFiles.length){
+				regenerationNeeded = true;
+			}
+			else {
+				generatedFiles.push(getDemoFilePath());
+				generatedFiles.push(getCssFilePath());
+
+				regenerationNeeded = _.some(generatedFiles, function(filename) {
+					if (!filename) return false;
+					if (!fs.existsSync(filename)) {
+						logger.verbose('File', filename, ' is missed.');
+						return true;
+					}
+					return false;
+				});
+			}
 			if (!regenerationNeeded) {
 				logger.log('Font ' + chalk.cyan(o.fontName) + ' wasn’t changed since last run.');
 				completeTask();
