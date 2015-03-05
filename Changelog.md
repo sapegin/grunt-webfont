@@ -1,3 +1,7 @@
+### 2015-03-05 v0.5.2
+
+* Fix: regenerate if no generated files found (by [@badunk](https://github.com/badunk)).
+
 ### 2015-01-07 v0.5.1
 
 * Bug fixes.
