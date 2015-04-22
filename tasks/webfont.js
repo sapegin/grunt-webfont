@@ -1,5 +1,5 @@
 /**
- * * SVG to webfont converter for Grunt
+ * SVG to webfont converter for Grunt
  *
  * @requires ttfautohint
  * @author Artem Sapegin (http://sapegin.me)
@@ -114,7 +114,7 @@ module.exports = function(grunt) {
 		// @todo Codepoint can be a Unicode code or character.
 		var currentCodepoint = o.startCodepoint;
 		if (!o.codepoints) o.codepoints = {};
-		if (o.codepointsFile) o.codepoints = codepointsFromFile();
+		if (o.codepointsFile) o.codepoints = readCodepointsFromFile();
 		o.glyphs.forEach(function(name) {
 			if (!o.codepoints[name]) {
 				o.codepoints[name] = getNextCodepoint();
@@ -352,17 +352,19 @@ module.exports = function(grunt) {
 
 			done();
 		}
+
 		/**
 		 * Gets the codepoints from the set filepath in o.codepointsFile
 		 */
-		function codepointsFromFile(){
+		function readCodepointsFromFile(){
+			if (!o.codepointsFile) return {};
 			if (!fs.existsSync(o.codepointsFile)){
 				logger.verbose('Codepoints file not found');
 				return {};
 			}
 
-			var cpBuffer = fs.readFileSync(o.codepointsFile);
-			return JSON.parse(cpBuffer.toString());
+			var buffer = fs.readFileSync(o.codepointsFile);
+			return JSON.parse(buffer.toString());
 		}
 
 		/**
