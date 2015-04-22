@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 				o.codepoints[name] = getNextCodepoint();
 			}
 		});
-		saveCodepointsToFile();
+		if (o.codepointsFile) saveCodepointsToFile();
 
 		// Check if we need to generate font
 		o.hash = getHash();
