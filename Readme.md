@@ -356,6 +356,13 @@ options: {
 }
 ```
 
+#### codepointsFile
+Type: `string` Default: `null`
+
+Uses and Saves the codepoint mapping by name to this file.
+
+NOTE: will overwrite the set codepoints option.
+
 #### autoHint
 
 Type: `boolean` Default: `true`

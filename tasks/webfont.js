@@ -84,6 +84,7 @@ module.exports = function(grunt) {
 			engine: options.engine || 'fontforge',
 			autoHint: options.autoHint !== false,
 			codepoints: options.codepoints,
+			codepointsFile: options.codepointsFile,
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
 			ie7: options.ie7 === true,
 			normalize: options.normalize === true,
@@ -113,11 +114,13 @@ module.exports = function(grunt) {
 		// @todo Codepoint can be a Unicode code or character.
 		var currentCodepoint = o.startCodepoint;
 		if (!o.codepoints) o.codepoints = {};
+		if (o.codepointsFile) o.codepoints = readCodepointsFromFile();
 		o.glyphs.forEach(function(name) {
 			if (!o.codepoints[name]) {
 				o.codepoints[name] = getNextCodepoint();
 			}
 		});
+		if (o.codepointsFile) saveCodepointsToFile();
 
 		// Check if we need to generate font
 		o.hash = getHash();
@@ -348,6 +351,36 @@ module.exports = function(grunt) {
 			fs.writeFileSync(getCssFilePath(), css);
 
 			done();
+		}
+
+		/**
+		 * Gets the codepoints from the set filepath in o.codepointsFile
+		 */
+		function readCodepointsFromFile(){
+			if (!o.codepointsFile) return {};
+			if (!fs.existsSync(o.codepointsFile)){
+				logger.verbose('Codepoints file not found');
+				return {};
+			}
+
+			var buffer = fs.readFileSync(o.codepointsFile);
+			return JSON.parse(buffer.toString());
+		}
+
+		/**
+		 * Saves the codespoints to the set file
+		 */
+		function saveCodepointsToFile(){
+			if (!o.codepointsFile) return;
+			var codepointsToString = JSON.stringify(o.codepoints);
+			fs.writeFile(o.codepointsFile, codepointsToString, function(err) {
+				if (err){
+					logger.error(err.message);
+				}
+				else {
+					logger.verbose('Codepoints saved to file "'+ o.codepointsFile+'".');
+				}
+			});
 		}
 
 		/**
