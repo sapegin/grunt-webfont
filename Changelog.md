@@ -1,3 +1,7 @@
+### 2015-05-05 v0.5.3
+
+* [codepointsFile option](https://github.com/sapegin/grunt-webfont#codepointsfile) for saving codepoints to a file (by [@herrwalter](https://github.com/herrwalter)).
+
 ### 2015-03-05 v0.5.2
 
 * Fix: regenerate if no generated files found (by [@badunk](https://github.com/badunk)).
