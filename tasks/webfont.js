@@ -85,6 +85,7 @@ module.exports = function(grunt) {
 			autoHint: options.autoHint !== false,
 			codepoints: options.codepoints,
 			codepointsFile: options.codepointsFile,
+			codepointsFileUpdate: options.codepointsFileUpdate,
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
 			ie7: options.ie7 === true,
 			normalize: options.normalize === true,
@@ -120,7 +121,7 @@ module.exports = function(grunt) {
 				o.codepoints[name] = getNextCodepoint();
 			}
 		});
-		if (o.codepointsFile) saveCodepointsToFile();
+		if (o.codepointsFileUpdate && o.codepointsFile) saveCodepointsToFile();
 
 		// Check if we need to generate font
 		o.hash = getHash();
@@ -363,8 +364,16 @@ module.exports = function(grunt) {
 				return {};
 			}
 
-			var buffer = fs.readFileSync(o.codepointsFile);
-			return JSON.parse(buffer.toString());
+			var buffer = fs.readFileSync(o.codepointsFile),
+				points = JSON.parse(buffer.toString());
+
+			for (var name in points) {
+				if (typeof points[name] === "string") {
+					points[name] = parseInt(points[name]);
+				}
+			}
+
+			return points;
 		}
 
 		/**
