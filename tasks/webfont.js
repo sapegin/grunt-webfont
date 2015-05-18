@@ -233,6 +233,7 @@ module.exports = function(grunt) {
 				if (result === false) {
 					// Font was not created, exit
 					completeTask();
+					return;
 				}
 
 				if (result) {
@@ -389,7 +390,10 @@ module.exports = function(grunt) {
 		 * @param {Function} done
 		 */
 		function generateDemoHtml(done) {
-			if (!o.htmlDemo) return done();
+			if (!o.htmlDemo) {
+				done();
+				return;
+			}
 
 			// HTML should not contain relative paths
 			// If some styles was not included in CSS we should include them in HTML to properly render icons
