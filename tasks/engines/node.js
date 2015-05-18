@@ -100,10 +100,8 @@ module.exports = function(o, allDone) {
 		steps.push(createFontWriter(type));
 	});
 
-	steps.push(allDone);
-
 	// Run!
-	async.waterfall(steps);
+	async.waterfall(steps, allDone);
 
 	function getFont(type, done) {
 		if (fonts[type]) {
