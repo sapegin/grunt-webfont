@@ -1,3 +1,9 @@
+### 2015-06-05 v0.5.4
+
+* Fix hash insertion to prevent inserting hashed to wrong place to URLs with several dots inside. Fix #248.
+* Update svgicons2svgfont to 1.1.0.
+* Fix android 4.2.2 rendering issues caused by the text-rendering property (by [@IanCaunce](https://github.com/IanCaunce))
+
 ### 2015-05-05 v0.5.3
 
 * [codepointsFile option](https://github.com/sapegin/grunt-webfont#codepointsfile) for saving codepoints to a file (by [@herrwalter](https://github.com/herrwalter)).
