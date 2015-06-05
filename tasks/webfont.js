@@ -562,7 +562,8 @@ module.exports = function(grunt) {
 				url = o.relativeFontPath + filename;
 				if (o.addHashes) {
 					if (url.indexOf('#iefix') === -1) {  // Do not add hashes for OldIE
-						url = url.replace(/(\.\w+)/, '$1?' + o.hash);
+						// Put hash at the end of an URL or before #hash
+						url = url.replace(/(#|$)/, '?' + o.hash + '$1');
 					}
 				}
 			}
