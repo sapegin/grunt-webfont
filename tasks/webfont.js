@@ -171,7 +171,7 @@ module.exports = function(grunt) {
 		 */
 		function completeTask() {
 			if (o && _.isFunction(o.callback)) {
-				o.callback(o.fontName, o.types, o.glyphs);
+				o.callback(o.fontName, o.types, o.glyphs, o.hash);
 			}
 			allDone();
 		}

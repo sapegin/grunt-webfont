@@ -391,11 +391,11 @@ The font descent. The descent should be a positive value. The ascent formula is:
 
 Type: `function` Default: `null`
 
-Allows for a callback to be called when the task has completed and passes in the filename of the generated font, an array of the various font types created and an array of all the glyphs created.
+Allows for a callback to be called when the task has completed and passes in the filename of the generated font, an array of the various font types created, an array of all the glyphs created and the hash used to flush browser cache.
 
 ```javascript
 options: {
-	callback: function(filename, types, glyphs) {
+	callback: function(filename, types, glyphs, hash) {
 		// ...
 	}
 }
