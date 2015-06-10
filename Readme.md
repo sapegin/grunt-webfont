@@ -144,6 +144,20 @@ Type: `string` Default: `icons`
 
 Name of font and base name of font files.
 
+#### fontFilename
+
+Type: `string` Default: Same as `font` option
+
+Filename for generated font files, you can add placeholders for the same data that gets passed to the [template](#template).
+
+For example, to get the hash to be part of the filenames:
+
+```js
+options: {
+	fontFilename: 'icons-{hash}'
+}
+```
+
 #### hashes
 
 Type: `boolean` Default: `true`

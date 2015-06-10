@@ -73,11 +73,11 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 			if args['round']:
 				glyph.round(int(args['round']))
 
-fontfile = args['dest'] + os.path.sep + args['fontBaseName']
+fontfile = args['dest'] + os.path.sep + args['fontFilename']
 
-f.fontname = args['fontBaseName']
-f.familyname = args['fontBaseName']
-f.fullname = args['fontBaseName']
+f.fontname = args['fontFilename']
+f.familyname = args['fontFilename']
+f.fullname = args['fontFilename']
 
 if args['addLigatures']:
 	def generate(filename):

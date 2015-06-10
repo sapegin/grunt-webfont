@@ -96,7 +96,7 @@ exports.fontFormats = 'eot,woff2,woff,ttf,svg';
  */
 exports.generatedFontFiles = function(o) {
  	var mask = '*.{' + o.types + '}';
-	return glob.sync(path.join(o.dest, o.fontBaseName + mask));
+	return glob.sync(path.join(o.dest, o.fontFilename + mask));
 };
 
 /**
@@ -107,7 +107,7 @@ exports.generatedFontFiles = function(o) {
  * @return {String}
  */
 exports.getFontPath = function(o, type) {
-	return path.join(o.dest, o.fontName + '.' + type);
+	return path.join(o.dest, o.fontFilename + '.' + type);
 };
 
 // Expose
