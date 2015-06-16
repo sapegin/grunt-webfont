@@ -105,6 +105,9 @@ module.exports = function(grunt) {
 			glyphs: []
 		});
 
+		o.hash = getHash();
+		o.fontFilename = template(options.fontFilename || o.fontBaseName, o);
+
 		// “Rename” files
 		o.glyphs = o.files.map(function(file) {
 			return o.rename(file).replace(path.extname(file), '');
@@ -123,7 +126,6 @@ module.exports = function(grunt) {
 		if (o.codepointsFile) saveCodepointsToFile();
 
 		// Check if we need to generate font
-		o.hash = getHash();
 		var previousHash = readHash(this.name, this.target);
 		logger.verbose('New hash:', o.hash, '- previous hash:', previousHash);
 		if (o.hash === previousHash) {
@@ -552,7 +554,7 @@ module.exports = function(grunt) {
 		 * @return {String}
 		 */
 		function generateFontSrc(type, font) {
-			var filename = template(o.fontName + font.ext, o);
+			var filename = template(o.fontFilename + font.ext, o);
 
 			var url;
 			if (font.embeddable && has(o.embed, type)) {
