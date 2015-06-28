@@ -4,13 +4,13 @@
 <% if (fontfaceStyles) { %>
 <% if (fontSrc1 && embed.length) { %>
 @font-face {
-  font-family: "<%= fontBaseName %>";
+  font-family: '<%= fontBaseName %>';
   src: <%= fontSrc1 %>;
   font-weight: normal;
   font-style: normal;
 }
 <% } %>@font-face {
-	font-family: "<%= fontBaseName %>";<% if (fontSrc1) { %>
+	font-family: '<%= fontBaseName %>';<% if (fontSrc1) { %>
 	src: <%= fontSrc1 %>;<% }%>
 	src: <%= fontSrc2 %>;
 	font-weight: normal;
@@ -25,7 +25,7 @@
 [class*=" <%= classPrefix %>"]<% } %><% if (addLigatures) { %>,
 .ligature-icons<% } %> {
   display: inline-block;
-  font-family: "<%= fontBaseName %>";
+  font-family: '<%= fontBaseName %>';
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   font-style: normal;
@@ -42,7 +42,7 @@
 <% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %><% if(glyphIdx === glyphs.length-1) { %> { <% } else { %>, <% } } %>
 	&:before {
-		font-family: "<%= fontBaseName %>";
+		font-family: '<%= fontBaseName %>';
 		display: inline-block;
 		font-weight: normal;
 		font-style: normal;
@@ -96,7 +96,7 @@ li[class*=" <%= classPrefix %>"].<%= classPrefix %>large:before {
 <% if (stylesheet === 'less') { %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %> {
 	&:before {
-		content: "<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
+		content: '<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>';
 	}
 	<% if (ie7) {%>
 	*zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x<%= codepoints[glyphIdx] %>;');
@@ -107,6 +107,6 @@ li[class*=" <%= classPrefix %>"].<%= classPrefix %>large:before {
 }
 <% } %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
-	content: "<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
+	content: '<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>';
 }<% } %>
 <% } } %>

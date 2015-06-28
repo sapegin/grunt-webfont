@@ -3,13 +3,13 @@
 <% if (fontfaceStyles) { %>
 <% if (fontSrc1 && embed.length) { %>
 @font-face {
-  font-family: "<%= fontBaseName %>";
+  font-family: '<%= fontBaseName %>';
   src: <%= fontSrc1 %>;
   font-weight: normal;
   font-style: normal;
 }
 <% } %>@font-face {
-  font-family: "<%= fontBaseName %>";<% if (fontSrc1) { %>
+  font-family: '<%= fontBaseName %>';<% if (fontSrc1) { %>
   src: <%= fontSrc1 %>;<% }%>
   src: <%= fontSrc2 %>;
   font-weight: normal;
@@ -19,7 +19,7 @@
 <% if (baseStyles) { %>.<%= baseClass %><% if (addLigatures) { %>,
 .ligature-icons<% } %> {
   display: inline-block;
-  font-family: "<%= fontBaseName %>";
+  font-family: '<%= fontBaseName %>';
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   font-style: normal;
@@ -37,7 +37,7 @@
 <% if (stylesheet === 'less') { %>
 .<%= mixinPrefix %><%= glyphs[glyphIdx] %>() {
   &:before {
-    content: "<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
+    content: '<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>';
   }
   <% if (ie7) {%>
   *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x<%= codepoints[glyphIdx] %>;');
@@ -51,5 +51,5 @@
 }
 <% } %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
-  content: "<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
+  content: '<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>';
 }<% } } } %>
