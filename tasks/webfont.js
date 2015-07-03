@@ -92,7 +92,8 @@ module.exports = function(grunt) {
 			fontHeight: options.fontHeight !== undefined ? options.fontHeight : 512,
 			descent: options.descent !== undefined ? options.descent : 64,
 			cache: options.cache || path.join(__dirname, '..', '.cache'),
-			callback: options.callback
+			callback: options.callback,
+			quotesStyle: options.quotesStyle === 'single_quotes' ? '\'' : '"'
 		};
 
 		o = _.extend(o, {
@@ -570,8 +571,8 @@ module.exports = function(grunt) {
 				}
 			}
 
-			var src = 'url("' + url + '")';
-			if (font.format) src += ' format("' + font.format + '")';
+			var src = 'url(' + o.quotesStyle + url + o.quotesStyle + ')';
+			if (font.format) src += ' format(' + o.quotesStyle + font.format + o.quotesStyle + ')';
 
 			return src;
 		}
