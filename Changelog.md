@@ -1,5 +1,7 @@
-### 2015-06-05 v0.5.4
+### 2015-07-18 v0.5.4
 
+* Added a `fontFilename` option (by [@marioestrada](https://github.com/marioestrada))
+* Added passing the `hash` as an argument to the callback method (by [@marioestrada](https://github.com/marioestrada))
 * Fix hash insertion to prevent inserting hashed to wrong place to URLs with several dots inside. Fix #248.
 * Update svgicons2svgfont to 1.1.0.
 * Fix android 4.2.2 rendering issues caused by the text-rendering property (by [@IanCaunce](https://github.com/IanCaunce))
