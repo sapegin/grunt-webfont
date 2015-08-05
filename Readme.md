@@ -58,7 +58,7 @@ npm install grunt-webfont --save-dev
 
 Then [install `ttfautohint`](http://www.freetype.org/ttfautohint/#download) (optional).
 
-*Only `node` engine available (see below).*
+*optional* If requiring the `fontforge` engine, install and set your PATH to include the `fontforge` bin directory.
 
 
 ## Available Engines
@@ -74,7 +74,6 @@ There are two font rendering engines available. See also `engine` option below.
 
 #### Cons
 
-* Doesn’t work on Windows.
 * You have to install `fontforge`.
 * Really weird bugs sometimes.
 
@@ -87,7 +86,7 @@ There are two font rendering engines available. See also `engine` option below.
 
 #### Cons
 
-* Doesn’t work with some SVG files.
+* Doesn’t work [with some SVG files](https://github.com/fontello/svg2ttf/issues/25).
 * Ligatures aren’t supported.
 
 
