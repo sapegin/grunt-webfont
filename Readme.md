@@ -46,7 +46,7 @@ sudo apt-get install fontforge ttfautohint
 npm install grunt-webfont --save-dev
 ```
 
-*`fontforge` isn’t required for `node` engine (see below).*
+*`fontforge` isn’t required for the `node` engine (see [below](#available-engines)).*
 
 :skull: [Notes on experimental WOFF2 support](https://github.com/sapegin/grunt-webfont/wiki/WOFF2-support).
 
@@ -58,8 +58,11 @@ npm install grunt-webfont --save-dev
 
 Then [install `ttfautohint`](http://www.freetype.org/ttfautohint/#download) (optional).
 
-*optional* If requiring the `fontforge` engine, install and set your PATH to include the `fontforge` bin directory.
+Then install `fontforge`.
+* Download and install [fontforge](http://fontforge.github.io/en-US/downloads/windows/).
+* Add `C:\Program Files (x86)\FontForgeBuilds\bin` to your `PATH` environment variable.
 
+*`fontforge` isn’t required for the `node` engine (see [below](#available-engines)).*
 
 ## Available Engines
 
