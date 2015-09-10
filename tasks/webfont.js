@@ -197,6 +197,14 @@ module.exports = function(grunt) {
 			var packageJson = require('../package.json');
 			md5.update(packageJson.version);
 
+			// Templates
+			if (o.template) {
+				md5.update(fs.readFileSync(o.template, 'utf8'));
+			}
+			if (o.htmlDemoTemplate) {
+				md5.update(fs.readFileSync(o.htmlDemoTemplate, 'utf8'));
+			}
+
 			return md5.digest('hex');
 		}
 
