@@ -85,7 +85,7 @@
 				e = e || window.event;
 				var name = e.target.getAttribute('data-name') || e.target.parentNode.getAttribute('data-name');
 				document.getElementById('name').innerHTML = name;
-				document.getElementById('name2').innerHTML = name;
+				<% if (addLigatures) { %>document.getElementById('name2').innerHTML = name;<% } %>
 			}
 		})();
 		</script>
