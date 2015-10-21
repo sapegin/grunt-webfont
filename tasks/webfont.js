@@ -77,6 +77,7 @@ module.exports = function(grunt) {
 			stylesheet: options.stylesheet || path.extname(options.template).replace(/^\./, '') || 'css',
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
+			htmlDemoFilename: options.htmlDemoFilename,
 			styles: optionToArray(options.styles, 'font,icon'),
 			types: optionToArray(options.types, 'eot,woff,ttf'),
 			order: optionToArray(options.order, wf.fontFormats),
@@ -651,8 +652,10 @@ module.exports = function(grunt) {
 		 */
 		function getDemoFilePath() {
 			if (!o.htmlDemo) return null;
-			return path.join(o.destHtml, o.fontBaseName + '.html');
+			var name = o.htmlDemoFilename || o.fontBaseName;
+			return path.join(o.destHtml, name + '.html');
 		}
+
 
 		/**
 		 * Save hash to cache file.
