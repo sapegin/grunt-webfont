@@ -319,6 +319,15 @@ exports.webfont = {
 		test.done();
 	},
 
+	html_filename: function(test) {
+		var htmlfile = 'test/tmp/html_filename/index.html';
+
+		// There should be comment from custom template
+		test.ok(fs.existsSync(htmlfile), 'HTML demo file custom name created.');
+
+		test.done();
+	},
+
 	relative_path: function(test) {
 		var css = grunt.file.read('test/tmp/relative_path/icons.css');
 
