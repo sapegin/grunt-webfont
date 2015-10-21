@@ -16,6 +16,7 @@ module.exports = function(grunt) {
 	var chalk = require('chalk');
 	var mkdirp = require('mkdirp');
 	var crypto = require('crypto');
+	var ttf2woff2 = require('ttf2woff2');
 	var _ = require('lodash');
 	var _s = require('underscore.string');
 	var wf = require('./util/util');
@@ -265,35 +266,21 @@ module.exports = function(grunt) {
 				return;
 			}
 
-			// Run woff2_compress
-			var ttfFont = wf.getFontPath(o, 'ttf');
-			var args = [
-				'woff2_compress',
-				ttfFont
-			];
+			// Read TTF font
+			var ttfFontPath = wf.getFontPath(o, 'ttf');
+			var ttfFont = fs.readFileSync(ttfFontPath);
 
-			exec(args, function(err, out, code) {
-				if (err) {
-					if (err instanceof Error) {
-						if (err.code === 'ENOENT') {
-							logger.error('woff2_compress not found. It is required for creating WOFF2 fonts.');
-							done();
-							return;
-						}
-						err = err.message;
-					}
-					logger.error('Can’t run woff2_compress.\n\n' + err);
-					done();
-					return;
-				}
+			// Remove TTF font if not needed
+			if (!has(o.types, 'ttf')) {
+				fs.unlinkSync(ttfFontPath);
+			}
 
-				// Remove TTF font if not needed
-				if (!has(o.types, 'ttf')) {
-					fs.unlinkSync(ttfFont);
-				}
+			// Convert to WOFF2
+			var woffFont = ttf2woff2(ttfFont);
 
-				done();
-			});
+			// Save
+			var woff2FontPath = wf.getFontPath(o, 'woff2');
+			fs.writeFile(woff2FontPath, woffFont, done);
 		}
 
 		/**
