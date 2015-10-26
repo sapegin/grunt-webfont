@@ -10,7 +10,6 @@ module.exports = function(grunt) {
 
 	var fs = require('fs');
 	var path = require('path');
-	var exec = require('exec');
 	var async = require('async');
 	var glob = require('glob');
 	var chalk = require('chalk');
@@ -605,7 +604,8 @@ module.exports = function(grunt) {
 		 */
 		function renderTemplate(template, context) {
 			try {
-				return _.template(template.template, context);
+				var func = _.template(template.template);
+				return func(context);
 			}
 			catch (e) {
 				grunt.fail.fatal('Error while rendering template ' + template.filename + ': ' + e.message);
