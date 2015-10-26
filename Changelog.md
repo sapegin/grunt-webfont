@@ -1,3 +1,11 @@
+### 2015-10-26 v1.0.0
+
+* Use ttf2woff2 Node module instead of a binary woff2_compress to create WOFF2 fonts (#254).
+* New option: htmlDemoFilename (by [@eddiemonge](https://github.com/eddiemonge)).
+* Drop support for Node 0.10 because of ttf2woff2.
+* Fix JS error in HTML demo (by [@eddiemonge](https://github.com/eddiemonge)).
+* Hash changes when templates are changed (by [@JavRok](https://github.com/JavRok)).
+
 ### 2015-07-18 v0.5.4
 
 * Added a `fontFilename` option (by [@marioestrada](https://github.com/marioestrada))
