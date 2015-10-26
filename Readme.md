@@ -281,17 +281,17 @@ Type: `string` Default: `null`
 
 Custom demo HTML template path (see `tasks/templates/demo.html` for an example) (requires `htmlDemo` option to be true).
 
+#### htmlDemoFilename
+
+Type: `string` Default: _`fontBaseName` value_
+
+Custom name for the demo HTML file (requires `htmlDemo` option to be true). Useful if you want to name the output something like `index.html` instead of the font name.
+
 #### destHtml
 
 Type: `string` Default: _`destCss` value_
 
 Custom demo HTML demo path (requires `htmlDemo` option to be true).
-
-#### htmlDemoTemplate
-
-Type: `string` Default: _`fontBaseName` value_
-
-Custom name for the demo HTML file (requires `htmlDemo` option to be true). Useful if you want to name the output something like `index.html` instead of the font name.
 
 #### embed
 
