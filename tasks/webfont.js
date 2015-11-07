@@ -370,7 +370,7 @@ module.exports = function(grunt) {
 		 */
 		function saveCodepointsToFile(){
 			if (!o.codepointsFile) return;
-			var codepointsToString = JSON.stringify(o.codepoints);
+			var codepointsToString = JSON.stringify(o.codepoints, null, 4);
 			fs.writeFile(o.codepointsFile, codepointsToString, function(err) {
 				if (err){
 					logger.error(err.message);
