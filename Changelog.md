@@ -1,3 +1,8 @@
+# 1.0.1 - 2015-11-08
+
+* Generate codepoints JSON file in a more human readable format (by [@mtgibbs](https://github.com/mtgibbs)).
+* Save codepoints JSON file synchronously (hopefully fixes #283, by [@mtgibbs](https://github.com/mtgibbs)).
+
 ### 2015-10-26 v1.0.0
 
 * Use ttf2woff2 Node module instead of a binary woff2_compress to create WOFF2 fonts (#254).
