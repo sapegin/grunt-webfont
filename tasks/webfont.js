@@ -371,14 +371,12 @@ module.exports = function(grunt) {
 		function saveCodepointsToFile(){
 			if (!o.codepointsFile) return;
 			var codepointsToString = JSON.stringify(o.codepoints);
-			fs.writeFile(o.codepointsFile, codepointsToString, function(err) {
-				if (err){
-					logger.error(err.message);
-				}
-				else {
-					logger.verbose('Codepoints saved to file "'+ o.codepointsFile+'".');
-				}
-			});
+			try {
+				fs.writeFileSync(o.codepointsFile, codepointsToString);
+				logger.verbose('Codepoints saved to file "' + o.codepointsFile + '".');
+			} catch (err) {
+				logger.error(err.message);
+			}
 		}
 
 		/**
