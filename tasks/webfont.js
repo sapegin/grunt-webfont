@@ -446,7 +446,7 @@ module.exports = function(grunt) {
 			if (!val) return [];
 			if (typeof val !== 'string') return val;
 			if (!!trim) {
-				return val.split(",").map(function (i) {
+				return val.split(",").map(function(i) {
 					return i.trim();
 				});
 			}
