@@ -448,7 +448,7 @@ module.exports = function(grunt) {
 			if (!!trim) {
 				return val.split(",").map(function (i) {
 					return i.trim();
-				})
+				});
 			}
 			return val.split(',');
 		}
