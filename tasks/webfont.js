@@ -77,8 +77,8 @@ module.exports = function(grunt) {
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			htmlDemoFilename: options.htmlDemoFilename,
-			styles: optionToArray(options.styles, 'font,icon'),
-			types: optionToArray(options.types, 'eot,woff,ttf'),
+			styles: optionToArray(options.styles, 'font,icon', true),
+			types: optionToArray(options.types, 'eot,woff,ttf', true),
 			order: optionToArray(options.order, wf.fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
@@ -438,18 +438,19 @@ module.exports = function(grunt) {
 		 *
 		 * @param {String} val Input string
 		 * @param {String} defVal Default value
+		 * @param {Boolean} trim Whether or not to trim spaces off the ends of entries
 		 * @return {Array}
 		 */
-		function optionToArray(val, defVal) {
+		function optionToArray(val, defVal, trim) {
 			if (val === undefined) val = defVal;
 			if (!val) return [];
 			if (typeof val !== 'string') return val;
-			if (val.indexOf(',') !== -1) {
-				return val.split(',');
+			if (!!trim) {
+				return val.split(",").map(function (i) {
+					return i.trim();
+				})
 			}
-			else {
-				return [val];
-			}
+			return val.split(',');
 		}
 
 		/**
