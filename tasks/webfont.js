@@ -77,8 +77,8 @@ module.exports = function(grunt) {
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			htmlDemoFilename: options.htmlDemoFilename,
-			styles: optionToArray(options.styles, 'font,icon', true),
-			types: optionToArray(options.types, 'eot,woff,ttf', true),
+			styles: optionToArray(options.styles, 'font,icon'),
+			types: optionToArray(options.types, 'eot,woff,ttf'),
 			order: optionToArray(options.order, wf.fontFormats),
 			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
@@ -434,23 +434,19 @@ module.exports = function(grunt) {
 		 */
 
 		/**
-		 * Convert a string of comma seperated words into an array
+		 * Convert a string of comma separated words into an array
 		 *
 		 * @param {String} val Input string
 		 * @param {String} defVal Default value
-		 * @param {Boolean} trim Whether or not to trim spaces off the ends of entries
 		 * @return {Array}
 		 */
-		function optionToArray(val, defVal, trim) {
+		function optionToArray(val, defVal) {
 			if (val === undefined) val = defVal;
 			if (!val) return [];
 			if (typeof val !== 'string') return val;
-			if (!!trim) {
-				return val.split(",").map(function(i) {
-					return i.trim();
-				});
-			}
-			return val.split(',');
+			return val.split(",").map(function(i) {
+				return i.trim();
+			});
 		}
 
 		/**
