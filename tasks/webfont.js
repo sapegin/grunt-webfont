@@ -434,7 +434,7 @@ module.exports = function(grunt) {
 		 */
 
 		/**
-		 * Convert a string of comma seperated words into an array
+		 * Convert a string of comma separated words into an array
 		 *
 		 * @param {String} val Input string
 		 * @param {String} defVal Default value
@@ -444,12 +444,9 @@ module.exports = function(grunt) {
 			if (val === undefined) val = defVal;
 			if (!val) return [];
 			if (typeof val !== 'string') return val;
-			if (val.indexOf(',') !== -1) {
-				return val.split(',');
-			}
-			else {
-				return [val];
-			}
+			return val.split(",").map(function(i) {
+				return i.trim();
+			});
 		}
 
 		/**
