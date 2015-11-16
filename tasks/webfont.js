@@ -434,22 +434,23 @@ module.exports = function(grunt) {
 		 */
 
 		/**
-		 * Convert a string of comma seperated words into an array
+		 * Convert a string of comma separated words into an array
 		 *
 		 * @param {String} val Input string
 		 * @param {String} defVal Default value
 		 * @return {Array}
 		 */
 		function optionToArray(val, defVal) {
-			if (val === undefined) val = defVal;
-			if (!val) return [];
-			if (typeof val !== 'string') return val;
-			if (val.indexOf(',') !== -1) {
-				return val.split(',');
+			if (val === undefined) {
+				val = defVal;
 			}
-			else {
-				return [val];
+			if (!val) {
+				return [];
 			}
+			if (typeof val !== 'string') {
+				return val;
+			}
+			return val.split(',').map(_.trim);
 		}
 
 		/**
