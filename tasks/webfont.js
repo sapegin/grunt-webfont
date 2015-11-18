@@ -48,14 +48,14 @@ module.exports = function(grunt) {
 		/*
 		 * Check for `src` param on target config
 		 */
-		this.requiresConfig([this.name, this.target, name].join('.'));
+		this.requiresConfig([this.name, this.target, 'src'].join('.'));
 
 		/*
 		 * Check for `dest` param on either target config or global options object
 		 */
 		if (_.isUndefined(params.dest) && _.isUndefined(options.dest)) {
-			logger.error(chalk.yellow('Warning: Required property ' + [this.name, this.target, name].join('')
-				+ 'or' + [this.name, this.target, 'options', name].join('') + 'missing.'));
+			logger.error(chalk.yellow('Warning: Required property ' + [this.name, this.target, 'dest'].join('')
+				+ 'or' + [this.name, this.target, 'options.dest'].join('') + 'missing.'));
 		}
 
 		if (options.skip) {
