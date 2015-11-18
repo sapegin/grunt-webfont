@@ -276,6 +276,13 @@ module.exports = function(grunt) {
 					engine: 'node'
 				}
 			},
+			target_overrides: {
+				src: 'test/src/*.svg',
+				options: {
+					dest: 'test/tmp/target_overrides_icons',
+					destCss: 'test/tmp/target_overrides_css',
+				}
+			}
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']

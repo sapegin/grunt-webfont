@@ -21,14 +21,6 @@ module.exports = function(grunt) {
 	var wf = require('./util/util');
 
 	grunt.registerMultiTask('webfont', 'Compile separate SVG files to webfont', function() {
-		['src', 'dest'].forEach(function(name) {
-			this.requiresConfig([this.name, this.target, name].join('.'));
-		}.bind(this));
-
-		var allDone = this.async();
-		var params = this.data;
-		var options = this.options();
-		var md5 = crypto.createHash('md5');
 
 		/**
 		 * Winston to Grunt logger adapter.
@@ -48,6 +40,22 @@ module.exports = function(grunt) {
 			}
 		};
 
+		var allDone = this.async();
+		var params = this.data;
+		var options = this.options();
+		var md5 = crypto.createHash('md5');
+
+		['src'].forEach(function(name) {
+			this.requiresConfig([this.name, this.target, name].join('.'));
+		}.bind(this));
+
+		['dest'].forEach(function(name) {
+			if (_.isUndefined(params[name]) && _.isUndefined(options[name])) {
+				logger.error(chalk.yellow('Warning: Required property ' + [this.name, this.target, name].join('')
+					+ 'or' + [this.name, this.target, 'options', name].join('') + 'missing.'));
+			}
+		});
+
 		if (options.skip) {
 			completeTask();
 			return;
@@ -65,8 +73,8 @@ module.exports = function(grunt) {
 		var o = {
 			logger: logger,
 			fontBaseName: options.font || 'icons',
-			destCss: params.destCss || params.dest,
-			dest: params.dest,
+			destCss: options.destCss || params.destCss || params.dest,
+			dest: options.dest || params.dest,
 			relativeFontPath: options.relativeFontPath,
 			addHashes: options.hashes !== false,
 			addLigatures: options.ligatures === true,
