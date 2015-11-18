@@ -45,16 +45,18 @@ module.exports = function(grunt) {
 		var options = this.options();
 		var md5 = crypto.createHash('md5');
 
-		['src'].forEach(function(name) {
-			this.requiresConfig([this.name, this.target, name].join('.'));
-		}.bind(this));
+		/*
+		 * Check for `src` param on target config
+		 */
+		this.requiresConfig([this.name, this.target, name].join('.'));
 
-		['dest'].forEach(function(name) {
-			if (_.isUndefined(params[name]) && _.isUndefined(options[name])) {
-				logger.error(chalk.yellow('Warning: Required property ' + [this.name, this.target, name].join('')
-					+ 'or' + [this.name, this.target, 'options', name].join('') + 'missing.'));
-			}
-		});
+		/*
+		 * Check for `dest` param on either target config or global options object
+		 */
+		if (_.isUndefined(params.dest) && _.isUndefined(options.dest)) {
+			logger.error(chalk.yellow('Warning: Required property ' + [this.name, this.target, name].join('')
+				+ 'or' + [this.name, this.target, 'options', name].join('') + 'missing.'));
+		}
 
 		if (options.skip) {
 			completeTask();
