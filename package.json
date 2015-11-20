@@ -1,7 +1,7 @@
 {
   "name": "grunt-webfont",
   "description": "Ultimate SVG to webfont converter for Grunt.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/sapegin/grunt-webfont",
   "author": {
     "name": "Artem Sapegin",
