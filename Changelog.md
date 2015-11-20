@@ -1,3 +1,9 @@
+# 1.0.2 - 2015-11-20
+
+* Update ttf2woff2 and svg2ttf (#286, #294).
+* `dest` and `destCss` options are now overridable on a per-target basis (#295, #296, by @scottyeck).
+* Allow spaces in list options: `woff, ttf` (#291, by @dudewad).
+
 # 1.0.1 - 2015-11-08
 
 * Generate codepoints JSON file in a more human readable format (by [@mtgibbs](https://github.com/mtgibbs)).
