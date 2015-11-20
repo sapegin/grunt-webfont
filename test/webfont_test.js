@@ -829,4 +829,18 @@ exports.webfont = {
 		test.done();
 	},
 
+	target_overrides: function(test) {
+
+		var css = grunt.file.read('test/tmp/target_overrides_css/icons.css');		
+		test.ok(fs.existsSync('test/tmp/target_overrides_css/icons.css') + ' file created.');
+
+		'woff,ttf,eot'.split(',').forEach(function(type) {
+			var name = type.toUpperCase();
+			test.ok(fs.existsSync('test/tmp/target_overrides_icons/icons.' + type), name + ' file created.');
+			test.ok(grunt.file.read('test/tmp/target_overrides_icons/icons.' + type).length, name + ' file not empty.');
+		});
+
+		test.done();
+	}
+
 };
