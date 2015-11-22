@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 		 * Check for `dest` param on either target config or global options object
 		 */
 		if (_.isUndefined(params.dest) && _.isUndefined(options.dest)) {
-			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('')
-				+ 'or' + [this.name, this.target, 'options.dest'].join('') + 'missing.');
+			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('.')
+				+ ' or ' + [this.name, this.target, 'options.dest'].join('.') + ' missing.');
 		}
 
 		if (options.skip) {
@@ -103,7 +103,8 @@ module.exports = function(grunt) {
 			fontHeight: options.fontHeight !== undefined ? options.fontHeight : 512,
 			descent: options.descent !== undefined ? options.descent : 64,
 			cache: options.cache || path.join(__dirname, '..', '.cache'),
-			callback: options.callback
+			callback: options.callback,
+			customOutputs: options.customOutput
 		};
 
 		o = _.extend(o, {
@@ -176,6 +177,7 @@ module.exports = function(grunt) {
 			generateWoff2Font,
 			generateStylesheet,
 			generateDemoHtml,
+			generateCustomOutputs,
 			printDone
 		], completeTask);
 
@@ -389,6 +391,108 @@ module.exports = function(grunt) {
 			}
 		}
 
+		/*
+		 * Prepares base context for templates
+		 */
+		function prepareBaseTemplateContext() {
+			var context = _.extend({}, o);
+			return context;
+		}
+
+		/*
+		 * Makes custom extends necessary for use with preparing the template context
+		 * object for the HTML demo.
+		 */
+		function prepareHtmlTemplateContext() {
+
+			var context = prepareBaseTemplateContext();
+
+			var htmlStyles;
+
+			// Prepare relative font paths for injection into @font-face refs in HTML
+			var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
+			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.dest));
+			var _fontSrc1 = o.fontSrc1.replace(relativeRe, htmlRelativeFontPath);
+			var _fontSrc2 = o.fontSrc2.replace(relativeRe, htmlRelativeFontPath);
+
+			_.extend(context, {
+				fontSrc1: _fontSrc1,
+				fontSrc2: _fontSrc2,
+				fontfaceStyles: true,
+				baseStyles: true,
+				extraStyles: false,
+				iconsStyles: true,
+				stylesheet: 'css'
+			});
+
+			// Prepares CSS for injection into <style> tag at to of HTML
+			htmlStyles = renderTemplate(o.cssTemplate, context);
+			_.extend(context, {
+				styles: htmlStyles
+			});
+
+			return context;
+		}
+
+		/*
+		 * Iterator function used as callback by looping construct below to
+		 * render "custom output" via mini configuration objects specified in
+		 * the array `options.customOutputs`.
+		 */
+		function generateCustomOutput(outputConfig) {
+
+			// Accesses context
+			var context = prepareBaseTemplateContext();
+			_.extend(context, outputConfig.context);
+
+			// Prepares config attributes related to template filepath
+			var templatePath = outputConfig.template;
+			var extension = path.extname(templatePath);
+			var syntax = outputConfig.syntax || '';
+
+			// Renders template with given context
+			var template = readTemplate(templatePath, syntax, extension);
+			var output = renderTemplate(template, context);
+
+			// Prepares config attributes related to destination filepath
+			var dest = outputConfig.dest || o.dest;
+
+			var filepath;
+			var destParent;
+			var destName;
+
+			if (path.extname(dest) === '') {
+				// If user specifies a directory, filename should be same as template
+				destParent = dest;
+				destName = path.basename(outputConfig.template);
+				filepath = path.join(dest, destName);
+			}
+			else {
+				// If user specifies a file, that is our filepath
+				destParent = path.dirname(dest);
+				filepath = dest;
+			}
+
+			// Ensure existence of parent directory and output to file as desired
+			mkdirp.sync(destParent);
+			fs.writeFileSync(filepath, output);
+		}
+
+		/*
+		 * Iterates over entries in the `options.customOutputs` object and,
+		 * on a config-by-config basis, generates the desired results.
+		 */
+		function generateCustomOutputs(done) {
+
+			if (!o.customOutputs || o.customOutputs.length < 1) {
+				done();
+				return;
+			}
+
+			_.each(o.customOutputs, generateCustomOutput);
+			done();
+		}
+
 		/**
 		 * Generate HTML demo page
 		 *
@@ -400,27 +504,11 @@ module.exports = function(grunt) {
 				return;
 			}
 
-			// HTML should not contain relative paths
-			// If some styles was not included in CSS we should include them in HTML to properly render icons
-			var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
-			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.dest));
-			var context = _.extend(o, {
-				fontSrc1: o.fontSrc1.replace(relativeRe, htmlRelativeFontPath),
-				fontSrc2: o.fontSrc2.replace(relativeRe, htmlRelativeFontPath),
-				fontfaceStyles: true,
-				baseStyles: true,
-				extraStyles: false,
-				iconsStyles: true,
-				stylesheet: 'css'
-			});
-			var htmlStyles = renderTemplate(o.cssTemplate, context);
-			var htmlContext = _.extend(context, {
-				styles: htmlStyles
-			});
+			var context = prepareHtmlTemplateContext();
 
 			// Generate HTML
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
-			var demo = renderTemplate(demoTemplate, htmlContext);
+			var demo = renderTemplate(demoTemplate, context);
 
 			// Save file
 			fs.writeFileSync(getDemoFilePath(), demo);

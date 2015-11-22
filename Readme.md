@@ -415,7 +415,21 @@ options: {
 		// ...
 	}
 }
-````
+```
+
+#### customOutputs
+
+Type: `array` Default: `undefined`
+
+Allows for custom content to be generated and output in the same way as `htmlDemo`.
+
+Each entry in `customOutputs` should be an object with the following parameters:
+
+* `template` - (`string`) the path to the underscore-template you wish to use.
+* `dest` - (`string`) the path to the destination where you want the resulting file to live.
+* `context` \[optional\] - (`object`) a hash of values to pass into the context of the template
+
+At compile-time each template will have access to the same context as the compile-time environment of `htmlDemoTemplate` (as extended by the `context` object, if provided. See config-example below.
 
 ### Config Examples
 
@@ -493,6 +507,79 @@ webfont: {
 		}
 	}
 }
+```
+
+#### Custom Outputs
+
+```javascript
+webfont: {
+	icons: {
+		src: 'icons/*.svg',
+		dest: 'build/fonts',
+		options: {
+			customOutputs: [{
+				template: 'templates/icon-glyph-list-boilerplate.js',
+				dest: 'build/js/icon-glyph-list.js'
+			}, {
+				template: 'templates/icon-glyph-config-boilerplate.json',
+				dest: 'build/js/icon-glyphs.json'
+			}, {
+				template: 'templates/icon-web-home.html',
+				dest: 'build/',
+				context: {
+					homeHeading: 'Your Icon Font',
+					homeMessage: 'The following glyphs are available in this font:'
+				}
+			}]
+		}
+	}
+}
+```
+
+We might then include the following corresponding templates.
+
+The first, for `icon-glyph-list-boilerplate.js`, a file that outputs a list of icon-glyph slugs.
+
+```
+// file: icon-glyph-list-boilerplate.js
+
+(function(window) {
+	'use strict';
+
+	var iconList = <%= JSON.stringify(glyphs) %>;
+	window.iconList = iconList;
+}(this));
+```
+
+The second, for `icon-glyph-config-boilerplate.json`, a file that dumps all JSON data in the current template context.
+
+```
+// file: icon-glyph-config-boilerplate.json
+
+<%= JSON.stringify(arguments[0], null, '\t') %>
+```
+
+And finally, the third, for `icon-web-home.html`, a file that has access to the values provided in the `context` object supplied.
+
+```
+// file: icon-web-home.html
+
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>Context Test</title>
+    </head>
+    <body>
+        <h1><%= homeHeading %></h1>
+        <p><%= homeMessage %></p>
+        <ul>
+        	<% for (var i = 0; i < glpyhs.length; i++) { %>
+        	<li><a href="#"><%= glyphs[i] %></a></li>
+        	<% } %>
+        </ul>
+    </body>
+</html>
 ```
 
 ## CSS Preprocessors Caveats
