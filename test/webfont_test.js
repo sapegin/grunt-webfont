@@ -841,6 +841,20 @@ exports.webfont = {
 		});
 
 		test.done();
+	},
+
+	custom_outputs: function(test) {
+
+		// File should have been created when filename is specified
+		test.ok(fs.existsSync('test/tmp/custom_output/test-icon-config.js'));
+
+		// File should have been created (with template basename) when filename is not specified
+		test.ok(fs.existsSync('test/tmp/custom_output/custom.json'));
+
+		// Files should render with custom context variables
+		test.ok(fs.existsSync('test/tmp/custom_output/context-test.html'));
+
+		test.done();
 	}
 
 };
