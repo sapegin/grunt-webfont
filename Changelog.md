@@ -1,3 +1,7 @@
+# 1.1.0 - 2015-12-17
+
+* New feature: [custom outputs](https://github.com/sapegin/grunt-webfont#customoutputs) (#298, by @scottyeck)
+
 # 1.0.2 - 2015-11-20
 
 * Update ttf2woff2 and svg2ttf (#286, #294).
