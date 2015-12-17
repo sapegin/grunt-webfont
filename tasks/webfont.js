@@ -104,7 +104,7 @@ module.exports = function(grunt) {
 			descent: options.descent !== undefined ? options.descent : 64,
 			cache: options.cache || path.join(__dirname, '..', '.cache'),
 			callback: options.callback,
-			customOutputs: options.customOutput
+			customOutputs: options.customOutputs
 		};
 
 		o = _.extend(o, {
