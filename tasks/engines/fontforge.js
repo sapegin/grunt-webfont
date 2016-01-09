@@ -12,7 +12,7 @@ module.exports = function(o, allDone) {
 	var path = require('path');
 	var temp = require('temp');
 	var async = require('async');
-	var exec = require('exec');
+	var exec = require('child_process').exec;
 	var chalk = require('chalk');
 	var _ = require('lodash');
 	var logger = o.logger || require('winston');
@@ -29,10 +29,10 @@ module.exports = function(o, allDone) {
 		'fontforge',
 		'-script',
 		path.join(__dirname, 'fontforge/generate.py')
-	];
+	].join(' ');
 
 	var proc = exec(args, function(err, out, code) {
-		if (err instanceof Error && err.code === 'ENOENT') {
+		if (err instanceof Error && err.code === 127) {
 			return fontforgeNotFound();
 		}
 		else if (err) {
