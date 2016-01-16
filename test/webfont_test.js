@@ -380,7 +380,7 @@ exports.webfont = {
 		svgs.forEach(function(file) {
 			var id = path.basename(file, '.svg');
 			test.ok(
-				find(less, '.icon-' + id + '() {\n\t&:before'),
+				find(less, '.icon_' + id + ' {\n\t&:before'),
 				'LESS Mixin ' + id + ' should be in CSS file.'
 			);
 		});
@@ -569,12 +569,12 @@ exports.webfont = {
 		// Every SVG file should have corresponding entry in LESS and HTML files
 		svgs.forEach(function(file) {
 			var id = path.basename(file, '.svg');
+			// test.ok(
+			// 		find(less, '.make-icon-' + id + ' {'),
+			// 		'Mixin .make-icon-' + id + ' should be in LESS file.'
+			// );
 			test.ok(
-					find(less, '.make-icon-' + id + '() {'),
-					'Mixin .make-icon-' + id + ' should be in LESS file.'
-			);
-			test.ok(
-					find(less, '.glyph_' + id + '{'),
+					find(less, '.glyph_' + id + ' {'),
 					'Icon .glyph_' + id + ' should be in LESS file.'
 			);
 			test.ok(
@@ -831,7 +831,7 @@ exports.webfont = {
 
 	target_overrides: function(test) {
 
-		var css = grunt.file.read('test/tmp/target_overrides_css/icons.css');		
+		var css = grunt.file.read('test/tmp/target_overrides_css/icons.css');
 		test.ok(fs.existsSync('test/tmp/target_overrides_css/icons.css') + ' file created.');
 
 		'woff,ttf,eot'.split(',').forEach(function(type) {
