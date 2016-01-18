@@ -602,10 +602,6 @@ The LESS mixins then may be used like so:
 }
 ```
 
-## Changelog
-
-The changelog can be found on the [Releases page](https://github.com/sapegin/grunt-webfont/releases).
-
 ## Troubleshooting
 
 ### I have problems displaying the font in Firefox
@@ -626,6 +622,10 @@ Check the following...
 * Your paths are clockwise. Anti-clockwise paths may cause fills to occur differently.
 * Your paths are not overlapping. Overlapping paths will cause one of the areas to be inverted rather than combined. Use an editor to union your two paths together.
 * `autoHint` also adjusts the font file and can cause your font to look different to the SVG, so you could try switching it off (though it may make windows view of the font worse).
+
+## Changelog
+
+The changelog can be found on the [Releases page](https://github.com/sapegin/grunt-webfont/releases).
 
 ## License
 
