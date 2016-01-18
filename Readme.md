@@ -623,6 +623,10 @@ Check the following...
 * Your paths are not overlapping. Overlapping paths will cause one of the areas to be inverted rather than combined. Use an editor to union your two paths together.
 * `autoHint` also adjusts the font file and can cause your font to look different to the SVG, so you could try switching it off (though it may make windows view of the font worse).
 
+## Project status
+
+I don’t plan to add any new features to this project myself but I highly appreciate pull request or any other support to the project. I will: review and merge pull requests as soon as I can; occasionally release new versions; try to fix critical issues. I will not: answer support questions; add new features. Let me know if you want to be a project maintainer.
+
 ## Changelog
 
 The changelog can be found on the [Releases page](https://github.com/sapegin/grunt-webfont/releases).
