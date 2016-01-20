@@ -12,7 +12,7 @@ module.exports = function(o, allDone) {
 	var path = require('path');
 	var async = require('async');
 	var temp = require('temp');
-	var exec = require('exec');
+	var exec = require('child_process').exec;
 	var _ = require('lodash');
 	var StringDecoder = require('string_decoder').StringDecoder;
 	var svgicons2svgfont = require('svgicons2svgfont');
@@ -174,19 +174,16 @@ module.exports = function(o, allDone) {
 			'--no-info',
 			originalFilepath,
 			hintedFilepath
-		];
+		].join(' ');
 
 		exec(args, function(err, out, code) {
 			if (err) {
-				if (err instanceof Error) {
-					if (err.code === 'ENOENT') {
-						logger.verbose('Hinting skipped, ttfautohint not found.');
-						done(false);
-						return;
-					}
-					err = err.message;
+				if (err.code === 127) {
+					logger.verbose('Hinting skipped, ttfautohint not found.');
+					done(false);
+					return;
 				}
-				logger.error('Can’t run ttfautohint.\n\n' + err);
+				logger.error('Can’t run ttfautohint.\n\n' + err.message);
 				done(false);
 				return;
 			}
