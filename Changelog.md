@@ -1,3 +1,9 @@
+# 1.1.1 - 2016-02-12
+
+* Remove unnecessary Less mixins (#310, by @braver).
+* Rename `customOutput` to `customOutputs` to match documentation.
+* Update peerDependencies to be able to work with Grunt 1.0.
+
 # 1.1.0 - 2015-12-17
 
 * New feature: [custom outputs](https://github.com/sapegin/grunt-webfont#customoutputs) (#298, by @scottyeck)
