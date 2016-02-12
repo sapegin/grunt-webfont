@@ -6,7 +6,7 @@
 
 Generate custom icon webfonts from SVG files via Grunt. Inspired by [Font Custom](https://github.com/FontCustom/fontcustom).
 
-This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/Sass/LESS/Stylus and HTML demo page.
+This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/Sass/Less/Stylus and HTML demo page.
 
 ## Features
 
@@ -262,7 +262,7 @@ options: {
 
 Type: `string` Default: `'css'` or extension of `template`
 
-Stylesheet type. Can be css, sass, scss, less... If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
+Stylesheet type. Can be `css`, `sass`, `scss` or `less`. If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
 
 #### relativeFontPath
 
@@ -587,15 +587,15 @@ And finally, the third, for `icon-web-home.html`, a file that has access to the 
 
 You can change CSS file syntax using `stylesheet` option (see above). It change file extension (so you can specify any) with some tweaks. Replace all comments with single line comments (which will be removed after compilation).
 
-### SASS
+### Sass
 
 If `stylesheet` option is `sass` or `scss`, `_` will prefix the file (so it can be a used as a partial).
 
-### LESS
+### Less
 
-If `stylesheet` option is `less`, regular CSS icon classes will be expanded with corresponding LESS mixins.
+If `stylesheet` option is `less`, regular CSS icon classes will be expanded with corresponding Less mixins.
 
-The LESS mixins then may be used like so:
+The Less mixins then may be used like so:
 
 ```css
 .profile-button {
