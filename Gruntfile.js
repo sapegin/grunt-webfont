@@ -288,7 +288,7 @@ module.exports = function(grunt) {
 				options: {
 					dest: 'test/tmp/custom_output_icons',
 					destCss: 'test/tmp/custom_output_css',
-					customOutput: [{
+					customOutputs: [{
 						template: 'test/templates/custom.js',
 						dest: 'test/tmp/custom_output/test-icon-config.js'
 					}, {
