@@ -31,7 +31,7 @@ module.exports = function(o, allDone) {
 		path.join(__dirname, 'fontforge/generate.py')
 	].join(' ');
 
-	var proc = exec(args, function(err, out, code) {
+	var proc = exec(args, {maxBuffer: o.execMaxBuffer}, function(err, out, code) {
 		if (err instanceof Error && err.code === 127) {
 			return fontforgeNotFound();
 		}
@@ -92,6 +92,25 @@ module.exports = function(o, allDone) {
 			fontforgeNotFound();
 		}
 	});
+
+	proc.stderr.on('data', function (data) {
+		logger.verbose(data);
+	});
+	proc.stdout.on('data', function (data) {
+		logger.verbose(data);
+	});
+	proc.on('exit', function (code, signal) {
+		if (code !== 0) {
+			logger.log( // cannot use error() because it will stop execution of callback of exec (which shows error message)
+				"fontforge process has unexpectedly closed.\n" +
+				"1. Try to run grunt in verbose mode to see fontforge output: " + chalk.bold('grunt --verbose webfont') + ".\n" +
+				"2. If stderr maxBuffer exceeded try to increase " + chalk.bold('execMaxBuffer') + ", see " + 
+					chalk.underline('https://github.com/sapegin/grunt-webfont#execMaxBuffer') + ". "
+			);
+		}
+		return true;
+	});
+
 	var params = _.extend(o, {
 		inputDir: tempDir
 	});
