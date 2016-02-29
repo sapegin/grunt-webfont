@@ -110,6 +110,7 @@ module.exports = function(grunt) {
 
 		o = _.extend(o, {
 			fontName: o.fontBaseName,
+			relativeFontPath: o.relativeFontPath || path.relative(o.destCss, o.dest),
 			destHtml: options.destHtml || o.destCss,
 			fontfaceStyles: has(o.styles, 'font'),
 			baseStyles: has(o.styles, 'icon'),
@@ -302,10 +303,6 @@ module.exports = function(grunt) {
 		 * @param {Function} done
 		 */
 		function generateStylesheet(done) {
-			// Relative fonts path
-			if (!o.relativeFontPath) {
-				o.relativeFontPath = path.relative(o.destCss, o.dest);
-			}
 			o.relativeFontPath = normalizePath(o.relativeFontPath);
 
 			// Generate font URLs to use in @font-face
@@ -412,7 +409,7 @@ module.exports = function(grunt) {
 
 			// Prepare relative font paths for injection into @font-face refs in HTML
 			var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
-			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.dest));
+			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.relativeFontPath));
 			var _fontSrc1 = o.fontSrc1.replace(relativeRe, htmlRelativeFontPath);
 			var _fontSrc2 = o.fontSrc2.replace(relativeRe, htmlRelativeFontPath);
 
