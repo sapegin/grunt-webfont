@@ -105,7 +105,7 @@ module.exports = function(grunt) {
 			cache: options.cache || path.join(__dirname, '..', '.cache'),
 			callback: options.callback,
 			customOutputs: options.customOutputs,
-			execMaxBuffer: options.execMaxBuffer || 1024 * 200 
+			execMaxBuffer: options.execMaxBuffer || 1024 * 200
 		};
 
 		o = _.extend(o, {
