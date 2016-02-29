@@ -432,6 +432,9 @@ Each entry in `customOutputs` should be an object with the following parameters:
 
 At compile-time each template will have access to the same context as the compile-time environment of `htmlDemoTemplate` (as extended by the `context` object, if provided. See config-example below.
 
+#### execMaxBuffer
+ If you get stderr maxBuffer exceeded warning message, engine probably logged a lot of warning messages. To see this warnings run grunt in verbose mode `grunt --verbose`. To go over this warning you can try to increase buffer size by this option. Default value is `1024 * 200`
+
 ### Config Examples
 
 #### Simple font generation
@@ -623,6 +626,7 @@ Check the following...
 * Your paths are clockwise. Anti-clockwise paths may cause fills to occur differently.
 * Your paths are not overlapping. Overlapping paths will cause one of the areas to be inverted rather than combined. Use an editor to union your two paths together.
 * `autoHint` also adjusts the font file and can cause your font to look different to the SVG, so you could try switching it off (though it may make windows view of the font worse).
+* If you get stderr maxBuffer exceeded warning message, fontforge probably logged a lot of warning messages. To see this warnings run grunt in verbose mode `grunt --verbose`. To go over this warning you can try to increase buffer size by [execMaxBuffer](#execMaxBuffer).
 
 ## Changelog
 

@@ -176,7 +176,7 @@ module.exports = function(o, allDone) {
 			hintedFilepath
 		].join(' ');
 
-		exec(args, function(err, out, code) {
+		exec(args, {maxBuffer: o.execMaxBuffer}, function(err, out, code) {
 			if (err) {
 				if (err.code === 127) {
 					logger.verbose('Hinting skipped, ttfautohint not found.');
