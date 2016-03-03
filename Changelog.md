@@ -1,3 +1,8 @@
+# 1.2.0 - 2016-03-03
+
+* **New feature:** [execMaxBuffer](https://github.com/sapegin/grunt-webfont#execmaxbuffer) option for setting `child_process.exec()` `maxBuffer` (#320 by @JaroslavMoravec).
+* **Fixed:** HTML demo works when `relativeFontPath` is used (#318 by @jleider).
+
 # 1.1.1 - 2016-02-12
 
 * Remove unnecessary Less mixins (#310, by @braver).
