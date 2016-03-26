@@ -122,29 +122,49 @@ module.exports = function(o, allDone) {
 	}
 
 	function svgFilesToStreams(files, done) {
+
 		async.map(files, function(file, fileDone) {
-			var svg = fs.readFileSync(file, 'utf8');
-			var svgo = new SVGO();
-			try {
-				svgo.optimize(svg, function(res) {
-					var idx = files.indexOf(file);
-					var name = o.glyphs[idx];
-					var stream = new MemoryStream(res.data, {
-						writable: false
-					});
-					fileDone(null, {
-						codepoint: o.codepoints[name],
-						name: name,
-						stream: stream
-					});
+
+			function fileStreamed(name, stream) {
+				fileDone(null, {
+					codepoint: o.codepoints[name],
+					name: name,
+					stream: stream
 				});
 			}
-			catch(err) {
-				fileDone(err);
+
+			function streamSVG(name, file) {
+				var stream = fs.createReadStream(file);
+				fileStreamed(name, stream);
+			}
+
+			function streamSVGO(name, file) {
+				var svg = fs.readFileSync(file, 'utf8');
+				var svgo = new SVGO();
+				try {
+					svgo.optimize(svg, function(res) {
+						var stream = new MemoryStream(res.data, {
+							writable: false
+						});
+						fileStreamed(name, stream);
+					});
+				} catch(err) {
+					logger.error('Can’t simplify SVG file with SVGO.\n\n' + err);
+					fileDone(err);
+				}
+			}
+
+			var idx = files.indexOf(file);
+			var name = o.glyphs[idx];
+
+			if(o.optimize === true) {
+				streamSVGO(name, file);
+			} else {
+				streamSVG(name, file);
 			}
 		}, function(err, streams) {
 			if (err) {
-				logger.error('Can’t simplify SVG file with SVGO.\n\n' + err);
+				logger.error('Can’t stream SVG file.\n\n' + err);
 				allDone(false);
 			}
 			else {

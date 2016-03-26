@@ -99,6 +99,7 @@ module.exports = function(grunt) {
 			startCodepoint: options.startCodepoint || wf.UNICODE_PUA_START,
 			ie7: options.ie7 === true,
 			normalize: options.normalize === true,
+			optimize: options.optimize === false ? false : true,
 			round: options.round !== undefined ? options.round : 10e12,
 			fontHeight: options.fontHeight !== undefined ? options.fontHeight : 512,
 			descent: options.descent !== undefined ? options.descent : 64,
