@@ -355,9 +355,9 @@ Adds IE7 support using a `*zoom: expression()` hack.
 
 #### optimize
 
-Type: `boolean` Default: `false`
+Type: `boolean` Default: `true`
 
-If `true` the SVGO optimization will not be used. This is useful in cases where the optimizer will produce faulty web fonts by removing relevant SVG paths or attributes.
+If `false` the SVGO optimization will not be used. This is useful in cases where the optimizer will produce faulty web fonts by removing relevant SVG paths or attributes.
 
 #### startCodepoint
 
