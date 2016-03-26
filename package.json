@@ -52,7 +52,8 @@
     "grunt-jscs": "~1.0.0",
     "load-grunt-tasks": "~3.4.0",
     "stylus": "~0.53.0",
-    "xml2js": "~0.4.16"
+    "xml2js": "~0.4.16",
+    "svgutils": "~0.13.5"
   },
   "peerDependencies": {
     "grunt": ">=0.4.0"
