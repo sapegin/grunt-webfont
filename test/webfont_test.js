@@ -668,6 +668,24 @@ exports.webfont = {
 		test.done();
 	},
 
+	optimize_enabled: function(test){
+		var optimizedPathSegment = '280.2V280.098C349.867 293.072 358.595';
+		var svg	= grunt.file.read('test/tmp/optimize_enabled/icons.svg');
+		if(svg.indexOf(optimizedPathSegment) === -1) {
+				test.fail(true, 'SVG element must be contains the optimized path');
+		}
+		test.done();
+	},
+
+	optimize_disbaled: function(test){
+		var optimizedPathSegment = '280.2V280.098C349.867 293.072 358.595';
+		var svg	= grunt.file.read('test/tmp/optimize_disabled/icons.svg');
+	 	if(svg.indexOf(optimizedPathSegment) > -1) {
+				test.fail(true, 'SVG element must be contains the un-optimized path');
+		}
+		test.done();
+	},
+
 	codepoints: function(test) {
 		// Default codepoint of 0xE001 can be overidden
 		var resultSVG = grunt.file.expand('test/tmp/codepoints/icons.svg');

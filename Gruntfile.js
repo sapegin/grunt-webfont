@@ -236,6 +236,26 @@ module.exports = function(grunt) {
 					syntax: 'bootstrap'
 				}
 			},
+			optimize_enabled: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/optimize_enabled',
+				options: {
+					engine: 'node',
+					types: 'svg',
+					autoHint: false,
+					optimize: true
+				}
+			},
+			optimize_disabled: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/optimize_disabled',
+				options: {
+					engine: 'node',
+					types: 'svg',
+					autoHint: false,
+					optimize: false
+				}
+			},
 			codepoints: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/codepoints',
