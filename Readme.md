@@ -189,7 +189,7 @@ Icon classes syntax. `bem` for double class names: `icon icon_awesome` or `boots
 
 #### template
 
-Type: `string` Default: `null`
+Type: `string` Default: ``
 
 Custom CSS template path (see `tasks/templates` for some examples). Should be used instead of `syntax`. (You probably need to define `htmlDemoTemplate` option too.)
 
