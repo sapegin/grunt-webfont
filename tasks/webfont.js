@@ -71,6 +71,11 @@ module.exports = function(grunt) {
 			return;
 		}
 
+		// path must be a string, see https://nodejs.org/api/path.html#path_path_extname_path
+		if (typeof options.template !== 'string') {
+			options.template = '';
+		}
+
 		// Options
 		var o = {
 			logger: logger,
