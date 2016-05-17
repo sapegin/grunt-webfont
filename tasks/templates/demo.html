@@ -18,6 +18,10 @@
 			font-size:32px;
 			font-weight:normal;
 			}
+		h1 small {
+			font-size: 0.8em;
+			padding-left: 2em;
+		}
 		.icons {
 			margin-bottom:40px;
 			-webkit-column-count:5;
@@ -55,7 +59,7 @@
 		</style>
 	</head>
 	<body>
-		<h1><%= fontBaseName %></h1>
+		<h1><%= fontBaseName %><% if (version) { %><small>version <%= version %></small><% } %></h1>
 
 		<div class="icons" id="icons">
 			<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { var glyph = glyphs[glyphIdx] %>
