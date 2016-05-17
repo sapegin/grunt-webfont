@@ -274,7 +274,7 @@ Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with C
 
 Type: `string` Default: `false`
 
-Version number added to `.ttf` version of the font (FontForge Engine only). Also be used in the heading of the default demo.html template. Useful to align with the version of other assets that are part of a larger system.
+Version number added to `.ttf` version of the font (FontForge Engine only). Also used in the heading of the default demo.html template. Useful to align with the version of other assets that are part of a larger system.
 
 #### htmlDemo
 
