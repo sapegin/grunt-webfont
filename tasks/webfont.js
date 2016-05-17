@@ -108,6 +108,7 @@ module.exports = function(grunt) {
 			round: options.round !== undefined ? options.round : 10e12,
 			fontHeight: options.fontHeight !== undefined ? options.fontHeight : 512,
 			descent: options.descent !== undefined ? options.descent : 64,
+			version: options.version !== undefined ? options.version : false,
 			cache: options.cache || path.join(__dirname, '..', '.cache'),
 			callback: options.callback,
 			customOutputs: options.customOutputs,
