@@ -64,7 +64,7 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 				glyph = f.createChar(cp, name)
 				glyph.addPosSub('liga', tuple(name))
 			else:
-				glyph = f.createChar(cp)
+				glyph = f.createChar(cp, str(name))
 			glyph.importOutlines(filePath)
 
 			if args['normalize']:
