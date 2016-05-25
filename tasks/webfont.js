@@ -515,10 +515,16 @@ module.exports = function(grunt) {
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
 			var demo = renderTemplate(demoTemplate, context);
 
-			// Save file
-			fs.writeFileSync(getDemoFilePath(), demo);
+			mkdirp(getDemoPath(), function(err){
+ 				if (err) {
+					logger.log(err);
+ 					return;
+ 				}
+ 				// Save file
+				fs.writeFileSync(getDemoFilePath(), demo);
+ 				done();
+			});
 
-			done();
 		}
 
 		/**
@@ -758,6 +764,13 @@ module.exports = function(grunt) {
 			return path.join(o.destHtml, name + '.html');
 		}
 
+		/**
+		 * Return path of HTML demo file or `null` if feature was disabled
+		 */
+		function getDemoPath() {
+			if (!o.htmlDemo) return null;
+			return o.destHtml;
+		}
 
 		/**
 		 * Save hash to cache file.
