@@ -516,10 +516,10 @@ module.exports = function(grunt) {
 			var demo = renderTemplate(demoTemplate, context);
 
 			mkdirp(getDemoPath(), function(err) {
- 				if (err) {
+				if (err) {
 					logger.log(err);
 					return;
- 				}
+				}
 				// Save file
 				fs.writeFileSync(getDemoFilePath(), demo);
 				done();
