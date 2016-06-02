@@ -677,7 +677,7 @@ exports.webfont = {
 		test.done();
 	},
 
-	optimize_disbaled: function(test){
+	optimize_disabled: function(test){
 		var optimizedPathSegment = '280.2V280.098C349.867 293.072 358.595';
 		var svg	= grunt.file.read('test/tmp/optimize_disabled/icons.svg');
 	 	if(svg.indexOf(optimizedPathSegment) > -1) {
