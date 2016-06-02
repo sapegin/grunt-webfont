@@ -410,6 +410,18 @@ Type: `number` Default: `512`
 
 The output font height.
 
+#### fontFamilyName
+
+Type: `string` Default: _`font` value_
+
+If you’d like your generated fonts to have a name that’s different than the `font` value, you can specify this as a string. This will allow a unique display name within design authoring tools when installing fonts locally. For example, your font’s name could be `GitHub Octicons` with a filename of `octicons.ttf`.
+
+```javascript
+options: {
+	fontFamilyName: 'GitHub Octicons',
+}
+```
+
 #### descent
 
 Type: `number` Default: `64`
