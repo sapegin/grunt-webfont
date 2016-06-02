@@ -80,7 +80,6 @@ module.exports = function(grunt) {
 		var o = {
 			logger: logger,
 			fontBaseName: options.font || 'icons',
-			fontFamilyName: options.fontFamilyName || options.font,
 			destCss: options.destCss || params.destCss || params.dest,
 			dest: options.dest || params.dest,
 			relativeFontPath: options.relativeFontPath,
@@ -129,6 +128,7 @@ module.exports = function(grunt) {
 
 		o.hash = getHash();
 		o.fontFilename = template(options.fontFilename || o.fontBaseName, o);
+		o.fontFamilyName = template(options.fontFamilyName || o.fontBaseName, o);
 
 		// “Rename” files
 		o.glyphs = o.files.map(function(file) {
