@@ -365,6 +365,12 @@ Type: `boolean` Default: `true`
 
 If `false` the SVGO optimization will not be used. This is useful in cases where the optimizer will produce faulty web fonts by removing relevant SVG paths or attributes.
 
+#### normalize
+
+Type: `boolean` Default: `false`
+
+When using the fontforge engine, if false, glyphs will be generated with a fixed width equal to fontHeight. In most cases, this will produce an extra blank space for each glyph. If set to true, no extra space will be generated. Each glyph will have a width that matches its boundaries.
+
 #### startCodepoint
 
 Type: `integer` Default: `0xF101`
