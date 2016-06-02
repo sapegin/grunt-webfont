@@ -861,6 +861,21 @@ exports.webfont = {
 		test.done();
 	},
 
+	font_family_name: function(test) {
+		var html = grunt.file.read('test/tmp/font_family_name/icons.html');
+
+		// fontFamilyName should be in the HTML file's title
+		test.ok(
+			find(html, '<title>customName</title>'),
+			'fontFamilyName should be in the HTML file title'
+		);
+
+		// File should still have default name if only fontFamilyName is specified
+		test.ok(fs.existsSync('test/tmp/font_family_name/icons.ttf'));
+
+		test.done();
+	},
+
 	custom_outputs: function(test) {
 
 		// File should have been created when filename is specified
