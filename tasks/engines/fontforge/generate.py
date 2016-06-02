@@ -78,8 +78,8 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 fontfile = args['dest'] + os.path.sep + args['fontFilename']
 
 f.fontname = args['fontFilename']
-f.familyname = args['fontFilename']
-f.fullname = args['fontFilename']
+f.familyname = args['fontFamilyName']
+f.fullname = args['fontFamilyName']
 
 if args['addLigatures']:
 	def generate(filename):

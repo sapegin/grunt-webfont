@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title><%= fontBaseName %></title>
+		<title><%= fontFamilyName %></title>
 		<style>
 		body {
 			margin:0;
@@ -59,7 +59,7 @@
 		</style>
 	</head>
 	<body>
-		<h1><%= fontBaseName %><% if (version) { %><small>version <%= version %></small><% } %></h1>
+		<h1><%= fontFamilyName %><% if (version) { %><small>version <%= version %></small><% } %></h1>
 
 		<div class="icons" id="icons">
 			<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { var glyph = glyphs[glyphIdx] %>

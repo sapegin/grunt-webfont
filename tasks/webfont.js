@@ -80,6 +80,7 @@ module.exports = function(grunt) {
 		var o = {
 			logger: logger,
 			fontBaseName: options.font || 'icons',
+			fontFamilyName: options.fontFamilyName || options.font,
 			destCss: options.destCss || params.destCss || params.dest,
 			dest: options.dest || params.dest,
 			relativeFontPath: options.relativeFontPath,
