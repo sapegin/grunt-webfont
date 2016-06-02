@@ -303,6 +303,14 @@ module.exports = function(grunt) {
 					destCss: 'test/tmp/target_overrides_css',
 				}
 			},
+			font_family_name: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/font_family_name',
+				options: {
+					fontFamilyName: 'customName',
+					types: 'ttf',
+				}
+			},
 			custom_output: {
 				src: 'test/src/*.svg',
 				options: {

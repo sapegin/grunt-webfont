@@ -677,7 +677,7 @@ exports.webfont = {
 		test.done();
 	},
 
-	optimize_disbaled: function(test){
+	optimize_disabled: function(test){
 		var optimizedPathSegment = '280.2V280.098C349.867 293.072 358.595';
 		var svg	= grunt.file.read('test/tmp/optimize_disabled/icons.svg');
 	 	if(svg.indexOf(optimizedPathSegment) > -1) {
@@ -857,6 +857,21 @@ exports.webfont = {
 			test.ok(fs.existsSync('test/tmp/target_overrides_icons/icons.' + type), name + ' file created.');
 			test.ok(grunt.file.read('test/tmp/target_overrides_icons/icons.' + type).length, name + ' file not empty.');
 		});
+
+		test.done();
+	},
+
+	font_family_name: function(test) {
+		var html = grunt.file.read('test/tmp/font_family_name/icons.html');
+
+		// fontFamilyName should be in the HTML file's title
+		test.ok(
+			find(html, '<title>customName</title>'),
+			'fontFamilyName should be in the HTML file title'
+		);
+
+		// File should still have default name if only fontFamilyName is specified
+		test.ok(fs.existsSync('test/tmp/font_family_name/icons.ttf'));
 
 		test.done();
 	},

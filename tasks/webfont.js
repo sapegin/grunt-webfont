@@ -128,6 +128,7 @@ module.exports = function(grunt) {
 
 		o.hash = getHash();
 		o.fontFilename = template(options.fontFilename || o.fontBaseName, o);
+		o.fontFamilyName = template(options.fontFamilyName || o.fontBaseName, o);
 
 		// “Rename” files
 		o.glyphs = o.files.map(function(file) {

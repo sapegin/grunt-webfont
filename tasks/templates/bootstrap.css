@@ -4,13 +4,13 @@
 <% if (fontfaceStyles) { %>
 <% if (fontSrc1 && embed.length) { %>
 @font-face {
-    font-family:"<%= fontBaseName %>";
+    font-family:"<%= fontFamilyName %>";
     src:<%= fontSrc1 %>;
     font-weight:normal;
     font-style:normal;
 }
 <% } %>@font-face {
-	font-family:"<%= fontBaseName %>";<% if (fontSrc1) { %>
+	font-family:"<%= fontFamilyName %>";<% if (fontSrc1) { %>
 	src:<%= fontSrc1 %>;<% }%>
 	src:<%= fontSrc2 %>;
 	font-weight:normal;
@@ -24,7 +24,7 @@
 [class^="<%= classPrefix %>"],
 [class*=" <%= classPrefix %>"]<% } %><% if (addLigatures) { %>,
 .ligature-icons<% } %> {
-	font-family:"<%= fontBaseName %>";
+	font-family:"<%= fontFamilyName %>";
 	display:inline-block;
 	vertical-align:middle;
 	line-height:1;
@@ -42,7 +42,7 @@
 <% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %><% if(glyphIdx === glyphs.length-1) { %> { <% } else { %>, <% } } %>
 	&:before {
-		font-family:"<%= fontBaseName %>";
+		font-family:"<%= fontFamilyName %>";
 		display:inline-block;
 		font-weight:normal;
 		font-style:normal;
