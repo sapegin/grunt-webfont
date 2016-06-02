@@ -363,7 +363,7 @@ If `false` the SVGO optimization will not be used. This is useful in cases where
 
 Type: `boolean` Default: `false`
 
-When using `fontforge` enginge, If `false` fonts will generate a fix width for all their Glyphs equals to `fontHeight`, this will produce in most cases an extra blank space for each Glyphs. If set to `true` no extra space will be generated and each Glyph will have a width that will match its boundries  
+When using the fontforge engine, if false, glyphs will be generated with a fixed width equal to fontHeight. In most cases, this will produce an extra blank space for each glyph. If set to true, no extra space will be generated. Each glyph will have a width that matches its boundaries.
 
 #### startCodepoint
 
