@@ -331,6 +331,57 @@ module.exports = function(grunt) {
 					}]
 				}
 			},
+			css_rotate: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/css_rotate',
+				options: {
+					cssRotate: {
+						odnoklassniki: {
+							90: 'odnoklassniki-90',
+							180: 'odnoklassniki-180',
+							270: 'odnoklassniki-270',
+							360: 'odnoklassniki-360',
+							0: 'odnoklassniki-0'
+						},
+						single: {
+							45: 'odnoklassniki-45',
+						},
+						doesNotExist: {
+							90: 'doesNotExist-90'
+						}
+					}
+				}
+			},
+			css_rotate_bootstrap: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/css_rotate_bootstrap',
+				options: {
+					syntax: 'bootstrap',
+					cssRotate: {
+						odnoklassniki: {
+							90: 'odnoklassniki-90'
+						},
+						doesNotExist: {
+							90: 'doesNotExist-90'
+						}
+					}
+				}
+			},
+			css_rotate_less: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/css_rotate_less',
+				options: {
+					stylesheet: 'less',
+					cssRotate: {
+						odnoklassniki: {
+							90: 'odnoklassniki-90'
+						},
+						doesNotExist: {
+							90: 'doesNotExist-90'
+						}
+					}
+				}
+			}
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']
