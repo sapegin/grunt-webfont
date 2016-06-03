@@ -415,11 +415,15 @@ module.exports = function(grunt) {
 
 			var htmlStyles;
 
-			// Prepare relative font paths for injection into @font-face refs in HTML
-			var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
-			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.relativeFontPath));
-			var _fontSrc1 = o.fontSrc1.replace(relativeRe, htmlRelativeFontPath);
-			var _fontSrc2 = o.fontSrc2.replace(relativeRe, htmlRelativeFontPath);
+			var _fontSrc1 = o.fontSrc1;
+			var _fontSrc2 = o.fontSrc2;
+			if (o.relativeFontPath) {
+				// Prepare relative font paths for injection into @font-face refs in HTML
+				var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
+				var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.relativeFontPath));
+				_fontSrc1 = _fontSrc1.replace(relativeRe, htmlRelativeFontPath);
+				_fontSrc2 = _fontSrc2.replace(relativeRe, htmlRelativeFontPath);
+			}
 
 			_.extend(context, {
 				fontSrc1: _fontSrc1,

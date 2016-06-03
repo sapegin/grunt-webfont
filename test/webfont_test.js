@@ -61,6 +61,9 @@ exports.webfont = {
 			'Second EOT declaration.'
 		);
 
+		// the font is not embeded and we have no relative path. it should be at src:url("icons.eot")
+		test.ok(/@font-face\{[^}]+src:url\("icons.eot"\)[^}]+\}/.test(html.replace(/\s/g, '')), 'Font should be declared with src:url()');
+
 		// Every SVG file should have corresponding entry in CSS and HTML files
 		svgs.forEach(function(file, index) {
 			var id = path.basename(file, '.svg');
