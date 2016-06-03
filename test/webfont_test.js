@@ -891,6 +891,46 @@ exports.webfont = {
 		test.ok(fs.existsSync('test/tmp/custom_output/context-test.html'));
 
 		test.done();
+	},
+
+	css_rotate: function(test) {
+		var css = grunt.file.read('test/tmp/css_rotate/icons.css').replace(/\s/g, '');
+
+		test.ok(/\.icon_odnoklassniki-90:before\{[^}]+transform:rotate\(90deg\);\}/.test(css), 'glyph odnoklassniki-90 with deg 90 should be in the CSS file');
+		test.ok(/\.icon_odnoklassniki-180:before\{[^}]+transform:rotate\(180deg\);\}/.test(css), 'glyph odnoklassniki-180 with deg 180 should be in the CSS file');
+		test.ok(/\.icon_odnoklassniki-270:before\{[^}]+transform:rotate\(270deg\);\}/.test(css), 'glyph odnoklassniki-270 with deg 270 should be in the CSS file');
+
+		test.ok(!/\.icon_odnoklassniki-270:before\{[^}]+transform:rotate\(271deg\);\}/.test(css), 'glyph odnoklassniki-270 with deg 271 should not be in the CSS file');
+
+		['odnoklassniki-360', 'odnoklassniki-0', 'doesNotExist', 'doesNotExist-90'].forEach(function(glyph) {
+			test.ok(!find(css, '.icon_'+glyph), 'glyph '+glyph+' should not be in the CSS file');
+		});
+
+		test.done();
+	},
+
+	css_rotate_bootstrap: function(test) {
+		var css = grunt.file.read('test/tmp/css_rotate_bootstrap/icons.css').replace(/\s/g, '');
+
+		test.ok(/\.icon-odnoklassniki-90:before\{[^}]+transform:rotate\(90deg\);\}/.test(css), 'glyph odnoklassniki-90 with deg 90 should be in the CSS file');
+
+		['doesNotExist', 'doesNotExist-90'].forEach(function(glyph) {
+			test.ok(!find(css, '.icon-'+glyph), 'glyph '+glyph+' should not be in the CSS file');
+		});
+
+		test.done();
+	},
+
+	css_rotate_less: function(test) {
+		var less = grunt.file.read('test/tmp/css_rotate_less/icons.less').replace(/\s/g, '');
+
+		test.ok(/\.icon_odnoklassniki-90\{&:before\{[^}]+transform:rotate\(90deg\);\}\}/.test(less), 'glyph odnoklassniki-90 with deg 90 should be in the LESS file');
+
+		['doesNotExist', 'doesNotExist-90'].forEach(function(glyph) {
+			test.ok(!find(less, '.icon_'+glyph), 'glyph '+glyph+' should not be in the LESS file');
+		});
+
+		test.done();
 	}
 
 };

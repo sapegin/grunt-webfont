@@ -112,7 +112,8 @@ module.exports = function(grunt) {
 			cache: options.cache || path.join(__dirname, '..', '.cache'),
 			callback: options.callback,
 			customOutputs: options.customOutputs,
-			execMaxBuffer: options.execMaxBuffer || 1024 * 200
+			execMaxBuffer: options.execMaxBuffer || 1024 * 200,
+			cssRotate: options.cssRotate || {}
 		};
 
 		o = _.extend(o, {
@@ -331,6 +332,38 @@ module.exports = function(grunt) {
 				o['fontSrc'+(idx+1)] = font.join(fontSrcSeparator);
 			});
 			o.fontRawSrcs = fontSrcs;
+
+			if (typeof o.cssRotate === 'object' && Object.keys(o.cssRotate).length > 0) {
+				var cssRotate = {};
+				for (var glyph in o.cssRotate) {
+					var idx = o.glyphs.indexOf(glyph);
+					if (idx === -1) {
+						// we can only rotate an existing glyph
+						continue;
+					}
+					if (typeof o.cssRotate[glyph] === 'object' && Object.keys(o.cssRotate[glyph]).length > 0) {
+						var appendIdx = idx+1;
+						for (var deg in o.cssRotate[glyph]) {
+							if (!/^\d{1,3}$/.test(deg)) {
+								continue;
+							}
+							if (typeof deg !== 'number') {
+								deg = parseInt(deg, 10);
+							}
+							if (deg >= 360 || deg === 0 || o.glyphs.indexOf(o.cssRotate[glyph][deg]) !== -1) {
+								// existing glyph have priority before rotated and an angular degree lower than 1 or greather than 359 makes no sense
+								continue;
+							}
+							// append the rotated glyph direct after the source
+							o.glyphs.splice(appendIdx, 0, o.cssRotate[glyph][deg]);
+							o.codepoints[o.cssRotate[glyph][deg]] = o.codepoints[glyph];
+							cssRotate[o.cssRotate[glyph][deg]] = deg;
+							appendIdx++;
+						}
+					}
+				}
+				o.cssRotate = cssRotate;
+			}
 
 			// Convert codepoints to array of strings
 			var codepoints = [];

@@ -39,7 +39,13 @@
 <% if (stylesheet === 'less') { %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %> {
 	&:before {
-		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
+		content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";<% if (cssRotate[glyphs[glyphIdx]]) { %>
+		display: inline-block;
+		-webkit-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+		-moz-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+		-ms-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+		-o-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+		transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);<% } %>
 	}<% if (ie7) {%>
 	*zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x<%= codepoints[glyphIdx] %>;');
 	<% } %>
@@ -50,5 +56,11 @@
 }
 <% } %>
 .<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
-	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";
+	content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= codepoints[glyphIdx] %><% } %>";<% if (cssRotate[glyphs[glyphIdx]]) { %>
+	display: inline-block;
+	-webkit-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+	-moz-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+	-ms-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+	-o-transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);
+	transform: rotate(<%= cssRotate[glyphs[glyphIdx]] %>deg);<% } %>
 }<% } } } %>
