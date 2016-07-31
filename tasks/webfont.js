@@ -417,7 +417,7 @@ module.exports = function(grunt) {
 
 			// Prepare relative font paths for injection into @font-face refs in HTML
 			var relativeRe = new RegExp(_s.escapeRegExp(o.relativeFontPath), 'g');
-			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.relativeFontPath));
+			var htmlRelativeFontPath = normalizePath(path.relative(o.destHtml, o.dest));
 			var _fontSrc1 = o.fontSrc1.replace(relativeRe, htmlRelativeFontPath);
 			var _fontSrc2 = o.fontSrc2.replace(relativeRe, htmlRelativeFontPath);
 
