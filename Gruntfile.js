@@ -205,8 +205,7 @@ module.exports = function(grunt) {
 					stylesheet: 'less',
 					templateOptions: {
 						baseClass: 'glyph-icon',
-						classPrefix: 'glyph_',
-						mixinPrefix: 'make-icon-'
+						classPrefix: 'glyph_'
 					}
 				}
 			},

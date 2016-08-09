@@ -252,8 +252,7 @@ Extends/overrides CSS template or syntax’s JSON file. Allows custom class name
 options: {
 	templateOptions: {
 		baseClass: 'glyph-icon',
-		classPrefix: 'glyph_',
-		mixinPrefix: 'glyph-'
+		classPrefix: 'glyph_'
 	}
 }
 ```
@@ -504,8 +503,7 @@ webfont: {
 			syntax: 'bem',
 			templateOptions: {
 				baseClass: 'glyph-icon',
-				classPrefix: 'glyph_',
-				mixinPrefix: 'glyph-'
+				classPrefix: 'glyph_'
 			}
 		}
 	}
