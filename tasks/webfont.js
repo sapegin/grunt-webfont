@@ -81,6 +81,10 @@ module.exports = function(grunt) {
 			logger: logger,
 			fontBaseName: options.font || 'icons',
 			destCss: options.destCss || params.destCss || params.dest,
+			destScss: options.destScss || params.destScss || params.destCss || params.dest,
+			destSass: options.destSass || params.destSass || params.destCss || params.dest,
+			destLess: options.destLess || params.destLess || params.destCss || params.dest,
+			destStyl: options.destStyl || params.destStyl || params.destCss || params.dest,
 			dest: options.dest || params.dest,
 			relativeFontPath: options.relativeFontPath,
 			addHashes: options.hashes !== false,
@@ -88,7 +92,7 @@ module.exports = function(grunt) {
 			template: options.template,
 			syntax: options.syntax || 'bem',
 			templateOptions: options.templateOptions || {},
-			stylesheet: options.stylesheet || path.extname(options.template).replace(/^\./, '') || 'css',
+			stylesheets: options.stylesheets || [options.stylesheet || path.extname(options.template).replace(/^\./, '') || 'css'],
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			htmlDemoFilename: options.htmlDemoFilename,
@@ -117,6 +121,13 @@ module.exports = function(grunt) {
 
 		o = _.extend(o, {
 			fontName: o.fontBaseName,
+			destCssPaths: {
+				css: o.destCss,
+				scss: o.destScss,
+				sass: o.destSass,
+				less: o.destLess,
+				styl: o.destStyl
+			},
 			relativeFontPath: o.relativeFontPath || path.relative(o.destCss, o.dest),
 			destHtml: options.destHtml || o.destCss,
 			fontfaceStyles: has(o.styles, 'font'),
@@ -160,7 +171,9 @@ module.exports = function(grunt) {
 			}
 			else {
 				generatedFiles.push(getDemoFilePath());
-				generatedFiles.push(getCssFilePath());
+				o.stylesheets.forEach(function(stylesheet) {
+					generatedFiles.push(getCssFilePath(stylesheet));
+				});
 
 				regenerationNeeded = _.some(generatedFiles, function(filename) {
 					if (!filename) return false;
@@ -185,7 +198,7 @@ module.exports = function(grunt) {
 			cleanOutputDir,
 			generateFont,
 			generateWoff2Font,
-			generateStylesheet,
+			generateStylesheets,
 			generateDemoHtml,
 			generateCustomOutputs,
 			printDone
@@ -237,7 +250,9 @@ module.exports = function(grunt) {
 		 * @param {Function} done
 		 */
 		function createOutputDirs(done) {
-			mkdirp.sync(o.destCss);
+			o.stylesheets.forEach(function(stylesheet) {
+				mkdirp.sync(option(o.destCssPaths, stylesheet));
+			});
 			mkdirp.sync(o.dest);
 			done();
 		}
@@ -248,7 +263,7 @@ module.exports = function(grunt) {
 		 * @param {Function} done
 		 */
 		function cleanOutputDir(done) {
-			var htmlDemoFileMask = path.join(o.destCss, o.fontBaseName + '*.{' + o.stylesheet + ',html}');
+			var htmlDemoFileMask = path.join(o.destCss, o.fontBaseName + '*.{css,html}');
 			var files = glob.sync(htmlDemoFileMask).concat(wf.generatedFontFiles(o));
 			async.forEach(files, function(file, next) {
 				fs.unlink(file, next);
@@ -310,7 +325,28 @@ module.exports = function(grunt) {
 		 *
 		 * @param {Function} done
 		 */
-		function generateStylesheet(done) {
+		function generateStylesheets(done) {
+			// Convert codepoints to array of strings
+			var codepoints = [];
+			_.each(o.glyphs, function(name) {
+				codepoints.push(o.codepoints[name].toString(16));
+			});
+			o.codepoints = codepoints;
+
+			// Prepage glyph names to use as CSS classes
+			o.glyphs = _.map(o.glyphs, classnameize);
+
+			o.stylesheets.forEach(generateStylesheet);
+
+			done();
+		}
+
+		/**
+		 * Generate CSS
+		 *
+		 * @param {Stylesheet} stylesheet type: css, scss, ...
+		 */
+		function generateStylesheet(stylesheet) {
 			o.relativeFontPath = normalizePath(o.relativeFontPath);
 
 			// Generate font URLs to use in @font-face
@@ -324,23 +360,13 @@ module.exports = function(grunt) {
 				});
 			});
 
-			// Convert them to strings that could be used in CSS
-			var fontSrcSeparator = option(wf.fontSrcSeparators, o.stylesheet);
+			// Convert urls to strings that could be used in CSS
+			var fontSrcSeparator = option(wf.fontSrcSeparators, stylesheet);
 			fontSrcs.forEach(function(font, idx) {
 				// o.fontSrc1, o.fontSrc2
 				o['fontSrc'+(idx+1)] = font.join(fontSrcSeparator);
 			});
 			o.fontRawSrcs = fontSrcs;
-
-			// Convert codepoints to array of strings
-			var codepoints = [];
-			_.each(o.glyphs, function(name) {
-				codepoints.push(o.codepoints[name].toString(16));
-			});
-			o.codepoints = codepoints;
-
-			// Prepage glyph names to use as CSS classes
-			o.glyphs = _.map(o.glyphs, classnameize);
 
 			// Read JSON file corresponding to CSS template
 			var templateJson = readTemplate(o.template, o.syntax, '.json', true);
@@ -353,20 +379,19 @@ module.exports = function(grunt) {
 			var ext = path.extname(o.template) || '.css';  // Use extension of o.template file if given, or default to .css
 			o.cssTemplate = readTemplate(o.template, o.syntax, ext);
 			var cssContext = _.extend(o, {
-				iconsStyles: true
+				iconsStyles: true,
+				stylesheet: stylesheet
 			});
 
 			var css = renderTemplate(o.cssTemplate, cssContext);
 
 			// Fix CSS preprocessors comments: single line comments will be removed after compilation
-			if (has(['sass', 'scss', 'less', 'styl'], o.stylesheet)) {
+			if (has(['sass', 'scss', 'less', 'styl'], stylesheet)) {
 				css = css.replace(/\/\* *(.*?) *\*\//g, '// $1');
 			}
 
 			// Save file
-			fs.writeFileSync(getCssFilePath(), css);
-
-			done();
+			fs.writeFileSync(getCssFilePath(stylesheet), css);
 		}
 
 		/**
@@ -747,11 +772,12 @@ module.exports = function(grunt) {
 		/**
 		 * Return path of CSS file.
 		 *
+		 * @param {String} stylesheet (css, scss, ...)
 		 * @return {String}
 		 */
-		function getCssFilePath() {
-			var cssFilePrefix = option(wf.cssFilePrefixes, o.stylesheet);
-			return path.join(o.destCss, cssFilePrefix + o.fontBaseName + '.' + o.stylesheet);
+		function getCssFilePath(stylesheet) {
+			var cssFilePrefix = option(wf.cssFilePrefixes, stylesheet);
+			return path.join(option(o.destCssPaths, stylesheet), cssFilePrefix + o.fontBaseName + '.' + stylesheet);
 		}
 
 		/**
