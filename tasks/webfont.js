@@ -344,7 +344,7 @@ module.exports = function(grunt) {
 		/**
 		 * Generate CSS
 		 *
-		 * @param {Stylesheet} stylesheet type: css, scss, ...
+		 * @param {String} stylesheet type: css, scss, ...
 		 */
 		function generateStylesheet(stylesheet) {
 			o.relativeFontPath = normalizePath(o.relativeFontPath);

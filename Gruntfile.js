@@ -126,6 +126,15 @@ module.exports = function(grunt) {
 					stylesheet: 'less'
 				}
 			},
+			css_plus_scss: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/sass',
+				destCss: 'test/tmp/css',
+				destScss: 'test/tmp/scss',
+				options: {
+					stylesheets: ['css', 'scss']
+				}
+			},
 			stylus_bem: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/stylus_bem',
