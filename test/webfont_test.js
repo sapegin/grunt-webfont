@@ -388,6 +388,14 @@ exports.webfont = {
 		test.done();
 	},
 
+	css_plus_scss: function(test) {
+		test.ok(fs.existsSync('test/tmp/scss/_icons.scss'), 'SCSS file with underscore created.');
+		test.ok(!fs.existsSync('test/tmp/scss/icons.scss'), 'SCSS file without underscore not created.');
+		test.ok(fs.existsSync('test/tmp/css/icons.css'), 'CSS file is created.');
+
+		test.done();
+	},
+
 	stylus_bem: function(test) {
 		test.ok(fs.existsSync('test/tmp/stylus_bem/icons.styl'), 'Stylus file created.');
 		test.ok(!fs.existsSync('test/tmp/stylus_bem/icons.css'), 'CSS file not created.');

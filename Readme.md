@@ -119,7 +119,7 @@ Directory for resulting files.
 
 Type: `string` Default: _`dest` value_
 
-Directory for resulting CSS files (if different than font directory).
+Directory for resulting CSS files (if different than font directory). You can also define `destScss`, `destSass`, `destLess` and `destStyl` to specify a directory per stylesheet type.
 
 #### Options
 
@@ -257,11 +257,11 @@ options: {
 }
 ```
 
-#### stylesheet
+#### stylesheets
 
-Type: `string` Default: `'css'` or extension of `template`
+Type: `array` Default: `['css']` or extension of `template`
 
-Stylesheet type. Can be `css`, `sass`, `scss` or `less`. If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial).
+Stylesheet type. Can be `css`, `sass`, `scss` or `less`. If `sass` or `scss` is used, `_` will prefix the file (so it can be a used as a partial). You can define just `stylesheet` if you are generating just one type.
 
 #### relativeFontPath
 
