@@ -28,7 +28,7 @@ module.exports = function(o, allDone) {
 	var args = [
 		'fontforge',
 		'-script',
-		path.join(__dirname, 'fontforge/generate.py')
+		'"' + path.join(__dirname, 'fontforge/generate.py') + '"'
 	].join(' ');
 
 	var proc = exec(args, {maxBuffer: o.execMaxBuffer}, function(err, out, code) {
@@ -104,7 +104,7 @@ module.exports = function(o, allDone) {
 			logger.log( // cannot use error() because it will stop execution of callback of exec (which shows error message)
 				"fontforge process has unexpectedly closed.\n" +
 				"1. Try to run grunt in verbose mode to see fontforge output: " + chalk.bold('grunt --verbose webfont') + ".\n" +
-				"2. If stderr maxBuffer exceeded try to increase " + chalk.bold('execMaxBuffer') + ", see " + 
+				"2. If stderr maxBuffer exceeded try to increase " + chalk.bold('execMaxBuffer') + ", see " +
 					chalk.underline('https://github.com/sapegin/grunt-webfont#execMaxBuffer') + ". "
 			);
 		}
