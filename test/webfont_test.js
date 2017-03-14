@@ -307,6 +307,26 @@ exports.webfont = {
 		test.done();
 	},
 
+	enabled_template_variables: function(test) {
+		var cssFilename = 'test/tmp/enabled_template_variables/_icons.scss';
+
+		var css = grunt.file.read(cssFilename);
+
+		// There should be a variable declaration for scss preprocessor
+		test.ok(
+			find(css, '$icons-font-path= "../iamrelative/" !default;'),
+			'SCSS enable template variables: variable exists.'
+		);
+
+		// The variable declaration should be used
+		test.ok(
+			find(css, 'url($icons-font-path + "'),
+			'SCSS enable template variables: variable used.'
+		);
+
+		test.done();
+	},
+
 	html_template: function(test) {
 		var demo = grunt.file.read('test/tmp/html_template/icons.html');
 

@@ -339,6 +339,15 @@ module.exports = function(grunt) {
 					}]
 				}
 			},
+			enabled_template_variables: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/enabled_template_variables',
+				options: {
+					relativeFontPath: '../iamrelative',
+					fontPathVariables: true,
+					stylesheets: ['css', 'scss', 'less']
+				}
+			},
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']
