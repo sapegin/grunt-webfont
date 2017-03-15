@@ -373,7 +373,7 @@ def make_eot_name_headers(fontdata, nameTableDir):
         else:
             nameheaders.append(struct.pack('4x'))  # len = 0, padding = 0
 
-    return b''.join(nameheaders)
+    return ''.join(nameheaders)
 
 # just return a null-string (len = 0)
 def make_root_string():
@@ -445,11 +445,11 @@ def make_eot_header(fontdata):
                         *([eotSize, fontDataSize, version, flags] + panose + [charset, italic] +
                           [weight, fsType, magicNumber] + urange + codepage + [checkSumAdjustment]))
 
-    return b''.join((fixed, nameheaders, rootstring))
+    return ''.join((fixed, nameheaders, rootstring))
 
 
 def write_eot_font(eot, header, data):
-    open(eot,'wb').write(b''.join((header, data)))
+    open(eot,'wb').write(''.join((header, data)))
     return
 
 def main():
