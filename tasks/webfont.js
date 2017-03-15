@@ -87,6 +87,7 @@ module.exports = function(grunt) {
 			destStyl: options.destStyl || params.destStyl || params.destCss || params.dest,
 			dest: options.dest || params.dest,
 			relativeFontPath: options.relativeFontPath,
+			fontPathVariables: options.fontPathVariables || false,
 			addHashes: options.hashes !== false,
 			addLigatures: options.ligatures === true,
 			template: options.template,
@@ -355,7 +356,7 @@ module.exports = function(grunt) {
 				if (!has(o.types, type)) return;
 				wf.fontsSrcsMap[type].forEach(function(font, idx) {
 					if (font) {
-						fontSrcs[idx].push(generateFontSrc(type, font));
+						fontSrcs[idx].push(generateFontSrc(type, font, stylesheet));
 					}
 				});
 			});
@@ -680,17 +681,32 @@ module.exports = function(grunt) {
 		 *
 		 * @param {String} type Type of font
 		 * @param {Object} font URL or Base64 string
+		 * @param {String} stylesheet type: css, scss, ...
 		 * @return {String}
 		 */
-		function generateFontSrc(type, font) {
+		function generateFontSrc(type, font, stylesheet) {
 			var filename = template(o.fontFilename + font.ext, o);
+			var fontPathVariableName = o.fontFamilyName + '-font-path';
 
 			var url;
 			if (font.embeddable && has(o.embed, type)) {
 				url = embedFont(path.join(o.dest, filename));
 			}
 			else {
-				url = o.relativeFontPath + filename;
+				if (o.fontPathVariables &&  stylesheet !== 'css') {
+					if (stylesheet === 'less') {
+						fontPathVariableName = '@' + fontPathVariableName;
+						o.fontPathVariable = fontPathVariableName + ': "' + o.relativeFontPath + '";';
+					}
+					else {
+						fontPathVariableName = '$' + fontPathVariableName;
+						o.fontPathVariable = fontPathVariableName + '= "' + o.relativeFontPath + '" !default;';
+					}
+					url = filename;
+				}
+				else {
+					url = o.relativeFontPath + filename;
+				}
 				if (o.addHashes) {
 					if (url.indexOf('#iefix') === -1) {  // Do not add hashes for OldIE
 						// Put hash at the end of an URL or before #hash
@@ -700,6 +716,10 @@ module.exports = function(grunt) {
 			}
 
 			var src = 'url("' + url + '")';
+			if (o.fontPathVariables && stylesheet !== 'css') {
+				src = 'url(' + fontPathVariableName + ' + "' + url + '")';
+			}
+
 			if (font.format) src += ' format("' + font.format + '")';
 
 			return src;

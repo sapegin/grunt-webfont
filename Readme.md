@@ -271,6 +271,16 @@ Type: `string` Default: `null`
 
 Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with CSS preprocessors.
 
+#### fontPathVariables
+
+Type: `boolean` Default: `false`
+
+Create font-path variables for `less`, `scss` and `sass` files. Can be used to override the `relativeFontPath`
+in custom preprocessor tasks or configs. 
+
+The variable name is a combination of the `font` name appended with `-font-path`.
+ 
+
 #### version
 
 Type: `string` Default: `false`
@@ -619,6 +629,23 @@ And finally, the third, for `icon-web-home.html`, a file that has access to the 
 ## CSS Preprocessors Caveats
 
 You can change CSS file syntax using `stylesheet` option (see above). It change file extension (so you can specify any) with some tweaks. Replace all comments with single line comments (which will be removed after compilation).
+
+### Dynamic font-path
+You can enable the `fontPathVariables` in combination with `relativeFontPath` to create a overridable font-path. 
+
+For example scss:
+```scss
+$icons-font-path= "/relativeFontPath/" !default;
+@font-face {
+	font-family:"icons";
+	src:url($icons-font-path + "icons.eot");
+	src:url($icons-font-path + "icons.eot?#iefix") format("embedded-opentype"),
+		url($icons-font-path + "icons.woff") format("woff"),
+		url($icons-font-path + "icons.ttf") format("truetype");
+	font-weight:normal;
+	font-style:normal;
+}
+```
 
 ### Sass
 
