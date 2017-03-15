@@ -314,7 +314,7 @@ exports.webfont = {
 
 		// There should be a variable declaration for scss preprocessor
 		test.ok(
-			find(css, '$icons-font-path= "../iamrelative/" !default;'),
+			find(css, '$icons-font-path : "../iamrelative/" !default;'),
 			'SCSS enable template variables: variable exists.'
 		);
 

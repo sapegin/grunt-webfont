@@ -635,7 +635,7 @@ You can enable the `fontPathVariables` in combination with `relativeFontPath` to
 
 For example scss:
 ```scss
-$icons-font-path= "/relativeFontPath/" !default;
+$icons-font-path : "/relativeFontPath/" !default;
 @font-face {
 	font-family:"icons";
 	src:url($icons-font-path + "icons.eot");

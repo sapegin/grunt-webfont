@@ -696,11 +696,11 @@ module.exports = function(grunt) {
 				if (o.fontPathVariables &&  stylesheet !== 'css') {
 					if (stylesheet === 'less') {
 						fontPathVariableName = '@' + fontPathVariableName;
-						o.fontPathVariable = fontPathVariableName + ': "' + o.relativeFontPath + '";';
+						o.fontPathVariable = fontPathVariableName + ' : "' + o.relativeFontPath + '";';
 					}
 					else {
 						fontPathVariableName = '$' + fontPathVariableName;
-						o.fontPathVariable = fontPathVariableName + '= "' + o.relativeFontPath + '" !default;';
+						o.fontPathVariable = fontPathVariableName + ' : "' + o.relativeFontPath + '" !default;';
 					}
 					url = filename;
 				}
