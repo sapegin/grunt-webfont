@@ -618,7 +618,7 @@ And finally, the third, for `icon-web-home.html`, a file that has access to the 
         <h1><%= homeHeading %></h1>
         <p><%= homeMessage %></p>
         <ul>
-        	<% for (var i = 0; i < glpyhs.length; i++) { %>
+        	<% for (var i = 0; i < glyphs.length; i++) { %>
         	<li><a href="#"><%= glyphs[i] %></a></li>
         	<% } %>
         </ul>
