@@ -348,6 +348,16 @@ module.exports = function(grunt) {
 					stylesheets: ['css', 'scss', 'less']
 				}
 			},
+			filename_length: {
+				src: 'test/src_filename_length/*.svg',
+				dest: 'test/tmp/filename_length',
+				options: {
+					autoHint: false,
+					engine: 'node',
+					hashes: false,
+					types: 'woff'
+				}
+			},
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']

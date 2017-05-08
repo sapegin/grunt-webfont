@@ -622,7 +622,7 @@ module.exports = function(grunt) {
 		 * @return {Integer}
 		 */
 		function getNextCodepoint() {
-			while (_.includes(o.codepoints, currentCodepoint)) {
+			while (_.invert(o.codepoints).hasOwnProperty(currentCodepoint)) {
 				currentCodepoint++;
 			}
 			return currentCodepoint;

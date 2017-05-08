@@ -916,6 +916,20 @@ exports.webfont = {
 		test.ok(fs.existsSync('test/tmp/custom_output/context-test.html'));
 
 		test.done();
+	},
+
+	filename_length: function(test) {
+
+		// File should have been created.
+		test.ok(fs.existsSync('test/tmp/filename_length/icons.css'));
+
+		// File should have been created.
+		test.ok(fs.existsSync('test/tmp/filename_length/icons.woff'));
+
+		// File should have been created.
+		test.ok(fs.existsSync('test/tmp/filename_length/icons.html'));
+
+		test.done();
 	}
 
 };
