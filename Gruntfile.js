@@ -363,7 +363,8 @@ module.exports = function(grunt) {
 				dest: 'test/tmp/timestamp_same',
 				options: {
 					fontFilename: 'same_1',
-					timestamp: 0
+					timestamp: 0,
+					engine: 'node'
 				}
 			},
 			timestamp_same_2: {
@@ -371,7 +372,8 @@ module.exports = function(grunt) {
 				dest: 'test/tmp/timestamp_same',
 				options: {
 					fontFilename: 'same_2',
-					timestamp: 0
+					timestamp: 0,
+					engine: 'node'
 				}
 			},
 			timestamp_different_1: {
@@ -379,14 +381,16 @@ module.exports = function(grunt) {
 				dest: 'test/tmp/timestamp_different',
 				options: {
 					fontFilename: 'different_1',
-					timestamp: 0
+					timestamp: 0,
+					engine: 'node'
 				}
 			},
 			timestamp_different_2: {
 				src: 'test/src/*.svg',
 				dest: 'test/tmp/timestamp_different',
 				options: {
-					fontFilename: 'different_2'
+					fontFilename: 'different_2',
+					engine: 'node'
 				}
 			},
 		},
