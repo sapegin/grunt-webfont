@@ -6,6 +6,8 @@ var path = require('path');
 var grunt = require('grunt');
 var parseXMLString = require('xml2js').parseString;
 var wf = require('../tasks/util/util');
+var crypto = require('crypto');
+var Promise = require('promise');
 
 function find(haystack, needle) {
 	return haystack.indexOf(needle) !== -1;
@@ -930,6 +932,52 @@ exports.webfont = {
 		test.ok(fs.existsSync('test/tmp/filename_length/icons.html'));
 
 		test.done();
-	}
+	},
+
+	// If font created multiple times with same value as timestamp option
+	// then md5 of created files must be the same too
+	timestamp_same: function (test) {
+		var promise_1 = new Promise(function(resolve, reject) {
+			fs.readFile('test/tmp/timestamp_same/same_1.ttf', function (err, data) {
+				resolve(crypto.createHash('md5').update(data, 'utf8').digest('hex'));
+			});
+		});
+
+		var promise_2 = new Promise(function(resolve, reject) {
+			fs.readFile('test/tmp/timestamp_same/same_2.ttf', function (err, data) {
+				resolve(crypto.createHash('md5').update(data, 'utf8').digest('hex'));
+			});
+		});
+
+		Promise.all([promise_1, promise_2])
+			.then(function(data) {
+				// md5 must be the same
+				test.ok(data[0] === data[1]);
+				test.done();
+			});
+	},
+
+	// If font created multiple times with different value as timestamp option
+	// then md5 of created files must be different
+	timestamp_different: function (test) {
+		var promise_1 = new Promise(function(resolve, reject) {
+			fs.readFile('test/tmp/timestamp_different/different_1.ttf', function (err, data) {
+				resolve(crypto.createHash('md5').update(data, 'utf8').digest('hex'));
+			});
+		});
+
+		var promise_2 = new Promise(function(resolve, reject) {
+			fs.readFile('test/tmp/timestamp_different/different_2.ttf', function (err, data) {
+				resolve(crypto.createHash('md5').update(data, 'utf8').digest('hex'));
+			});
+		});
+
+		Promise.all([promise_1, promise_2])
+			.then(function(data) {
+				// md5 must be the different
+				test.ok(data[0] !== data[1]);
+				test.done();
+			});
+	},
 
 };

@@ -358,6 +358,37 @@ module.exports = function(grunt) {
 					types: 'woff'
 				}
 			},
+			timestamp_same_1: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/timestamp_same',
+				options: {
+					fontFilename: 'same_1',
+					timestamp: 0
+				}
+			},
+			timestamp_same_2: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/timestamp_same',
+				options: {
+					fontFilename: 'same_2',
+					timestamp: 0
+				}
+			},
+			timestamp_different_1: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/timestamp_different',
+				options: {
+					fontFilename: 'different_1',
+					timestamp: 0
+				}
+			},
+			timestamp_different_2: {
+				src: 'test/src/*.svg',
+				dest: 'test/tmp/timestamp_different',
+				options: {
+					fontFilename: 'different_2'
+				}
+			},
 		},
 		nodeunit: {
 			all: ['test/webfont_test.js']

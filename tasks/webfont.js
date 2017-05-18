@@ -118,7 +118,7 @@ module.exports = function(grunt) {
 			callback: options.callback,
 			customOutputs: options.customOutputs,
 			execMaxBuffer: options.execMaxBuffer || 1024 * 200,
-			ts: (options.ts === 0) ? 0 : options.ts || Math.floor(Date.now() / 1000)
+			timestamp: (options.timestamp === 0) ? 0 : options.timestamp || Math.floor(Date.now() / 1000)
 		};
 
 		o = _.extend(o, {
