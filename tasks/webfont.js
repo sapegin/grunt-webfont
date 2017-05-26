@@ -717,7 +717,12 @@ module.exports = function(grunt) {
 
 			var src = 'url("' + url + '")';
 			if (o.fontPathVariables && stylesheet !== 'css') {
-				src = 'url(' + fontPathVariableName + ' + "' + url + '")';
+				if (stylesheet === 'less') {
+					src = 'url("@{' + fontPathVariableName.replace('@','') + '}' + url + '")';
+				}
+				else {
+					src = 'url(' + fontPathVariableName + ' + "' + url + '")';
+				}
 			}
 
 			if (font.format) src += ' format("' + font.format + '")';
