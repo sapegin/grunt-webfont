@@ -308,20 +308,42 @@ exports.webfont = {
 	},
 
 	enabled_template_variables: function(test) {
-		var cssFilename = 'test/tmp/enabled_template_variables/_icons.scss';
+		var scssFilename = 'test/tmp/enabled_template_variables/_icons.scss';
+		var lessFilename = 'test/tmp/enabled_template_variables/icons.less';
+		var htmlFilename = 'test/tmp/enabled_template_variables/icons.html';
 
-		var css = grunt.file.read(cssFilename);
+		var scss = grunt.file.read(scssFilename);
+		var less = grunt.file.read(lessFilename);
+		var html = grunt.file.read(htmlFilename);
 
 		// There should be a variable declaration for scss preprocessor
 		test.ok(
-			find(css, '$icons-font-path : "../iamrelative/" !default;'),
+			find(scss, '$icons-font-path : "../iamrelative/" !default;'),
 			'SCSS enable template variables: variable exists.'
 		);
 
-		// The variable declaration should be used
+		// There should be a variable declaration for scss preprocessor
 		test.ok(
-			find(css, 'url($icons-font-path + "'),
-			'SCSS enable template variables: variable used.'
+			find(scss, '$icons-font-path : "../iamrelative/" !default;'),
+			'SCSS enable template variables: variable exists.'
+		);
+
+		// There should be a variable declaration for less preprocessor
+		test.ok(
+			find(less, '@icons-font-path : "../iamrelative/";'),
+			'LESS enable template variables: variable exists.'
+		);
+
+		// The variable should be used in the less file
+		test.ok(
+			find(less, 'url("@{icons-font-path}icons'),
+			'LESS enable template variables: variable used.'
+		);
+
+		// The LESS variable should not be included in the html demo source
+		test.ok(
+			!find(html, 'url("@{icons-font-path}icons'),
+			'Path variables were found in the HTML demo.'
 		);
 
 		test.done();

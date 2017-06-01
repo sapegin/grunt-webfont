@@ -337,7 +337,9 @@ module.exports = function(grunt) {
 			// Prepage glyph names to use as CSS classes
 			o.glyphs = _.map(o.glyphs, classnameize);
 
-			o.stylesheets.forEach(generateStylesheet);
+			o.stylesheets.sort(function(a, b) {
+				return a === 'css' ? 1 : -1;
+			}).forEach(generateStylesheet);
 
 			done();
 		}
@@ -717,7 +719,12 @@ module.exports = function(grunt) {
 
 			var src = 'url("' + url + '")';
 			if (o.fontPathVariables && stylesheet !== 'css') {
-				src = 'url(' + fontPathVariableName + ' + "' + url + '")';
+				if (stylesheet === 'less') {
+					src = 'url("@{' + fontPathVariableName.replace('@','') + '}' + url + '")';
+				}
+				else {
+					src = 'url(' + fontPathVariableName + ' + "' + url + '")';
+				}
 			}
 
 			if (font.format) src += ' format("' + font.format + '")';
