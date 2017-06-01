@@ -310,9 +310,11 @@ exports.webfont = {
 	enabled_template_variables: function(test) {
 		var scssFilename = 'test/tmp/enabled_template_variables/_icons.scss';
 		var lessFilename = 'test/tmp/enabled_template_variables/icons.less';
+		var htmlFilename = 'test/tmp/enabled_template_variables/icons.html';
 
 		var scss = grunt.file.read(scssFilename);
 		var less = grunt.file.read(lessFilename);
+		var html = grunt.file.read(htmlFilename);
 
 		// There should be a variable declaration for scss preprocessor
 		test.ok(
@@ -336,6 +338,12 @@ exports.webfont = {
 		test.ok(
 			find(less, 'url("@{icons-font-path}icons'),
 			'LESS enable template variables: variable used.'
+		);
+
+		// The LESS variable should not be included in the html demo source
+		test.ok(
+			!find(html, 'url("@{icons-font-path}icons'),
+			'Path variables were found in the HTML demo.'
 		);
 
 		test.done();
