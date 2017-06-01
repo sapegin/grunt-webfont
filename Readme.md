@@ -4,8 +4,6 @@
 [![Build Status](https://travis-ci.org/sapegin/grunt-webfont.svg)](https://travis-ci.org/sapegin/grunt-webfont)
 [![Downloads on npm](http://img.shields.io/npm/dm/grunt-webfont.svg?style=flat)](https://www.npmjs.com/package/grunt-webfont)
 
-**grunt-webfont needs a new project maintainer: [let me know](http://sapegin.me/) if you want to help.**
-
 Generate custom icon webfonts from SVG files via Grunt. Inspired by [Font Custom](https://github.com/FontCustom/fontcustom).
 
 This task will make all you need to use font-face icon on your website: font in all needed formats, CSS/Sass/Less/Stylus and HTML demo page.
@@ -276,10 +274,10 @@ Custom font path. Will be used instead of `destCss` *in* CSS file. Useful with C
 Type: `boolean` Default: `false`
 
 Create font-path variables for `less`, `scss` and `sass` files. Can be used to override the `relativeFontPath`
-in custom preprocessor tasks or configs. 
+in custom preprocessor tasks or configs.
 
 The variable name is a combination of the `font` name appended with `-font-path`.
- 
+
 
 #### version
 
@@ -631,7 +629,7 @@ And finally, the third, for `icon-web-home.html`, a file that has access to the 
 You can change CSS file syntax using `stylesheet` option (see above). It change file extension (so you can specify any) with some tweaks. Replace all comments with single line comments (which will be removed after compilation).
 
 ### Dynamic font-path
-You can enable the `fontPathVariables` in combination with `relativeFontPath` to create a overridable font-path. 
+You can enable the `fontPathVariables` in combination with `relativeFontPath` to create a overridable font-path.
 
 For example scss:
 ```scss
