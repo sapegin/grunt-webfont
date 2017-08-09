@@ -714,6 +714,9 @@ module.exports = function(grunt) {
 						// Put hash at the end of an URL or before #hash
 						url = url.replace(/(#|$)/, '?' + o.hash + '$1');
 					}
+					else {
+						url = url.replace(/(#|$)/, o.hash + '$1');
+					}
 				}
 			}
 
