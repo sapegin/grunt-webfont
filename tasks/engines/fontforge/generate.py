@@ -4,6 +4,7 @@ import fontforge
 import os
 import sys
 import json
+import re
 from subprocess import call
 from distutils.spawn import find_executable
 
@@ -49,6 +50,11 @@ for dirname, dirnames, filenames in os.walk(args['inputDir']):
 			# Replace the <switch> </switch> tags with nothing
 			svgtext = svgtext.replace('<switch>', '')
 			svgtext = svgtext.replace('</switch>', '')
+
+			if args['normalize']:
+				# Replace the width and the height
+				svgtext = re.sub(r'(<svg[^>]*)width="[^"]*"([^>]*>)', r'\1\2', svgtext)
+				svgtext = re.sub(r'(<svg[^>]*)height="[^"]*"([^>]*>)', r'\1\2', svgtext)
 
 			# Remove all contents of file so that we can write out the new contents
 			svgfile.truncate()
