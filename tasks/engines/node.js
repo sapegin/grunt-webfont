@@ -135,7 +135,9 @@ module.exports = function(o, allDone) {
 					unicode: [String.fromCodePoint(o.codepoints[name])],
 					name: name
 				};
-				if (o.addLigatures) {
+				if (o.ligaturesOnly) {
+					stream.metadata.unicode = [name];
+				} else if (o.addLigatures) {
 					stream.metadata.unicode.push(name);
 				}
 				fileDone(null, stream);
