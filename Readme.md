@@ -1,3 +1,11 @@
+# grunt-webfont-plus
+
+This is a fork of [grunt-webfont](https://github.com/sapegin/grunt-webfont) intended to publish unreleased commits to [npmjs.com](https://www.npmjs.com/).
+
+This will not be maintained independently, so refer to the original repo for future updates and releases.
+
+-- Jeff Cooper
+
 # SVG to webfont converter for Grunt
 
 [![Powered by You](http://sapegin.github.io/powered-by-you/badge.svg)](http://sapegin.github.io/powered-by-you/)

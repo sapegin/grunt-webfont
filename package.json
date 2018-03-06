@@ -1,8 +1,8 @@
 {
-  "name": "grunt-webfont",
+  "name": "grunt-webfont-plus",
   "description": "Ultimate SVG to webfont converter for Grunt.",
-  "version": "1.7.1",
-  "homepage": "https://github.com/sapegin/grunt-webfont",
+  "version": "1.7.1-plus.1",
+  "homepage": "https://github.com/cuperman/grunt-webfont",
   "author": {
     "name": "Artem Sapegin",
     "url": "http://sapegin.me/"
@@ -13,10 +13,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/sapegin/grunt-webfont.git"
+    "url": "git://github.com/cuperman/grunt-webfont.git"
   },
   "bugs": {
-    "url": "https://github.com/sapegin/grunt-webfont/issues"
+    "url": "https://github.com/cuperman/grunt-webfont/issues"
   },
   "license": "MIT",
   "main": "tasks/webfont.js",
