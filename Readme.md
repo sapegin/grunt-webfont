@@ -474,6 +474,12 @@ At compile-time each template will have access to the same context as the compil
 #### execMaxBuffer
  If you get stderr maxBuffer exceeded warning message, engine probably logged a lot of warning messages. To see this warnings run grunt in verbose mode `grunt --verbose`. To go over this warning you can try to increase buffer size by this option. Default value is `1024 * 200`
 
+#### timestamp
+ 
+Type: `number` Default: `Date.now()`
+Unix timestamp (in seconds) to override font creation time
+NOTE: Work only with node engine
+
 ### Config Examples
 
 #### Simple font generation

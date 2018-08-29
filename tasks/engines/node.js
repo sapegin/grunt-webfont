@@ -54,7 +54,9 @@ module.exports = function(o, allDone) {
 
 		ttf: function(done) {
 			getFont('svg', function(svgFont) {
-				var font = svg2ttf(svgFont, {});
+				var font = svg2ttf(svgFont, {
+					ts: o.timestamp
+				});
 				font = new Buffer(font.buffer);
 				autohintTtfFont(font, function(hintedFont) {
 					// ttfautohint is optional

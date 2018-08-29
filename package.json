@@ -53,6 +53,7 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-jscs": "~1.0.0",
     "load-grunt-tasks": "~3.4.0",
+    "promise": "^7.1.1",
     "stylus": "~0.53.0",
     "xml2js": "~0.4.16"
   },
