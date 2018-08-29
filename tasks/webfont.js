@@ -318,7 +318,7 @@ module.exports = function(grunt) {
 
 			// Save
 			var woff2FontPath = wf.getFontPath(o, 'woff2');
-			fs.writeFile(woff2FontPath, woffFont, done);
+			fs.writeFile(woff2FontPath, woffFont, function() {done();});
 		}
 
 		/**
