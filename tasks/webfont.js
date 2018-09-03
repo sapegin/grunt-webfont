@@ -90,6 +90,7 @@ module.exports = function(grunt) {
 			fontPathVariables: options.fontPathVariables || false,
 			addHashes: options.hashes !== false,
 			addLigatures: options.ligatures === true,
+			ligaturesOnly: options.ligaturesOnly === true,
 			template: options.template,
 			syntax: options.syntax || 'bem',
 			templateOptions: options.templateOptions || {},

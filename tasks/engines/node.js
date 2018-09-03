@@ -15,7 +15,7 @@ module.exports = function(o, allDone) {
 	var exec = require('child_process').exec;
 	var _ = require('lodash');
 	var StringDecoder = require('string_decoder').StringDecoder;
-	var svgicons2svgfont = require('svgicons2svgfont');
+	var SVGIcons2SVGFontStream = require('svgicons2svgfont');
 	var svg2ttf = require('svg2ttf');
 	var ttf2woff = require('ttf2woff');
 	var ttf2eot = require('ttf2eot');
@@ -33,7 +33,7 @@ module.exports = function(o, allDone) {
 			var font = '';
 			var decoder = new StringDecoder('utf8');
 			svgFilesToStreams(o.files, function(streams) {
-				var stream = svgicons2svgfont(streams, {
+				var stream = new SVGIcons2SVGFontStream({
 					fontName: o.fontFamilyName,
 					fontHeight: o.fontHeight,
 					descent: o.descent,
@@ -44,11 +44,16 @@ module.exports = function(o, allDone) {
 				});
 				stream.on('data', function(chunk) {
 					font += decoder.write(chunk);
-				});
-				stream.on('end', function() {
+				}).on('finish',function() {
 					fonts.svg = font;
 					done(font);
 				});
+
+
+				streams.forEach(function(glyph) {
+					stream.write(glyph);
+				});
+				stream.end();
 			});
 		},
 
@@ -126,11 +131,16 @@ module.exports = function(o, allDone) {
 		async.map(files, function(file, fileDone) {
 
 			function fileStreamed(name, stream) {
-				fileDone(null, {
-					codepoint: o.codepoints[name],
-					name: name,
-					stream: stream
-				});
+				stream.metadata = {
+					unicode: [String.fromCodePoint(o.codepoints[name])],
+					name: name
+				};
+				if (o.ligaturesOnly) {
+					stream.metadata.unicode = [name];
+				} else if (o.addLigatures) {
+					stream.metadata.unicode.push(name);
+				}
+				fileDone(null, stream);
 			}
 
 			function streamSVG(name, file) {
