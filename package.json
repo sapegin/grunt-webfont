@@ -34,7 +34,7 @@
     "lodash": "~4.17.10",
     "memorystream": "~0.3.1",
     "mkdirp": "~0.5.1",
-    "svg2ttf": "~2.1.1",
+    "svg2ttf": "~4.1.0",
     "svgicons2svgfont": "~1.1.0",
     "svgo": "~0.6.1",
     "temp": "~0.8.3",
