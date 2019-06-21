@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 		 * Check for `dest` param on either target config or global options object
 		 */
 		if (_.isUndefined(params.dest) && _.isUndefined(options.dest)) {
-			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('.')
-				+ ' or ' + [this.name, this.target, 'options.dest'].join('.') + ' missing.');
+			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('.') +
+				' or ' + [this.name, this.target, 'options.dest'].join('.') + ' missing.');
 		}
 
 		if (options.skip) {
@@ -93,14 +93,14 @@ module.exports = function(grunt) {
 			template: options.template,
 			syntax: options.syntax || 'bem',
 			templateOptions: options.templateOptions || {},
-			stylesheets: options.stylesheets || [options.stylesheet || path.extname(options.template).replace(/^\./, '') || 'css'],
+			stylesheets: options.stylesheets || [ options.stylesheet || path.extname(options.template).replace(/^\./, '') || 'css' ],
 			htmlDemo: options.htmlDemo !== false,
 			htmlDemoTemplate: options.htmlDemoTemplate,
 			htmlDemoFilename: options.htmlDemoFilename,
 			styles: optionToArray(options.styles, 'font,icon'),
 			types: optionToArray(options.types, 'eot,woff,ttf'),
 			order: optionToArray(options.order, wf.fontFormats),
-			embed: options.embed === true ? ['woff'] : optionToArray(options.embed, false),
+			embed: options.embed === true ? [ 'woff' ] : optionToArray(options.embed, false),
 			rename: options.rename || path.basename,
 			engine: options.engine || 'fontforge',
 			autoHint: options.autoHint !== false,
@@ -150,14 +150,14 @@ module.exports = function(grunt) {
 		// Check or generate codepoints
 		// @todo Codepoint can be a Unicode code or character.
 		var currentCodepoint = o.startCodepoint;
-		if (!o.codepoints) o.codepoints = {};
-		if (o.codepointsFile) o.codepoints = readCodepointsFromFile();
+		if (!o.codepoints) {o.codepoints = {};}
+		if (o.codepointsFile) {o.codepoints = readCodepointsFromFile();}
 		o.glyphs.forEach(function(name) {
 			if (!o.codepoints[name]) {
 				o.codepoints[name] = getNextCodepoint();
 			}
 		});
-		if (o.codepointsFile) saveCodepointsToFile();
+		if (o.codepointsFile) {saveCodepointsToFile();}
 
 		// Check if we need to generate font
 		var previousHash = readHash(this.name, this.target);
@@ -177,7 +177,7 @@ module.exports = function(grunt) {
 				});
 
 				regenerationNeeded = _.some(generatedFiles, function(filename) {
-					if (!filename) return false;
+					if (!filename) {return false;}
 					if (!fs.existsSync(filename)) {
 						logger.verbose('File', filename, ' is missed.');
 						return true;
@@ -355,7 +355,7 @@ module.exports = function(grunt) {
 			// Generate font URLs to use in @font-face
 			var fontSrcs = [[], []];
 			o.order.forEach(function(type) {
-				if (!has(o.types, type)) return;
+				if (!has(o.types, type)) {return;}
 				wf.fontsSrcsMap[type].forEach(function(font, idx) {
 					if (font) {
 						fontSrcs[idx].push(generateFontSrc(type, font, stylesheet));
@@ -367,16 +367,16 @@ module.exports = function(grunt) {
 			var fontSrcSeparator = option(wf.fontSrcSeparators, stylesheet);
 			fontSrcs.forEach(function(font, idx) {
 				// o.fontSrc1, o.fontSrc2
-				o['fontSrc'+(idx+1)] = font.join(fontSrcSeparator);
+				o['fontSrc' + (idx + 1)] = font.join(fontSrcSeparator);
 			});
 			o.fontRawSrcs = fontSrcs;
 
 			// Read JSON file corresponding to CSS template
 			var templateJson = readTemplate(o.template, o.syntax, '.json', true);
-			if (templateJson) o = _.extend(o, JSON.parse(templateJson.template));
+			if (templateJson) {o = _.extend(o, JSON.parse(templateJson.template));}
 
 			// Now override values with templateOptions
-			if (o.templateOptions) o = _.extend(o, o.templateOptions);
+			if (o.templateOptions) {o = _.extend(o, o.templateOptions);}
 
 			// Generate CSS
 			var ext = path.extname(o.template) || '.css';  // Use extension of o.template file if given, or default to .css
@@ -401,7 +401,7 @@ module.exports = function(grunt) {
 		 * Gets the codepoints from the set filepath in o.codepointsFile
 		 */
 		function readCodepointsFromFile(){
-			if (!o.codepointsFile) return {};
+			if (!o.codepointsFile) {return {};}
 			if (!fs.existsSync(o.codepointsFile)){
 				logger.verbose('Codepoints file not found');
 				return {};
@@ -415,12 +415,13 @@ module.exports = function(grunt) {
 		 * Saves the codespoints to the set file
 		 */
 		function saveCodepointsToFile(){
-			if (!o.codepointsFile) return;
+			if (!o.codepointsFile) {return;}
 			var codepointsToString = JSON.stringify(o.codepoints, null, 4);
 			try {
 				fs.writeFileSync(o.codepointsFile, codepointsToString);
 				logger.verbose('Codepoints saved to file "' + o.codepointsFile + '".');
-			} catch (err) {
+			}
+			catch (err) {
 				logger.error(err.message);
 			}
 		}
@@ -665,7 +666,7 @@ module.exports = function(grunt) {
 		 * @return {String}
 		 */
 		function normalizePath(filepath) {
-			if (!filepath.length) return filepath;
+			if (!filepath.length) {return filepath;}
 
 			// Make all slashes forward
 			filepath = filepath.replace(/\\/g, '/');
@@ -730,7 +731,7 @@ module.exports = function(grunt) {
 				}
 			}
 
-			if (font.format) src += ' format("' + font.format + '")';
+			if (font.format) {src += ' format("' + font.format + '")';}
 
 			return src;
 		}
@@ -744,9 +745,9 @@ module.exports = function(grunt) {
 		 * @return {Object} {filename: 'Template filename', template: 'Template code'}
 		 */
 		function readTemplate(template, syntax, ext, optional) {
-			var filename = template
-				? path.resolve(template.replace(path.extname(template), ext))
-				: path.join(__dirname, 'templates/' + syntax + ext)
+			var filename = template ?
+				path.resolve(template.replace(path.extname(template), ext)) :
+				path.join(__dirname, 'templates/' + syntax + ext)
 			;
 			if (fs.existsSync(filename)) {
 				return {
@@ -816,7 +817,7 @@ module.exports = function(grunt) {
 		 * @return {String}
 		 */
 		function getDemoFilePath() {
-			if (!o.htmlDemo) return null;
+			if (!o.htmlDemo) {return null;}
 			var name = o.htmlDemoFilename || o.fontBaseName;
 			return path.join(o.destHtml, name + '.html');
 		}
@@ -825,7 +826,7 @@ module.exports = function(grunt) {
 		 * Return path of HTML demo file or `null` if feature was disabled
 		 */
 		function getDemoPath() {
-			if (!o.htmlDemo) return null;
+			if (!o.htmlDemo) {return null;}
 			return o.destHtml;
 		}
 

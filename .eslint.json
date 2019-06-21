@@ -1,0 +1,93 @@
+{
+  "rules": {
+    "curly": [
+      2,
+      "all"
+    ],
+    "keyword-spacing": [
+      2,
+      {}
+    ],
+    "wrap-iife": 2,
+    "space-before-function-paren": [
+      2,
+      "never"
+    ],
+    "one-var": [
+      2,
+      "never"
+    ],
+    "array-bracket-spacing": [
+      2,
+      "never",
+      {
+        "singleValue": true
+      }
+    ],
+    "space-in-parens": [
+      2,
+      "never"
+    ],
+    "key-spacing": [
+      2,
+      {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "comma-style": [
+      2,
+      "last"
+    ],
+    "operator-linebreak": [
+      2,
+      "after"
+    ],
+    "space-unary-ops": [
+      2,
+      {
+        "words": false,
+        "nonwords": false
+      }
+    ],
+    "space-infix-ops": 2,
+    "camelcase": [
+      2,
+      {
+        "properties": "never"
+      }
+    ],
+    "no-with": 2,
+    "no-multi-str": 2,
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    "indent": [
+      2,
+      "tab",
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "no-mixed-spaces-and-tabs": 2,
+    "no-trailing-spaces": 2,
+    "brace-style": [
+      2,
+      "stroustrup",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "eol-last": 2,
+    "max-len": [
+      2,
+      140
+    ],
+    "consistent-this": [
+      2,
+      "that"
+    ],
+    "dot-notation": 2
+  }
+}

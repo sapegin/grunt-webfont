@@ -371,16 +371,16 @@ module.exports = function(grunt) {
 		watch: {
 			scripts: {
 				files: '<%= jshint.all %>',
-				tasks: ['jshint', 'jscs'],
+				tasks: ['jshint', 'eslint'],
 				options: {
 					debounceDelay: 100,
 					nospawn: true
 				}
 			},
 		},
-		jscs: {
+		eslint: {
 			options: {
-				config: ".jscs.json",
+				configFile: ".eslint.json",
 			},
 			all: ['tasks/*.js']
 		},
@@ -390,6 +390,6 @@ module.exports = function(grunt) {
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('test', ['nodeunit']);
-	grunt.registerTask('default', ['jshint', 'jscs', 'clean', 'webfont', 'test', 'clean']);
+	grunt.registerTask('default', ['jshint', 'eslint', 'clean', 'webfont', 'test', 'clean']);
 
 };
