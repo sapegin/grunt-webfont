@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 		 * Check for `dest` param on either target config or global options object
 		 */
 		if (_.isUndefined(params.dest) && _.isUndefined(options.dest)) {
-			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('.')
-				+ ' or ' + [this.name, this.target, 'options.dest'].join('.') + ' missing.');
+			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('.') +
+				' or ' + [this.name, this.target, 'options.dest'].join('.') + ' missing.');
 		}
 
 		if (options.skip) {
@@ -399,6 +399,7 @@ module.exports = function(grunt) {
 
 		/**
 		 * Gets the codepoints from the set filepath in o.codepointsFile
+		 * @returns {Object} the codepoints, or an empty object if not found
 		 */
 		function readCodepointsFromFile(){
 			if (!o.codepointsFile) return {};
@@ -420,7 +421,8 @@ module.exports = function(grunt) {
 			try {
 				fs.writeFileSync(o.codepointsFile, codepointsToString);
 				logger.verbose('Codepoints saved to file "' + o.codepointsFile + '".');
-			} catch (err) {
+			}
+			catch (err) {
 				logger.error(err.message);
 			}
 		}
@@ -741,12 +743,13 @@ module.exports = function(grunt) {
 		 * @param {String} template Template file path
 		 * @param {String} syntax Syntax (bem, bootstrap, etc.)
 		 * @param {String} ext Extention of the template
+		 * @param {Boolean} optional If true, return `undefined` if the template file does not exist, otherwise fail
 		 * @return {Object} {filename: 'Template filename', template: 'Template code'}
 		 */
 		function readTemplate(template, syntax, ext, optional) {
-			var filename = template
-				? path.resolve(template.replace(path.extname(template), ext))
-				: path.join(__dirname, 'templates/' + syntax + ext)
+			var filename = template ?
+				path.resolve(template.replace(path.extname(template), ext)) :
+				path.join(__dirname, 'templates/' + syntax + ext)
 			;
 			if (fs.existsSync(filename)) {
 				return {
@@ -823,6 +826,7 @@ module.exports = function(grunt) {
 
 		/**
 		 * Return path of HTML demo file or `null` if feature was disabled
+		 * @returns {String} path of the HTML demo file
 		 */
 		function getDemoPath() {
 			if (!o.htmlDemo) return null;

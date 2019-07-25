@@ -142,7 +142,7 @@ module.exports = function(o, allDone) {
 				var svg = fs.readFileSync(file, 'utf8');
 				var svgo = new SVGO();
 				try {
-					svgo.optimize(svg, function(res) {
+					svgo.optimize(svg).then(res => {
 						var stream = new MemoryStream(res.data, {
 							writable: false
 						});
