@@ -33,7 +33,7 @@ module.exports = function(o, allDone) {
 			var font = '';
 			var decoder = new StringDecoder('utf8');
 			svgFilesToStreams(o.files, function(streams) {
-				var stream = svgicons2svgfont(streams, {
+				var stream = new svgicons2svgfont(streams, {
 					fontName: o.fontFamilyName,
 					fontHeight: o.fontHeight,
 					descent: o.descent,
