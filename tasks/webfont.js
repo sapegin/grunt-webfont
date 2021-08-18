@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 		 * Check for `dest` param on either target config or global options object
 		 */
 		if (_.isUndefined(params.dest) && _.isUndefined(options.dest)) {
-			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('.')
-				+ ' or ' + [this.name, this.target, 'options.dest'].join('.') + ' missing.');
+			logger.warn('Required property ' + [this.name, this.target, 'dest'].join('.') +
+				' or ' + [this.name, this.target, 'options.dest'].join('.') + ' missing.');
 		}
 
 		if (options.skip) {
